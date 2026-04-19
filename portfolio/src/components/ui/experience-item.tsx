@@ -46,7 +46,7 @@ export function ExperienceItem({
           </h3>
           <p className="text-sm text-secondary">{experience.company}</p>
         </div>
-        <time className="text-sm text-tertiary whitespace-nowrap">
+        <time className="text-sm text-tertiary sm:whitespace-nowrap">
           {start} — {end}
         </time>
       </div>

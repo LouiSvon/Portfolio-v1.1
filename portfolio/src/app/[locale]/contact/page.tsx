@@ -29,7 +29,7 @@ export default async function ContactPage({ params }: Props) {
   )}`;
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-16 sm:py-20">
+    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20">
       <header className="mb-10">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
           {t.contact.title}
@@ -72,12 +72,12 @@ export default async function ContactPage({ params }: Props) {
                 href={isEmail ? emailHref : social.url}
                 target={isEmail ? undefined : "_blank"}
                 rel={isEmail ? undefined : "noopener noreferrer"}
-                className="group flex items-center justify-between gap-4 border-b border-border py-4 first:pt-0 last:border-b-0 hover:border-accent transition-colors duration-150"
+                className="group flex flex-col gap-1 border-b border-border py-4 first:pt-0 last:border-b-0 hover:border-accent transition-colors duration-150 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between min-[420px]:gap-4"
               >
                 <span className="text-sm font-medium text-primary">
                   {social.name}
                 </span>
-                <span className="text-sm text-secondary group-hover:text-accent transition-colors duration-150 text-right">
+                <span className="max-w-full break-all text-left text-sm text-secondary transition-colors duration-150 group-hover:text-accent min-[420px]:text-right">
                   {social.label} &rarr;
                 </span>
               </a>

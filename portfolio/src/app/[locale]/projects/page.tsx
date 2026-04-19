@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { isValidLocale, getTranslations } from "@/lib/i18n";
+import { defaultLocale, isValidLocale, getTranslations } from "@/lib/i18n";
 import { fetchGitHubRepos } from "@/lib/github";
 import { ProjectCard } from "@/components/ui/project-card";
-import type { Locale } from "@/types";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -20,13 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectsPage({ params }: Props) {
   const { locale: localeParam } = await params;
-  const locale = isValidLocale(localeParam) ? localeParam : "fr";
-  const t = getTranslations(locale as Locale);
+  const locale = isValidLocale(localeParam) ? localeParam : defaultLocale;
+  const t = getTranslations(locale);
 
   const projects = await fetchGitHubRepos();
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-16 sm:py-20">
+    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20">
       <header className="mb-10">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
           {t.projects.title}
@@ -40,7 +39,7 @@ export default async function ProjectsPage({ params }: Props) {
             <ProjectCard
               key={project.name}
               project={project}
-              locale={locale as Locale}
+              locale={locale}
             />
           ))}
         </div>

@@ -42,7 +42,7 @@ export default async function ExperiencePage({ params }: Props) {
   );
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-16 sm:py-20">
+    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20">
       <header className="mb-10">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
           {t.experience.title}

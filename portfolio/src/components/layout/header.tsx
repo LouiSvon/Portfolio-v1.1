@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 import { LanguageSwitch } from "@/components/ui/language-switch";
+import { MobileNavigation } from "@/components/ui/mobile-navigation";
 
 export function Header({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
@@ -15,9 +16,16 @@ export function Header({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
-      <nav className="max-w-2xl mx-auto px-6 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-4 sm:gap-6">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
+      <nav className="relative mx-auto flex h-14 max-w-2xl items-center justify-between px-4 sm:px-6">
+        <Link
+          href={`/${locale}`}
+          className="text-sm font-medium text-primary transition-colors duration-150 hover:text-accent sm:hidden"
+        >
+          LS
+        </Link>
+
+        <div className="hidden items-center gap-6 sm:flex">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -28,7 +36,15 @@ export function Header({ locale }: { locale: Locale }) {
             </Link>
           ))}
         </div>
-        <LanguageSwitch locale={locale} />
+        <div className="hidden sm:block">
+          <LanguageSwitch locale={locale} />
+        </div>
+        <MobileNavigation
+          closeLabel={t.nav.close}
+          links={links}
+          locale={locale}
+          menuLabel={t.nav.menu}
+        />
       </nav>
     </header>
   );

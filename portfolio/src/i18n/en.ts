@@ -7,6 +7,8 @@ const en: Translations = {
     experience: "Experience",
     cv: "Resume",
     contact: "Contact",
+    menu: "Menu",
+    close: "Close",
   },
   hero: {
     greeting: "Louis Savon",

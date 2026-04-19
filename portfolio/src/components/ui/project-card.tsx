@@ -24,15 +24,15 @@ export function ProjectCard({
 
   return (
     <article className="group border-b border-border py-6 first:pt-0 last:border-b-0">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3 mb-1">
-            <h3 className="text-base font-medium text-primary">
+          <div className="mb-1 flex flex-wrap items-center gap-2 sm:gap-3">
+            <h3 className="min-w-0 text-base font-medium text-primary">
               <a
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-accent hover:underline underline-offset-4 transition-colors duration-150"
+                className="break-words hover:text-accent hover:underline underline-offset-4 transition-colors duration-150"
               >
                 {project.name}
               </a>
@@ -81,7 +81,7 @@ export function ProjectCard({
           )}
         </div>
 
-        <div className="flex flex-col gap-2 shrink-0">
+        <div className="flex shrink-0 flex-row gap-4 sm:flex-col sm:gap-2">
           <a
             href={project.url}
             target="_blank"

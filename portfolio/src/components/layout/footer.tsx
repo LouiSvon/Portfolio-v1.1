@@ -59,7 +59,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
   return (
     <footer className="border-t border-border mt-auto">
-      <div className="max-w-2xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="mx-auto flex max-w-2xl flex-col items-center justify-between gap-4 px-4 py-8 text-center sm:flex-row sm:px-6 sm:text-left">
         <p className="text-xs text-tertiary">{t.footer.builtWith}</p>
         <div className="flex items-center gap-2">
           {socials.map((social) => {

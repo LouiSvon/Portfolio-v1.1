@@ -5,6 +5,8 @@ export interface Translations {
     experience: string;
     cv: string;
     contact: string;
+    menu: string;
+    close: string;
   };
   hero: {
     greeting: string;
@@ -72,6 +74,8 @@ const fr: Translations = {
     experience: "Parcours",
     cv: "CV",
     contact: "Contact",
+    menu: "Menu",
+    close: "Fermer",
   },
   hero: {
     greeting: "Louis Savon",
