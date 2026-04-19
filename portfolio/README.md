@@ -81,7 +81,7 @@ src/
     i18n.ts
   types/
     index.ts
-  middleware.ts
+  proxy.ts
 ```
 
 ## Organisation du contenu
@@ -134,8 +134,8 @@ Le site utilise deux locales :
 - `fr` comme langue par défaut ;
 - `en` pour la version anglaise.
 
-Le middleware redirige automatiquement vers la bonne locale selon le cookie de
-langue ou l'en-tête `Accept-Language`.
+Le proxy Next.js redirige automatiquement vers la bonne locale selon le cookie
+de langue ou l'en-tête `Accept-Language`.
 
 Exemples de routes :
 
@@ -213,17 +213,36 @@ Les règles `.gitignore` couvrent ces fichiers. Avant chaque push, vérifier que
 les fichiers publics ne contiennent que des informations volontairement
 publiques, notamment le PDF du CV.
 
-## Déploiement
+## Déploiement Netlify
 
-Le projet peut être déployé sur une plateforme compatible Next.js, par exemple
-Vercel.
+Le dépôt est prêt pour Netlify grâce au fichier `netlify.toml` placé à la
+racine du repository.
 
-Étapes générales :
+La configuration force Netlify à déployer uniquement le dossier `portfolio` :
 
-1. Installer les dépendances avec `npm install`.
-2. Construire le projet avec `npm run build`.
-3. Déployer le dossier applicatif `portfolio`.
-4. Ajouter `GITHUB_TOKEN` uniquement si nécessaire, côté plateforme.
+```toml
+[build]
+  base = "portfolio"
+  command = "npm run build"
+  publish = ".next"
+```
+
+Netlify détecte Next.js et utilise automatiquement son adapter OpenNext pour
+prendre en charge l'App Router, le rendu serveur, l'ISR, les routes statiques,
+le proxy de localisation et le cache.
+
+Étapes de publication :
+
+1. Pousser le repository sur GitHub.
+2. Créer un nouveau site depuis Netlify.
+3. Sélectionner ce repository.
+4. Vérifier que la configuration détectée correspond à :
+   - base directory : `portfolio`
+   - build command : `npm run build`
+   - publish directory : `.next`
+5. Ajouter `GITHUB_TOKEN` dans les variables d'environnement Netlify seulement
+   si nécessaire.
+6. Lancer le premier déploiement.
 
 ## Scripts
 
