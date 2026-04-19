@@ -1,0 +1,164 @@
+.badge {
+  align-items: center;
+  border-radius: 0.25rem;
+  display: inline-flex;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.125rem 0.5rem;
+}
+
+.badge-neutral {
+  background: var(--badge-bg);
+  color: var(--secondary);
+}
+
+.badge-featured {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.badge-technology {
+  --tech-color: var(--badge-technology-fallback);
+  background: color-mix(in srgb, var(--tech-color) 12%, transparent);
+  color: var(--tech-color);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+}
+
+.language-dot {
+  --language-color: var(--language-fallback);
+  background: var(--language-color);
+  border-radius: 9999px;
+  display: inline-block;
+  height: 0.625rem;
+  width: 0.625rem;
+}
+
+.badge-technology[data-tech="TypeScript"],
+.language-dot[data-language="TypeScript"] {
+  --tech-color: #3178c6;
+  --language-color: #3178c6;
+}
+
+.badge-technology[data-tech="JavaScript"],
+.language-dot[data-language="JavaScript"] {
+  --tech-color: #b7791f;
+  --language-color: #f1e05a;
+}
+
+.badge-technology[data-tech="Python"],
+.language-dot[data-language="Python"] {
+  --tech-color: #3572a5;
+  --language-color: #3572a5;
+}
+
+.badge-technology[data-tech="C++"],
+.language-dot[data-language="C++"] {
+  --tech-color: #f34b7d;
+  --language-color: #f34b7d;
+}
+
+.badge-technology[data-tech="C"],
+.language-dot[data-language="C"] {
+  --tech-color: #6b7280;
+  --language-color: #555555;
+}
+
+.language-dot[data-language="Rust"] {
+  --language-color: #dea584;
+}
+
+.language-dot[data-language="Go"] {
+  --language-color: #00add8;
+}
+
+.language-dot[data-language="HTML"] {
+  --language-color: #e34c26;
+}
+
+.language-dot[data-language="CSS"] {
+  --language-color: #563d7c;
+}
+
+.language-dot[data-language="Shell"] {
+  --language-color: #89e051;
+}
+
+.badge-technology[data-tech="React"] {
+  --tech-color: #149eca;
+}
+
+.badge-technology[data-tech="Next.js"] {
+  --tech-color: #475569;
+}
+
+.badge-technology[data-tech="Node.js"] {
+  --tech-color: #43853d;
+}
+
+.badge-technology[data-tech="Tailwind CSS"] {
+  --tech-color: #06b6d4;
+}
+
+.badge-technology[data-tech="API Google"] {
+  --tech-color: #4285f4;
+}
+
+.badge-technology[data-tech="Blockchain"] {
+  --tech-color: #f7931a;
+}
+
+.badge-technology[data-tech="Cryptomonnaie"],
+.badge-technology[data-tech="Objectifs personnels"] {
+  --tech-color: #d97706;
+}
+
+.badge-technology[data-tech="Marketing"] {
+  --tech-color: #db2777;
+}
+
+.badge-technology[data-tech="Communication"] {
+  --tech-color: #0f766e;
+}
+
+.badge-technology[data-tech="Bachelor"] {
+  --tech-color: #2563eb;
+}
+
+.badge-technology[data-tech="Programmation"] {
+  --tech-color: #4f46e5;
+}
+
+.badge-technology[data-tech="Développement web"] {
+  --tech-color: #0891b2;
+}
+
+.badge-technology[data-tech="Projets"],
+.badge-technology[data-tech="Communauté"],
+.badge-technology[data-tech="Satisfaction client"] {
+  --tech-color: #16a34a;
+}
+
+.badge-technology[data-tech="Endurance"],
+.badge-technology[data-tech="Leadership d'équipe"] {
+  --tech-color: #dc2626;
+}
+
+.badge-technology[data-tech="Discipline"] {
+  --tech-color: #9333ea;
+}
+
+.badge-technology[data-tech="Gestion des stocks"] {
+  --tech-color: #64748b;
+}
+
+.badge-technology[data-tech="Mise en rayon"] {
+  --tech-color: #475569;
+}
+
+.badge-technology[data-tech="Anglais"] {
+  --tech-color: #0284c7;
+}
+
+.badge-technology[data-tech="Gestion d'équipe"] {
+  --tech-color: #c2410c;
+}
