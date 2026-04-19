@@ -3,6 +3,7 @@ import type { GitHubRepo, Project } from "@/types";
 
 const GITHUB_USERNAME = "LouiSvon";
 const GITHUB_API = "https://api.github.com";
+const isStaticExport = process.env.NEXT_OUTPUT_EXPORT === "1";
 
 export async function fetchGitHubRepos(): Promise<Project[]> {
   try {
@@ -17,10 +18,12 @@ export async function fetchGitHubRepos(): Promise<Project[]> {
 
     const res = await fetch(
       `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated&direction=desc`,
-      {
-        headers,
-        next: { revalidate: 3600 },
-      }
+      isStaticExport
+        ? { headers }
+        : {
+            headers,
+            next: { revalidate: 3600 },
+          }
     );
 
     if (!res.ok) {

@@ -244,11 +244,33 @@ le proxy de localisation et le cache.
    si nécessaire.
 6. Lancer le premier déploiement.
 
+## Déploiement Netlify Drag And Drop
+
+Netlify Drop accepte un dossier statique déjà généré. Pour préparer ce dossier :
+
+```bash
+npm run build:netlify-drop
+```
+
+La commande génère un dossier à la racine du repository :
+
+```text
+netlify-drop/
+```
+
+Il suffit ensuite de déposer ce dossier dans l'interface Netlify Drop.
+
+Ce mode est statique : le proxy de langue et l'ISR ne sont pas exécutés côté
+serveur. Une redirection Netlify `/ -> /fr/` est ajoutée dans le dossier généré.
+Pour un déploiement complet avec le proxy Next.js, utiliser le déploiement Git
+décrit dans la section précédente.
+
 ## Scripts
 
 ```bash
 npm run dev      # lance le serveur de développement
 npm run build    # compile le projet pour la production
+npm run build:netlify-drop # génère le dossier statique netlify-drop
 npm run start    # lance le serveur de production local
 ```
 

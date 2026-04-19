@@ -2,35 +2,19 @@
 @import "./styles/badges.css";
 
 :root {
-  --background: #fafafa;
-  --foreground: #171717;
-  --secondary: #525252;
-  --tertiary: #a3a3a3;
-  --border: #e5e5e5;
-  --accent: #0f766e;
-  --accent-soft: #ccfbf1;
-  --accent-warm: #c2410c;
-  --accent-warm-soft: #ffedd5;
-  --badge-bg: #f5f5f5;
-  --badge-technology-fallback: #737373;
-  --language-fallback: #8b8b8b;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --secondary: #a3a3a3;
-    --tertiary: #737373;
-    --border: #262626;
-    --accent: #5eead4;
-    --accent-soft: rgba(45, 212, 191, 0.14);
-    --accent-warm: #fb923c;
-    --accent-warm-soft: rgba(251, 146, 60, 0.14);
-    --badge-bg: #262626;
-    --badge-technology-fallback: #a3a3a3;
-    --language-fallback: #a3a3a3;
-  }
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --secondary: #a3a3a3;
+  --tertiary: #737373;
+  --border: #262626;
+  --accent: #5eead4;
+  --accent-soft: rgba(45, 212, 191, 0.14);
+  --accent-warm: #fb923c;
+  --accent-warm-soft: rgba(251, 146, 60, 0.14);
+  --badge-bg: #262626;
+  --badge-technology-fallback: #a3a3a3;
+  --language-fallback: #a3a3a3;
 }
 
 @theme inline {
