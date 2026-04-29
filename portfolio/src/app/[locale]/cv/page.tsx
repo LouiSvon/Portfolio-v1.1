@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { defaultLocale, isValidLocale, getTranslations } from "@/lib/i18n";
+import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 const CV_FILE_NAME = "Louis_Savon.pdf";
 const CV_HREF = `/${CV_FILE_NAME}`;

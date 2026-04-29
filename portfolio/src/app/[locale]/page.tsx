@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { defaultLocale, isValidLocale, getTranslations } from "@/lib/i18n";
+import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 import { profile } from "@/data/profile";
 import { socials } from "@/data/socials";
 import { fetchGitHubRepos } from "@/lib/github";

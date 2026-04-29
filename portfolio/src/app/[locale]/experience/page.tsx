@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { defaultLocale, isValidLocale, getTranslations } from "@/lib/i18n";
+import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 import { experiences } from "@/data/experience";
 import { ExperienceItem } from "@/components/ui/experience-item";
 import {

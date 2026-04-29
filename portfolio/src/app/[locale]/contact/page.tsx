@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { defaultLocale, isValidLocale, getTranslations } from "@/lib/i18n";
+import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { socials } from "@/data/socials";
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 type Props = {
   params: Promise<{ locale: string }>;

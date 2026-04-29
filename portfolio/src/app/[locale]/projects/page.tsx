@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
+import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
+
 export const revalidate = 3600;
 
-import type { Metadata } from "next";
-import { defaultLocale, isValidLocale, getTranslations } from "@/lib/i18n";
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 import { fetchGitHubRepos } from "@/lib/github";
 import { ProjectCard } from "@/components/ui/project-card";
 
