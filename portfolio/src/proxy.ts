@@ -38,5 +38,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico|Louis_Savon_CV.pdf).*)"],
+  matcher: ["/((?!_next|api|favicon.ico|Louis_Savon\\.pdf).*)"],
 };
