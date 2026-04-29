@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import type { Metadata } from "next";
 import { defaultLocale, isValidLocale, getTranslations } from "@/lib/i18n";
 import { fetchGitHubRepos } from "@/lib/github";
