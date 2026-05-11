@@ -58,9 +58,9 @@ function ProjectGridCard({
       {project.topics.length > 0 && (
         <ul className="flex flex-wrap gap-1 mb-4">
           {visibleTopics.map((topic) => (
-            <li key={topic}><Badge>{topic}</Badge></li>
+            <li key={topic}><span className="tag">{topic}</span></li>
           ))}
-          {extraTopics > 0 && <li><Badge>+{extraTopics}</Badge></li>}
+          {extraTopics > 0 && <li><span className="tag">+{extraTopics}</span></li>}
         </ul>
       )}
 

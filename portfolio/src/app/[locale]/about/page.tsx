@@ -306,7 +306,7 @@ export default async function AboutPage({ params }: Props) {
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <GdgLogo />
+                      <GoogleLogo />
                       <p className="text-sm font-medium text-primary">{entry.titre[L]}</p>
                     </div>
                     <p className="text-sm text-secondary">{entry.structure}</p>

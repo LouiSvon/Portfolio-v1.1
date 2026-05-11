@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Locale } from "@/types";
-import { Badge } from "@/components/ui/badge";
+import { profile } from "@/data/profile";
 
-const GITHUB_USERNAME = "LouiSvon";
+const GITHUB_USERNAME = profile.github;
 const NEW_LANG_KEY = "github_langs_seen";
 const NEW_LANG_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
@@ -70,7 +69,7 @@ function saveNewLangsSeen(data: Record<string, number>) {
 }
 
 export function GitHubSkills({ fetching }: { fetching: string }) {
-  const [competences, setCompetences] = useState(BASE_COMPETENCES);
+  const [competences, setCompetences] = useState<Record<string, string[]>>(BASE_COMPETENCES);
   const [newLangs, setNewLangs] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
@@ -125,7 +124,7 @@ export function GitHubSkills({ fetching }: { fetching: string }) {
             <ul className="flex flex-wrap gap-1.5">
               {skills.map((skill) => (
                 <li key={skill} className="flex items-center gap-1">
-                  <Badge variant="technology" data-tech={skill}>{skill}</Badge>
+                  <span className="tag">{skill}</span>
                   {newLangs.has(skill) && (
                     <span className="text-[10px] font-medium text-accent border border-accent rounded px-1 py-px leading-none">
                       NEW

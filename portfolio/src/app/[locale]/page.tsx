@@ -32,7 +32,27 @@ export default async function HomePage({ params }: Props) {
 
   const latestResources = resources.slice(0, 3);
 
+  const siteUrl = "https://louissavon.dev";
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: profile.name,
+          url: siteUrl,
+          sameAs: [
+            `https://github.com/${profile.github}`,
+            profile.linkedin,
+          ],
+          jobTitle: t.hero.role,
+          description: profile.bio[locale],
+        }),
+      }}
+    />
     <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)]">
 
       {/* Hero */}
@@ -258,5 +278,6 @@ export default async function HomePage({ params }: Props) {
       </section>
 
     </div>
+    </>
   );
 }

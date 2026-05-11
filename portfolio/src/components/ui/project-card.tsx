@@ -2,6 +2,7 @@ import type { Project, Locale } from "@/types";
 import { getTranslations, formatFullDate } from "@/lib/i18n";
 import { Badge } from "@/components/ui/badge";
 
+
 function ProjectLanguage({ language }: { language: string }) {
   return (
     <span className="flex items-center gap-1.5">
@@ -74,7 +75,7 @@ export function ProjectCard({
             <ul className="flex flex-wrap gap-1.5 mt-3">
               {project.topics.map((topic) => (
                 <li key={topic}>
-                  <Badge>{topic}</Badge>
+                  <span className="tag">{topic}</span>
                 </li>
               ))}
             </ul>

@@ -45,7 +45,7 @@ export function Footer({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <footer className="border-t border-border mt-auto">
+    <footer className="mt-auto">
       <div className="mx-auto max-w-5xl px-[clamp(1rem,4vw,3rem)] pt-10 pb-6">
         <div className="grid gap-8 sm:grid-cols-3">
           {/* Navigation */}
@@ -121,9 +121,9 @@ export function Footer({ locale }: { locale: Locale }) {
         </div>
 
         {/* Barre inférieure */}
-        <div className="mt-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-tertiary">&copy; {year} {t.footer.copyright}</p>
-          <p className="text-xs text-tertiary">{t.footer.madeWithCare}</p>
+        <div className="footer-bottom mt-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {year} {t.footer.copyright}</p>
+          <p>{t.footer.madeWithCare}</p>
         </div>
       </div>
     </footer>

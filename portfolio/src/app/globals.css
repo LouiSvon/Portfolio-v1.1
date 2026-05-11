@@ -198,6 +198,41 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   }
 }
 
+/* Unified tag — accent-based, used for skills and project topics */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.tag:hover {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+/* Footer — discreet */
+footer {
+  border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+}
+footer,
+footer a {
+  font-size: 0.82rem;
+  color: var(--tertiary);
+}
+footer a:hover {
+  color: var(--accent);
+}
+.footer-bottom {
+  opacity: 0.5;
+  font-size: 0.75rem;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
