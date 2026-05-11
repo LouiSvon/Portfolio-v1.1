@@ -37,6 +37,22 @@ export interface Translations {
     viewProject: string;
     minRead: string;
   };
+  stats: {
+    sectionTitle: string;
+    sites: string;
+    conferences: string;
+    opportunities: string;
+    community: string;
+  };
+  manifeste: {
+    text: string;
+  };
+  latestResources: {
+    sectionTitle: string;
+    free: string;
+    emailGated: string;
+    access: string;
+  };
   projects: {
     title: string;
     subtitle: string;
@@ -102,10 +118,13 @@ export interface Translations {
   about: {
     title: string;
     subtitle: string;
-    anchorIntro: string;
-    anchorParcours: string;
-    anchorCompetences: string;
+    tagline: string;
     anchorCV: string;
+    anchorCompetences: string;
+    anchorParcours: string;
+    anchorCertifications: string;
+    anchorBenevol: string;
+    anchorIntro: string;
     skillsTitle: string;
     skillsFrontend: string;
     skillsBackend: string;
@@ -113,6 +132,11 @@ export interface Translations {
     downloadCV: string;
     openCV: string;
     noCV: string;
+    viewLinkedin: string;
+    viewCertificate: string;
+    inProgress: string;
+    expires: string;
+    fetching: string;
   };
   experience: {
     title: string;
@@ -215,26 +239,42 @@ const fr: Translations = {
     sectionTitle: "Ce que vous trouverez ici",
     projects: {
       title: "Projets",
-      description: "Widgets, sites et outils. Testables directement.",
+      description: "Widgets, sites et outils construits et testables. Du no-code à l'API LLM.",
     },
     resources: {
       title: "Ressources",
-      description: "Guides PDF sur les LLM. Téléchargeables gratuitement.",
+      description: "Guides PDF pratiques pour comprendre et utiliser les LLM. Téléchargeables.",
     },
     articles: {
       title: "Articles",
-      description: "Notes et recherches. Publiées régulièrement.",
+      description: "Notes de recherche et explorations publiées régulièrement.",
     },
   },
   latestAdds: {
-    sectionTitle: "Derniers ajouts",
+    sectionTitle: "En ce moment",
     latestArticle: "Dernier article",
     latestResource: "Dernière ressource",
-    latestProject: "Dernier projet",
+    latestProject: "Dernier projet mis à jour",
     readArticle: "Lire",
     downloadResource: "Accéder",
-    viewProject: "Voir",
+    viewProject: "Voir sur GitHub",
     minRead: "min de lecture",
+  },
+  stats: {
+    sectionTitle: "En chiffres",
+    sites: "Sites livrés",
+    conferences: "Conférences organisées",
+    opportunities: "Opportunités générées",
+    community: "Communauté crypto",
+  },
+  manifeste: {
+    text: "Ce site n'est pas un CV statique. C'est un espace de travail ouvert : j'y documente ce que j'apprends, partage ce que je construis et publie les ressources que j'aurais voulu trouver plus tôt.",
+  },
+  latestResources: {
+    sectionTitle: "Dernières ressources",
+    free: "Gratuit",
+    emailGated: "Sur email",
+    access: "Accéder →",
   },
   projects: {
     title: "Projets",
@@ -301,10 +341,13 @@ const fr: Translations = {
   about: {
     title: "À propos",
     subtitle: "Développeur full-stack basé à Marseille.",
-    anchorIntro: "Intro",
-    anchorParcours: "Parcours",
-    anchorCompetences: "Compétences",
+    tagline: "Développeur Full-Stack · Freelance · Epitech",
     anchorCV: "CV",
+    anchorCompetences: "Compétences",
+    anchorParcours: "Parcours",
+    anchorCertifications: "Certifications",
+    anchorBenevol: "Bénévolat",
+    anchorIntro: "Intro",
     skillsTitle: "Compétences",
     skillsFrontend: "Frontend",
     skillsBackend: "Backend",
@@ -312,6 +355,11 @@ const fr: Translations = {
     downloadCV: "Télécharger le CV (PDF)",
     openCV: "Ouvrir",
     noCV: "Le CV sera disponible prochainement. Consultez mon LinkedIn en attendant.",
+    viewLinkedin: "LinkedIn →",
+    viewCertificate: "Voir le diplôme →",
+    inProgress: "En cours",
+    expires: "Expire",
+    fetching: "Chargement des langages GitHub…",
   },
   experience: {
     title: "Parcours",

@@ -107,6 +107,117 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   display: none;
 }
 
+/* ── Micro-animations ─────────────────────────────────── */
+
+/* CTA buttons */
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+}
+.btn-animated::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.06);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.btn-animated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+.btn-animated:hover::after {
+  transform: translateX(0);
+}
+.btn-animated:active {
+  transform: translateY(0);
+}
+
+/* Card hover lift */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+/* Scroll fade-in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Certification pending dots animation */
+.cert-pending .dot-loader {
+  display: inline-block;
+  overflow: hidden;
+  letter-spacing: 2px;
+  animation: dots-cycle 1.4s steps(3, end) infinite;
+}
+@keyframes dots-cycle {
+  0%   { clip-path: inset(0 66% 0 0); }
+  33%  { clip-path: inset(0 33% 0 0); }
+  66%  { clip-path: inset(0 0% 0 0); }
+}
+
+/* Project filter settings panel */
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 260px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  z-index: 100;
+  animation: panel-in 0.15s ease;
+}
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .settings-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    padding: 1.5rem;
+    top: auto;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .fade-in {
+    opacity: 1;
+    transform: none;
+  }
+  .btn-animated:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
 /* Article prose styles */
 .prose {
   color: var(--secondary);

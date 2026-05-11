@@ -83,6 +83,24 @@ export interface Resource {
   linkedArticleSlug?: string;
 }
 
+export interface Certification {
+  titre: Record<Locale, string>;
+  organisme: string;
+  date: string | null;
+  expiration?: string;
+  lien: string | null;
+  competences: string[];
+  statut: "obtenu" | "en_cours";
+}
+
+export interface Benevol {
+  titre: Record<Locale, string>;
+  structure: string;
+  periode: Record<Locale, string>;
+  domaine: string;
+  description: Record<Locale, string>;
+}
+
 export interface ArticleTocEntry {
   id: string;
   text: Record<Locale, string>;

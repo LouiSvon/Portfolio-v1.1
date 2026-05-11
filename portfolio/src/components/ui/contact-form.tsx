@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
-import { EmojiSlider } from "@/components/ui/emoji-slider";
+import { RatingPills } from "@/components/ui/rating-pills";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -140,8 +140,13 @@ export function ContactForm({ locale }: { locale: Locale }) {
         )}
       </div>
 
-      {/* Emoji slider */}
-      <EmojiSlider name="rating" label={t.contact.ratingLabel} />
+      {/* Rating pills */}
+      <RatingPills
+        name="note_site"
+        label={t.contact.ratingLabel}
+        labelMin={locale === "fr" ? "Décevant" : "Disappointing"}
+        labelMax={locale === "fr" ? "Excellent" : "Excellent"}
+      />
 
       {state === "error" && (
         <p className="text-sm text-accent-warm">{t.contact.errorMessage}</p>
