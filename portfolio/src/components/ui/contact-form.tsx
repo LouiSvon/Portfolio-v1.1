@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
-import { RatingPills } from "@/components/ui/rating-pills";
+import { StarRating } from "@/components/ui/star-rating";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -140,13 +140,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
         )}
       </div>
 
-      {/* Rating pills */}
-      <RatingPills
-        name="note_site"
-        label={t.contact.ratingLabel}
-        labelMin={locale === "fr" ? "Décevant" : "Disappointing"}
-        labelMax={locale === "fr" ? "Excellent" : "Excellent"}
-      />
+      {/* Star rating */}
+      <StarRating name="note_site" label={t.contact.ratingLabel} />
 
       {state === "error" && (
         <p className="text-sm text-accent-warm">{t.contact.errorMessage}</p>

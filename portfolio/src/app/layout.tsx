@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import type { Viewport } from "next";
+import { FadeObserver } from "@/components/ui/fade-observer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -40,13 +41,7 @@ export default function RootLayout({
             __html: `try{var a=localStorage.getItem('accent-color');if(a)document.documentElement.style.setProperty('--accent',a)}catch(e){}`,
           }}
         />
-        <Script
-          id="fade-in-observer"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}})},{threshold:0.1});function run(){document.querySelectorAll('.fade-in:not(.visible)').forEach(function(el){o.observe(el)})}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run)}else{run()}})()`,
-          }}
-        />
+        <FadeObserver />
         {children}
       </body>
     </html>

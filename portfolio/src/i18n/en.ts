@@ -53,7 +53,7 @@ const en: Translations = {
     sites: "Sites delivered",
     conferences: "Conferences organized",
     opportunities: "Opportunities generated",
-    community: "Crypto community",
+    community: "People guided (crypto)",
   },
   manifeste: {
     text: "This site isn't a static resume. It's an open workspace: I document what I learn, share what I build, and publish the resources I wish I'd found sooner.",
@@ -134,6 +134,7 @@ const en: Translations = {
     anchorCompetences: "Skills",
     anchorParcours: "Background",
     anchorCertifications: "Certifications",
+    anchorEtudes: "Education",
     anchorBenevol: "Volunteering",
     anchorIntro: "Intro",
     skillsTitle: "Skills",

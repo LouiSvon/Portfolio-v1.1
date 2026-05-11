@@ -91,6 +91,13 @@ export interface Certification {
   lien: string | null;
   competences: string[];
   statut: "obtenu" | "en_cours";
+  logo?: "bitcoin" | "google" | "notion";
+}
+
+export interface CertificationSecteur {
+  secteur: Record<Locale, string>;
+  logo?: "bitcoin" | "google" | "notion";
+  certifs: Certification[];
 }
 
 export interface Benevol {

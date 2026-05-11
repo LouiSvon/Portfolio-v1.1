@@ -123,6 +123,7 @@ export interface Translations {
     anchorCompetences: string;
     anchorParcours: string;
     anchorCertifications: string;
+    anchorEtudes: string;
     anchorBenevol: string;
     anchorIntro: string;
     skillsTitle: string;
@@ -265,7 +266,7 @@ const fr: Translations = {
     sites: "Sites livrés",
     conferences: "Conférences organisées",
     opportunities: "Opportunités générées",
-    community: "Communauté crypto",
+    community: "Personnes accompagnées (crypto)",
   },
   manifeste: {
     text: "Ce site n'est pas un CV statique. C'est un espace de travail ouvert : j'y documente ce que j'apprends, partage ce que je construis et publie les ressources que j'aurais voulu trouver plus tôt.",
@@ -346,6 +347,7 @@ const fr: Translations = {
     anchorCompetences: "Compétences",
     anchorParcours: "Parcours",
     anchorCertifications: "Certifications",
+    anchorEtudes: "Études",
     anchorBenevol: "Bénévolat",
     anchorIntro: "Intro",
     skillsTitle: "Compétences",

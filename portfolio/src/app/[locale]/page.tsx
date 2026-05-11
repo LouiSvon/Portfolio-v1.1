@@ -24,10 +24,10 @@ export default async function HomePage({ params }: Props) {
   const latestArticle = getLatestArticle();
 
   const stats = [
-    { value: 5,     suffix: "+",   label: t.stats.sites,         decimals: false },
-    { value: 50,    suffix: "+",   label: t.stats.conferences,    decimals: false },
-    { value: 1.8,   suffix: "M€+", label: t.stats.opportunities,  decimals: true  },
-    { value: 40000, suffix: "+",   label: t.stats.community,      decimals: false },
+    { value: 5,   suffix: "+",   label: t.stats.sites,          decimals: false },
+    { value: 50,  suffix: "+",   label: t.stats.conferences,     decimals: false },
+    { value: 1.8, suffix: "M€+", label: t.stats.opportunities,   decimals: true  },
+    { value: 150, suffix: "+",   label: t.stats.community,       decimals: false },
   ];
 
   const latestResources = resources.slice(0, 3);
