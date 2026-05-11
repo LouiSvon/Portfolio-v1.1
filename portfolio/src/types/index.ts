@@ -69,3 +69,36 @@ export interface Social {
   url: string;
   label: string;
 }
+
+export interface Resource {
+  id: string;
+  title: Record<Locale, string>;
+  description: Record<Locale, string>;
+  type: "pdf" | "template" | "video" | "other";
+  tags: string[];
+  date: string; // YYYY-MM-DD
+  free: boolean;
+  filename?: string; // /resources/filename — email-gated
+  url?: string; // direct link if free
+  linkedArticleSlug?: string;
+}
+
+export interface ArticleTocEntry {
+  id: string;
+  text: Record<Locale, string>;
+  level: 2 | 3;
+}
+
+export interface Article {
+  slug: string;
+  title: Record<Locale, string>;
+  summary: Record<Locale, string>;
+  date: string; // YYYY-MM-DD
+  tags: string[];
+  readingTime: number; // minutes
+  toc?: ArticleTocEntry[];
+  linkedResource?: {
+    title: Record<Locale, string>;
+    filename: string; // public/resources/filename.pdf
+  };
+}

@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import type { Viewport } from "next";
 import "./globals.css";
 
@@ -30,7 +31,17 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Restore accent color before first paint — no flash */}
+        <Script
+          id="accent-restore"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `try{var a=localStorage.getItem('accent-color');if(a)document.documentElement.style.setProperty('--accent',a)}catch(e){}`,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
