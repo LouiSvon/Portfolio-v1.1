@@ -59,14 +59,6 @@ function NotionLogo() {
   );
 }
 
-function GdgLogo() {
-  return (
-    <svg viewBox="0 0 20 20" width="1.1em" height="1.1em" fill="none" aria-hidden style={{ verticalAlign: "middle", opacity: 0.85 }}>
-      <path d="M10 2l4 4-4 4-4-4 4-4z" fill="#4285F4"/>
-      <path d="M10 10l4 4-4 4-4-4 4-4z" fill="#EA4335"/>
-    </svg>
-  );
-}
 
 const SECTOR_LOGOS: Record<string, React.ReactNode> = {
   bitcoin: <BitcoinLogo />,
@@ -179,7 +171,7 @@ export default async function AboutPage({ params }: Props) {
           <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-8">
             {t.about.anchorCompetences}
           </h2>
-          <GitHubSkills fetching={t.about.fetching} />
+          <GitHubSkills />
         </section>
 
         {/* ── #certifications ─────────────────────────────────────── */}

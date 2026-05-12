@@ -52,21 +52,26 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
   if (state === "success") {
     return (
-      <div className="rounded border border-border p-6">
-        <p className="text-base font-medium text-primary mb-1">{t.contact.successTitle}</p>
-        <p className="text-sm text-secondary">{t.contact.successMessage}</p>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-3 rounded border p-4" style={{ borderColor: "color-mix(in srgb, #4CAF50 30%, transparent)", color: "#4CAF50" }}>
+          <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 shrink-0" aria-hidden>
+            <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M6.5 10l2.5 2.5 4-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <p className="text-sm">{t.contact.successMessage}</p>
+        </div>
         <button
           onClick={() => setState("idle")}
-          className="mt-4 text-sm text-accent hover:underline underline-offset-4"
+          className="self-start text-xs text-tertiary hover:text-accent transition-colors duration-150"
         >
-          ← {locale === "fr" ? "Nouveau message" : "Send another message"}
+          ← {locale === "fr" ? "Nouveau message" : "Send another"}
         </button>
       </div>
     );
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
       {/* Honeypot */}
       <input type="text" name="_gotcha" tabIndex={-1} aria-hidden="true" style={{ display: "none" }} />
 
@@ -129,7 +134,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           name="message"
           required
           minLength={50}
-          rows={6}
+          rows={4}
           onChange={() => messageError && setMessageError("")}
           className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent focus:outline-none transition-colors duration-150 resize-none"
         />
@@ -150,7 +155,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm font-medium text-primary hover:border-accent hover:text-accent transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="self-end inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm font-medium text-primary hover:border-accent hover:text-accent transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {state === "submitting" ? t.contact.submitting : t.contact.submit}
       </button>

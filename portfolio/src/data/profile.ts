@@ -19,4 +19,5 @@ export const profile: Profile = {
   github: "LouiSvon",
   linkedin: "https://www.linkedin.com/in/louis-savon-a46714354/",
   blog: "",
+  available: true,
 };

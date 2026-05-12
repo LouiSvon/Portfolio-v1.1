@@ -10,6 +10,7 @@ export interface Profile {
   github: string;
   linkedin: string;
   blog?: string;
+  available?: boolean;
 }
 
 export interface Experience {
