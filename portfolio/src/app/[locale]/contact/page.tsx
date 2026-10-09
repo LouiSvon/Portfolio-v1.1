@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { ContactForm } from "@/components/ui/contact-form";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
   const t = getTranslations(locale);
-  return { title: t.contact.title, description: t.contact.subtitle };
+  return { title: t.contact.title, description: t.contact.subtitle, alternates: alternatesFor(locale, "/contact") };
 }
 
 function MailIcon() {

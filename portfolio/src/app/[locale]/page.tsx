@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { alternatesFor, siteUrl } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { fetchGitHubRepos } from "@/lib/github";
@@ -10,6 +12,12 @@ export function generateStaticParams() {
 
 type Props = { params: Promise<{ locale: string }> };
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isValidLocale(locale)) return {};
+  return { alternates: alternatesFor(locale, "") };
+}
+
 export default async function HomePage({ params }: Props) {
   const { locale: localeParam } = await params;
   const locale = isValidLocale(localeParam) ? localeParam : defaultLocale;
@@ -20,8 +28,6 @@ export default async function HomePage({ params }: Props) {
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   )[0];
   const latestArticle = getLatestArticle();
-
-  const siteUrl = "https://louissavon.dev";
 
   return (
     <>

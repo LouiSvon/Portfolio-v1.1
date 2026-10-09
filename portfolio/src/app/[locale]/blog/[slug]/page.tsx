@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor, siteUrl } from "@/lib/site";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.title[locale],
     description: article.summary[locale],
+    alternates: alternatesFor(locale, `/blog/${slug}`),
     openGraph: { title: article.title[locale], description: article.summary[locale], type: "article", publishedTime: article.date },
   };
 }
@@ -145,7 +147,7 @@ export default async function ArticlePage({ params }: Props) {
             headline: article.title[locale],
             description: article.summary[locale],
             datePublished: article.date,
-            author: { "@type": "Person", name: "Louis Savon", url: "https://louissavon.dev" },
+            author: { "@type": "Person", name: "Louis Savon", url: siteUrl },
           }),
         }}
       />

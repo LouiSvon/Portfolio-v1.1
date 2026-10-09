@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { articles } from "@/data/articles";
 import { BlogList } from "@/components/ui/blog-list";
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t.blog.title,
     description: t.blog.subtitle,
+    alternates: alternatesFor(locale, "/blog"),
     openGraph: { title: t.blog.title, description: t.blog.subtitle, type: "website" },
   };
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales, formatFullDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { HOST, LEGAL_LAST_UPDATED } from "@/lib/legal";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
   const t = getTranslations(locale);
-  return { title: t.legal.title };
+  return { title: t.legal.title, alternates: alternatesFor(locale, "/legal") };
 }
 
 export default async function LegalPage({ params }: Props) {

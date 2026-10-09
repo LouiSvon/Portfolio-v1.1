@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { fetchGitHubRepos } from "@/lib/github";
 import { ProjectFilter } from "@/components/ui/project-filter";
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
   const t = getTranslations(locale);
-  return { title: t.projects.title, description: t.projects.subtitle };
+  return { title: t.projects.title, description: t.projects.subtitle, alternates: alternatesFor(locale, "/projects") };
 }
 
 export default async function ProjectsPage({ params }: Props) {

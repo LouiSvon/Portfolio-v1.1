@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales, formatDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { experiences } from "@/data/experience";
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t.about.title,
     description: t.about.subtitle,
+    alternates: alternatesFor(locale, "/about"),
     openGraph: { title: t.about.title, description: t.about.subtitle },
   };
 }

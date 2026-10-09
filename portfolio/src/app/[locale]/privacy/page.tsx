@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales, formatFullDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { FORM_PROCESSOR, LEGAL_LAST_UPDATED } from "@/lib/legal";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
   const t = getTranslations(locale);
-  return { title: t.privacy.title };
+  return { title: t.privacy.title, alternates: alternatesFor(locale, "/privacy") };
 }
 
 export default async function PrivacyPage({ params }: Props) {
