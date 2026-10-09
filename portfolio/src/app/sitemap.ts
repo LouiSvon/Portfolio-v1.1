@@ -3,6 +3,8 @@ import { locales } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site";
 import { articles } from "@/data/articles";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   // /cv et /experience redirigent vers /about : ils ne figurent pas ici.
   const staticRoutes = [

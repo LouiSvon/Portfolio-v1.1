@@ -8,6 +8,8 @@ const outDir = path.join(projectRoot, "out");
 const dropDir = path.join(repoRoot, "netlify-drop");
 const proxyPath = path.join(projectRoot, "src", "proxy.ts");
 const disabledProxyPath = path.join(projectRoot, "src", "proxy.ts.netlify-drop");
+const restPath = path.join(projectRoot, "src", "app", "[locale]", "[...rest]");
+const disabledRestPath = path.join(projectRoot, "src", "[...rest].netlify-drop");
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -41,6 +43,17 @@ function restoreProxy(wasDisabled) {
   fs.renameSync(disabledProxyPath, proxyPath);
 }
 
+function disableRestRoute() {
+  if (!fs.existsSync(restPath)) return false;
+  fs.renameSync(restPath, disabledRestPath);
+  return true;
+}
+
+function restoreRestRoute(wasDisabled) {
+  if (!wasDisabled || !fs.existsSync(disabledRestPath)) return;
+  fs.renameSync(disabledRestPath, restPath);
+}
+
 function prepareDropFolder() {
   removeDirectory(dropDir);
   fs.cpSync(outDir, dropDir, { recursive: true });
@@ -48,13 +61,16 @@ function prepareDropFolder() {
 }
 
 let proxyWasDisabled = false;
+let restWasDisabled = false;
 
 try {
   removeDirectory(outDir);
   proxyWasDisabled = disableProxy();
+  restWasDisabled = disableRestRoute();
   run("npm", ["run", "build"]);
   prepareDropFolder();
   console.log(`\nNetlify drag and drop folder ready: ${dropDir}\n`);
 } finally {
+  restoreRestRoute(restWasDisabled);
   restoreProxy(proxyWasDisabled);
 }
