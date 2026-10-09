@@ -303,7 +303,7 @@ const fr: Translations = {
   },
   contact: {
     title: "Contact",
-    subtitle: "Une offre de stage ou d'alternance, une question : écris-moi.",
+    subtitle: "Une offre de stage ou d'alternance, une question : écrivez-moi.",
     intro: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     email: "Envoyer un email",
     availability: "Disponibilité",

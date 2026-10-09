@@ -41,7 +41,13 @@ function transformRepos(repos: GitHubRepo[]): Project[] {
     // Exclut forks, rendus scolaires (préfixe de module Epitech) et dépôts vides
     .filter((repo) => !repo.fork)
     .filter((repo) => !/^B-[A-Z]{3}-\d{3}-/.test(repo.name))
-    .filter((repo) => repo.description || repo.language)
+    .filter(
+      (repo) =>
+        repo.description ||
+        repo.language ||
+        featured.includes(repo.name) ||
+        overrides[repo.name]
+    )
     .filter((repo) => !hidden.includes(repo.name))
     .map((repo) => {
       const override = overrides[repo.name];

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales, formatFullDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
-import { FORM_PROCESSOR, LEGAL_LAST_UPDATED } from "@/lib/legal";
+import { FORM_PROCESSOR, HOST, LEGAL_LAST_UPDATED } from "@/lib/legal";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -62,6 +62,27 @@ export default async function PrivacyPage({ params }: Props) {
               . Vos données ne sont ni vendues ni partagées à d&apos;autres fins.
             </p>
 
+            <h2 id="base-legale">Base légale</h2>
+            <p>
+              Le traitement sert à répondre à la demande que vous m&apos;avez
+              envoyée via le formulaire de contact.
+            </p>
+
+            <h2 id="transferts">Transferts hors de l&apos;Union européenne</h2>
+            <p>
+              Vos données peuvent être traitées aux États-Unis par{" "}
+              {FORM_PROCESSOR.name} (formulaire de contact) et {HOST.name}{" "}
+              (hébergement du site). Voir la{" "}
+              <a href={FORM_PROCESSOR.privacyUrl} target="_blank" rel="noopener noreferrer">
+                politique de {FORM_PROCESSOR.name}
+              </a>{" "}
+              et la{" "}
+              <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">
+                politique de {HOST.name}
+              </a>
+              .
+            </p>
+
             <h2 id="cookies">Cookies et stockage local</h2>
             <p>
               Ce site n&apos;utilise ni cookie de suivi, ni cookie publicitaire,
@@ -80,6 +101,15 @@ export default async function PrivacyPage({ params }: Props) {
               rectification et de suppression de vos données. Pour les exercer,
               écrivez à{" "}
               <a href={`mailto:${profile.email}`}>{profile.email}</a>.
+            </p>
+
+            <h2 id="reclamation">Droit de réclamation</h2>
+            <p>
+              Vous pouvez aussi introduire une réclamation auprès de la CNIL :{" "}
+              <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">
+                www.cnil.fr
+              </a>
+              .
             </p>
 
             <h2 id="conservation">Conservation des données</h2>
@@ -116,6 +146,27 @@ export default async function PrivacyPage({ params }: Props) {
               . Your data is never sold or shared for any other purpose.
             </p>
 
+            <h2 id="base-legale">Legal basis</h2>
+            <p>
+              The processing is used to answer the request you sent me through
+              the contact form.
+            </p>
+
+            <h2 id="transferts">Transfers outside the European Union</h2>
+            <p>
+              Your data may be processed in the United States by{" "}
+              {FORM_PROCESSOR.name} (contact form) and {HOST.name} (site
+              hosting). See the{" "}
+              <a href={FORM_PROCESSOR.privacyUrl} target="_blank" rel="noopener noreferrer">
+                {FORM_PROCESSOR.name} privacy policy
+              </a>{" "}
+              and the{" "}
+              <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">
+                {HOST.name} privacy policy
+              </a>
+              .
+            </p>
+
             <h2 id="cookies">Cookies and local storage</h2>
             <p>
               This site uses no tracking cookies, no advertising cookies and no
@@ -133,6 +184,16 @@ export default async function PrivacyPage({ params }: Props) {
               In accordance with GDPR, you have the right to access, rectify,
               and delete your data. To exercise these rights, write to{" "}
               <a href={`mailto:${profile.email}`}>{profile.email}</a>.
+            </p>
+
+            <h2 id="reclamation">Right to lodge a complaint</h2>
+            <p>
+              You can also lodge a complaint with the CNIL, the French data
+              protection authority:{" "}
+              <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">
+                www.cnil.fr
+              </a>
+              .
             </p>
 
             <h2 id="conservation">Data retention</h2>

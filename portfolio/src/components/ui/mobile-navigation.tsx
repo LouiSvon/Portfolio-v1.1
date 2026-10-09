@@ -65,6 +65,7 @@ export function MobileNavigation({
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => setIsOpen(false)}
                 className="rounded px-3 py-2 text-sm text-secondary transition-colors duration-150 hover:bg-accent-soft hover:text-accent"
               >
                 {link.label}
