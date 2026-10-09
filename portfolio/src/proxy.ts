@@ -37,6 +37,7 @@ export function proxy(request: NextRequest) {
   );
 }
 
+// Le nom du PDF du CV doit rester identique à profile.cvFile (Next exige un littéral ici).
 export const config = {
   matcher: ["/((?!_next|api|favicon.ico|Louis_Savon\\.pdf).*)"],
 };

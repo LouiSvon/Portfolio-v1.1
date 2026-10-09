@@ -3,16 +3,16 @@ import { Profile } from "@/types";
 export const profile: Profile = {
   name: "Louis Savon",
   title: {
-    fr: "Developpeur Full-Stack",
+    fr: "Développeur Full-Stack",
     en: "Full-Stack Developer",
   },
   tagline: {
-    fr: "Je conçois des applications web modernes, fiables et bien construites.",
-    en: "I build modern, reliable, and well-crafted web applications.",
+    fr: "Étudiant en informatique à Epitech Marseille. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance en 2027-2028.",
+    en: "Computer science student at Epitech Marseille. Looking for a 3-month internship from April 2027, then a work-study contract in 2027-2028.",
   },
   bio: {
-    fr: "Développeur full-stack basé à Marseille. Étudiant en dernière année à Epitech et freelance, je travaille sur des projets web avec un souci constant de qualité, de clarté et de simplicité.",
-    en: "Full-stack developer based in Marseille. Final-year student at Epitech and freelancer, I work on web projects with a constant focus on quality, clarity, and simplicity.",
+    fr: "Étudiant en 2e année de bachelor informatique à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    en: "Second-year computer science student at Epitech Marseille. I build web applications and AI tools. I am looking for a 3-month internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
   },
   location: "Marseille, France",
   email: "louis.savon@epitech.eu",
@@ -20,4 +20,5 @@ export const profile: Profile = {
   linkedin: "https://www.linkedin.com/in/louis-savon-a46714354/",
   blog: "",
   available: true,
+  cvFile: "Louis_Savon.pdf",
 };

@@ -12,7 +12,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-const CV_FILE_NAME = "Louis_Savon.pdf";
+const CV_FILE_NAME = profile.cvFile;
 const CV_HREF = `/${CV_FILE_NAME}`;
 
 type Props = { params: Promise<{ locale: string }> };
@@ -79,7 +79,7 @@ function formatPeriod(exp: { startDate: string; endDate: string | null }, locale
 
 const TYPE_LABELS: Record<string, Record<string, string>> = {
   professional: { fr: "Professionnel", en: "Professional" },
-  personal:     { fr: "Pause", en: "Break" },
+  personal:     { fr: "Personnel", en: "Personal" },
 };
 
 // ── Page ───────────────────────────────────────────────────────────────────

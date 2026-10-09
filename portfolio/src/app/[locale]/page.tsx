@@ -50,8 +50,34 @@ export default async function HomePage({ params }: Props) {
           {t.hero.greeting}
         </h1>
         <p className="text-xl text-accent mb-4">{t.hero.role}</p>
-        <p className="text-base text-secondary leading-relaxed max-w-xl mb-12">
+        <p className="text-base text-secondary leading-relaxed max-w-xl mb-6">
           {t.hero.tagline}
+        </p>
+        <div className="flex flex-wrap gap-3 mb-4">
+          <a
+            href={`/${profile.cvFile}`}
+            download={profile.cvFile}
+            className="btn-animated inline-flex items-center gap-2 rounded border border-accent bg-accent px-4 py-2 text-sm font-medium text-background"
+          >
+            {t.hero.cta.cv} &darr;
+          </a>
+          <Link
+            href={`/${locale}/contact`}
+            className="btn-animated inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
+          >
+            {t.hero.cta.contact} &rarr;
+          </Link>
+        </div>
+        <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-secondary mb-10">
+          <a href={`mailto:${profile.email}`} className="hover:text-accent hover:underline underline-offset-4">
+            {profile.email}
+          </a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
+            LinkedIn
+          </a>
+          <a href={`https://github.com/${profile.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
+            GitHub
+          </a>
         </p>
         <div className="grid gap-4 sm:grid-cols-2 max-w-xl">
           <Link
@@ -66,11 +92,11 @@ export default async function HomePage({ params }: Props) {
             </span>
           </Link>
           <Link
-            href={`/${locale}/blog`}
+            href={`/${locale}/projects`}
             className="btn-animated group flex flex-col gap-2 rounded border border-border p-5 hover:border-accent transition-colors duration-150"
           >
             <span className="text-xs text-tertiary uppercase tracking-wider">
-              {locale === "fr" ? "Contenu" : "Content"}
+              {locale === "fr" ? "Projets" : "Projects"}
             </span>
             <span className="text-sm font-medium text-primary group-hover:text-accent transition-colors duration-150">
               {t.hero.pathB} &rarr;

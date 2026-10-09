@@ -11,6 +11,7 @@ export interface Profile {
   linkedin: string;
   blog?: string;
   available?: boolean;
+  cvFile: string;
 }
 
 export interface Experience {
@@ -47,6 +48,7 @@ export interface GitHubRepo {
   topics: string[];
   updated_at: string;
   homepage: string | null;
+  fork: boolean;
 }
 
 export interface Project {

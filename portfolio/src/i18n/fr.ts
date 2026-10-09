@@ -5,6 +5,8 @@ export interface Translations {
     blog: string;
     about: string;
     contact: string;
+    cv: string;
+    skip: string;
     menu: string;
     close: string;
   };
@@ -17,6 +19,7 @@ export interface Translations {
       resources: string;
       about: string;
       contact: string;
+      cv: string;
     };
     pathA: string;
     pathB: string;
@@ -176,22 +179,25 @@ const fr: Translations = {
     blog: "Blog",
     about: "À propos",
     contact: "Contact",
+    cv: "CV",
+    skip: "Aller au contenu",
     menu: "Menu",
     close: "Fermer",
   },
   hero: {
     greeting: "Louis Savon",
-    role: "Développeur Full-Stack",
+    role: "Étudiant en informatique, full-stack et IA",
     tagline:
-      "Je construis des outils web et partage mes recherches sur les LLM.",
+      "2e année de bachelor à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     cta: {
       projects: "Voir les projets",
       resources: "Lire le blog",
       about: "Mon parcours",
       contact: "Me contacter",
+      cv: "Télécharger mon CV (PDF)",
     },
     pathA: "Découvrir mon profil",
-    pathB: "Lire le blog",
+    pathB: "Voir mes projets",
   },
   features: {
     sectionTitle: "Ce que vous trouverez ici",
@@ -201,7 +207,7 @@ const fr: Translations = {
     },
     articles: {
       title: "Articles",
-      description: "Notes de recherche et explorations publiées régulièrement.",
+      description: "Notes sur les LLM et le prompt engineering.",
     },
   },
   latestAdds: {
@@ -213,7 +219,7 @@ const fr: Translations = {
     minRead: "min de lecture",
   },
   manifeste: {
-    text: "Ce site n'est pas un CV statique. C'est un espace de travail ouvert : j'y documente ce que j'apprends, partage ce que je construis et publie les ressources que j'aurais voulu trouver plus tôt.",
+    text: "Ce site rassemble ce que je construis et ce que j'apprends.",
   },
   projects: {
     title: "Projets",
@@ -253,8 +259,8 @@ const fr: Translations = {
   },
   about: {
     title: "À propos",
-    subtitle: "Développeur full-stack basé à Marseille.",
-    tagline: "Développeur Full-Stack · Freelance · Epitech",
+    subtitle: "Étudiant en informatique à Epitech Marseille.",
+    tagline: "Étudiant en informatique, Epitech Marseille. Recherche un stage puis une alternance.",
     anchorCV: "CV",
     anchorCompetences: "Compétences",
     anchorParcours: "Parcours",
@@ -294,11 +300,11 @@ const fr: Translations = {
   },
   contact: {
     title: "Contact",
-    subtitle: "Un projet, une question, ou juste envie d'échanger.",
-    intro: "Disponible pour des projets web, des collaborations ou des opportunités.",
+    subtitle: "Une offre de stage ou d'alternance, une question : écris-moi.",
+    intro: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     email: "Envoyer un email",
     availability: "Disponibilité",
-    availabilityText: "Ouvert aux projets freelance, collaborations et opportunités développeur.",
+    availabilityText: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     channels: "Me retrouver",
     or: "ou",
     formName: "Prénom",
@@ -326,7 +332,7 @@ const fr: Translations = {
     navigationTitle: "Navigation",
     legalTitle: "Légal",
     aboutTitle: "À propos",
-    aboutText: "Développeur full-stack à Marseille. Outils web et recherches sur les LLM.",
+    aboutText: "Étudiant en informatique à Epitech Marseille. Applications web et outils d'IA.",
     mentionsLegales: "Mentions légales",
     privacy: "Politique de confidentialité",
     copyright: "Louis Savon",
