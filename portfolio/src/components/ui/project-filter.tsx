@@ -22,7 +22,7 @@ function ProjectGridCard({
   return (
     <article className="card group flex flex-col rounded border border-border p-5 hover:border-accent transition-colors duration-150">
       <div className="flex items-start justify-between gap-2 mb-3">
-        <h3 className="text-sm font-medium text-primary leading-snug">
+        <h2 className="text-sm font-medium text-primary leading-snug">
           <a
             href={project.url}
             target="_blank"
@@ -31,7 +31,7 @@ function ProjectGridCard({
           >
             {project.name}
           </a>
-        </h3>
+        </h2>
         {project.featured && (
           <Badge variant="featured" className="shrink-0">
             {t.projects.featured}

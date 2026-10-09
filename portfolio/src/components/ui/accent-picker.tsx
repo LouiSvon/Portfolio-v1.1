@@ -28,7 +28,7 @@ export function AccentPicker({ label }: { label: string }) {
             onClick={() => setAccent(color.hex)}
             title={color.name}
             aria-label={color.name}
-            className="h-5 w-5 rounded-full border-2 border-transparent hover:border-foreground/30 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background"
+            className="h-5 w-5 rounded-full border-2 border-transparent hover:border-foreground/30 transition-all duration-150"
             style={{
               backgroundColor: color.hex,
             }}

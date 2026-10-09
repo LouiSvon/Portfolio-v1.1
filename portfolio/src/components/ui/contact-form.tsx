@@ -87,7 +87,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
             type="text"
             required
             autoComplete="given-name"
-            className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent focus:outline-none transition-colors duration-150"
+            className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent transition-colors duration-150"
           />
         </div>
 
@@ -101,7 +101,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
             type="email"
             required
             autoComplete="email"
-            className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent focus:outline-none transition-colors duration-150"
+            className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent transition-colors duration-150"
           />
         </div>
       </div>
@@ -115,7 +115,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           name="subject"
           required
           defaultValue=""
-          className="rounded border border-border bg-background px-3 py-2 text-sm text-primary focus:border-accent focus:outline-none transition-colors duration-150"
+          className="rounded border border-border bg-background px-3 py-2 text-sm text-primary focus:border-accent transition-colors duration-150"
         >
           <option value="" disabled>{t.contact.subjectOptions.placeholder}</option>
           <option value="internship">{t.contact.subjectOptions.internship}</option>
@@ -137,7 +137,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           minLength={50}
           rows={4}
           onChange={() => messageError && setMessageError("")}
-          className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent focus:outline-none transition-colors duration-150 resize-none"
+          className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent transition-colors duration-150 resize-none"
         />
         {messageError ? (
           <p className="text-xs text-accent-warm">{messageError}</p>

@@ -84,9 +84,12 @@ export default async function LocaleLayout({ children, params }: Props) {
             __html: `try{var a=localStorage.getItem('accent-color');if(a)document.documentElement.style.setProperty('--accent',a)}catch(e){}`,
           }}
         />
+        <a href="#main" className="skip-link">
+          {getTranslations(locale as Locale).nav.skip}
+        </a>
         <FadeObserver />
         <Header locale={locale as Locale} />
-        <main className="flex-1">{children}</main>
+        <main id="main" className="flex-1">{children}</main>
         <Footer locale={locale as Locale} />
       </body>
     </html>

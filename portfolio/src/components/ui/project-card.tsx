@@ -28,7 +28,7 @@ export function ProjectCard({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex flex-wrap items-center gap-2 sm:gap-3">
-            <h3 className="min-w-0 text-base font-medium text-primary">
+            <h2 className="min-w-0 text-base font-medium text-primary">
               <a
                 href={project.url}
                 target="_blank"
@@ -37,7 +37,7 @@ export function ProjectCard({
               >
                 {project.name}
               </a>
-            </h3>
+            </h2>
             {project.featured && (
               <Badge variant="featured">{t.projects.featured}</Badge>
             )}

@@ -20,7 +20,8 @@
 .badge-technology {
   --tech-color: var(--badge-technology-fallback);
   background: color-mix(in srgb, var(--tech-color) 12%, transparent);
-  color: var(--tech-color);
+  /* Texte éclairci vers --foreground pour tenir 4,5:1 quelle que soit la couleur de la techno */
+  color: color-mix(in srgb, var(--tech-color) 55%, var(--foreground));
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
 }
 

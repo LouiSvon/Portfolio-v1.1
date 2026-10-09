@@ -19,7 +19,7 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
   return (
     <button
       onClick={switchLocale}
-      aria-label={t.language.label}
+      aria-label={`${t.language.switch} (${t.language.label})`}
       className="text-sm text-secondary hover:text-accent transition-colors duration-150 cursor-pointer"
     >
       {t.language.switch}

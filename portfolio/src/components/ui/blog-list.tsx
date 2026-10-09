@@ -127,7 +127,7 @@ export function BlogList({
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t.blog.searchPlaceholder}
           aria-label={t.blog.searchPlaceholder}
-          className="w-full max-w-xs rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent focus:outline-none transition-colors duration-150"
+          className="w-full max-w-xs rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent transition-colors duration-150"
         />
       </div>
 
