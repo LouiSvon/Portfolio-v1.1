@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { alternatesFor, siteUrl } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { profile } from "@/data/profile";
-import { fetchGitHubRepos } from "@/lib/github";
-import { getLatestArticle } from "@/data/articles";
+import { highlights } from "@/data/highlights";
+import { certificationsBySector } from "@/data/certifications";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -23,11 +24,16 @@ export default async function HomePage({ params }: Props) {
   const locale = isValidLocale(localeParam) ? localeParam : defaultLocale;
   const t = getTranslations(locale);
 
-  const projects = await fetchGitHubRepos();
-  const lastUpdatedProject = [...projects].sort(
-    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-  )[0];
-  const latestArticle = getLatestArticle();
+  const certificationCount = certificationsBySector
+    .flatMap((s) => s.certifs)
+    .filter((c) => c.statut === "obtenu").length;
+
+  const facts = [
+    { value: t.home.facts.school.title, text: t.home.facts.school.text },
+    { value: t.home.facts.gdg.title, text: t.home.facts.gdg.text },
+    { value: `${certificationCount} ${t.home.facts.certifications.title}`, text: t.home.facts.certifications.text },
+    { value: t.home.facts.international.title, text: t.home.facts.international.text },
+  ];
 
   return (
     <>
@@ -51,156 +57,111 @@ export default async function HomePage({ params }: Props) {
     <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)]">
 
       {/* Hero */}
-      <section className="py-16 sm:py-28">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-primary mb-3">
-          {t.hero.greeting}
-        </h1>
-        <p className="text-xl text-accent mb-4">{t.hero.role}</p>
-        <p className="text-base text-secondary leading-relaxed max-w-xl mb-6">
-          {t.hero.tagline}
-        </p>
-        <div className="flex flex-wrap gap-3 mb-4">
-          <a
-            href={`/${profile.cvFile}`}
-            download={profile.cvFile}
-            className="btn-animated inline-flex items-center gap-2 rounded border border-accent bg-accent px-4 py-2 text-sm font-medium text-background"
-          >
-            {t.hero.cta.cv} &darr;
-          </a>
-          <Link
-            href={`/${locale}/contact`}
-            className="btn-animated inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
-          >
-            {t.hero.cta.contact} &rarr;
-          </Link>
-        </div>
-        <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-secondary mb-10">
-          <a href={`mailto:${profile.email}`} className="hover:text-accent hover:underline underline-offset-4">
-            {profile.email}
-          </a>
-          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
-            LinkedIn
-          </a>
-          <a href={`https://github.com/${profile.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
-            GitHub
-          </a>
-        </p>
-        <div className="grid gap-4 sm:grid-cols-2 max-w-xl">
-          <Link
-            href={`/${locale}/about`}
-            className="btn-animated group flex flex-col gap-2 rounded border border-border p-5 hover:border-accent transition-colors duration-150"
-          >
-            <span className="text-xs text-tertiary uppercase tracking-wider">
-              {locale === "fr" ? "Profil" : "Profile"}
-            </span>
-            <span className="text-sm font-medium text-primary group-hover:text-accent transition-colors duration-150">
-              {t.hero.pathA} &rarr;
-            </span>
-          </Link>
-          <Link
-            href={`/${locale}/projects`}
-            className="btn-animated group flex flex-col gap-2 rounded border border-border p-5 hover:border-accent transition-colors duration-150"
-          >
-            <span className="text-xs text-tertiary uppercase tracking-wider">
-              {locale === "fr" ? "Projets" : "Projects"}
-            </span>
-            <span className="text-sm font-medium text-primary group-hover:text-accent transition-colors duration-150">
-              {t.hero.pathB} &rarr;
-            </span>
-          </Link>
-        </div>
-      </section>
-
-      {/* En ce moment */}
-      <section className="pb-16 border-t border-border pt-12">
-        <h2 className="text-xs font-medium text-secondary uppercase tracking-wider mb-8">
-          {t.latestAdds.sectionTitle}
-        </h2>
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
-          {lastUpdatedProject && (
-            <div className="fade-in card flex flex-col gap-2 rounded border border-border p-4">
-              <p className="text-xs text-tertiary uppercase tracking-wider">{t.latestAdds.latestProject}</p>
-              <p className="text-sm font-medium text-primary leading-snug">{lastUpdatedProject.name}</p>
-              {lastUpdatedProject.description && (
-                <p className="text-xs text-secondary leading-relaxed line-clamp-2">
-                  {lastUpdatedProject.customDescription?.[locale] ?? lastUpdatedProject.description}
-                </p>
-              )}
-              {lastUpdatedProject.language && (
-                <p className="text-xs text-tertiary">{lastUpdatedProject.language}</p>
-              )}
+      <section className="hero relative py-14 sm:py-24">
+        <div className="hero-halo" aria-hidden="true" />
+        <div className="relative flex flex-col-reverse gap-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="max-w-xl">
+            <p className="availability !mt-0 !mb-5">
+              <span className="availability-dot" aria-hidden="true" />
+              <span>{t.home.available}</span>
+            </p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-primary mb-3">
+              {t.hero.greeting}
+            </h1>
+            <p className="text-xl text-accent mb-4">{t.hero.role}</p>
+            <p className="text-base text-secondary leading-relaxed mb-6">
+              {t.hero.tagline}
+            </p>
+            <div className="flex flex-wrap gap-3 mb-4">
               <a
-                href={lastUpdatedProject.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto text-xs text-accent hover:underline underline-offset-4"
+                href={`/${profile.cvFile}`}
+                download={profile.cvFile}
+                className="btn-animated inline-flex items-center gap-2 rounded border border-accent bg-accent px-4 py-2 text-sm font-medium text-background"
               >
-                {t.latestAdds.viewProject} &rarr;
+                {t.hero.cta.cv} &darr;
               </a>
-            </div>
-          )}
-
-          {latestArticle && (
-            <div className="fade-in card flex flex-col gap-2 rounded border border-border p-4">
-              <p className="text-xs text-tertiary uppercase tracking-wider">{t.latestAdds.latestArticle}</p>
-              <p className="text-sm font-medium text-primary leading-snug">
-                {latestArticle.title[locale]}
-              </p>
-              <p className="text-xs text-tertiary">
-                {new Date(latestArticle.date).toLocaleDateString(
-                  locale === "fr" ? "fr-FR" : "en-US",
-                  { day: "numeric", month: "short", year: "numeric" }
-                )}
-                {" · "}{latestArticle.readingTime} {t.latestAdds.minRead}
-              </p>
-              {latestArticle.tags[0] && (
-                <span className="text-xs text-accent">{latestArticle.tags[0]}</span>
-              )}
               <Link
-                href={`/${locale}/blog/${latestArticle.slug}`}
-                className="mt-auto text-xs text-accent hover:underline underline-offset-4"
+                href={`/${locale}/contact`}
+                className="btn-animated inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
               >
-                {t.latestAdds.readArticle} &rarr;
+                {t.hero.cta.contact} &rarr;
               </Link>
             </div>
-          )}
+            <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-secondary">
+              <a href={`mailto:${profile.email}`} className="hover:text-accent hover:underline underline-offset-4">
+                {profile.email}
+              </a>
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
+                LinkedIn
+              </a>
+              <a href={`https://github.com/${profile.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
+                GitHub
+              </a>
+            </p>
+          </div>
+          <Image
+            src="/portrait.jpg"
+            alt={`${t.home.portraitAlt} ${profile.name}`}
+            width={176}
+            height={176}
+            priority
+            className="portrait h-24 w-24 sm:h-44 sm:w-44 shrink-0 rounded-full object-cover"
+          />
         </div>
       </section>
 
-      {/* Ce que tu trouveras ici */}
+      {/* En bref */}
       <section className="pb-16 border-t border-border pt-12">
         <h2 className="text-xs font-medium text-secondary uppercase tracking-wider mb-8">
-          {t.features.sectionTitle}
+          {t.home.inBriefTitle}
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div className="fade-in">
-            <div className="mb-3 text-accent">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-                <rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-                <rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-                <rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-                <rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-              </svg>
-            </div>
-            <p className="text-sm font-medium text-primary mb-1">{t.features.projects.title}</p>
-            <p className="text-xs text-secondary leading-relaxed">{t.features.projects.description}</p>
-            <Link href={`/${locale}/projects`} className="mt-3 inline-block text-xs text-accent hover:underline underline-offset-4">
-              {locale === "fr" ? "Voir les projets" : "View projects"} &rarr;
-            </Link>
-          </div>
+        <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {facts.map((fact) => (
+            <li key={fact.value} className="fade-in rounded border border-border p-4">
+              <p className="text-sm font-medium text-primary mb-1">{fact.value}</p>
+              <p className="text-xs text-secondary leading-relaxed">{fact.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-          <div className="fade-in">
-            <div className="mb-3 text-accent">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-                <path d="M3 5h14M3 10h10M3 15h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <p className="text-sm font-medium text-primary mb-1">{t.features.articles.title}</p>
-            <p className="text-xs text-secondary leading-relaxed">{t.features.articles.description}</p>
-            <Link href={`/${locale}/blog`} className="mt-3 inline-block text-xs text-accent hover:underline underline-offset-4">
-              {locale === "fr" ? "Lire le blog" : "Read the blog"} &rarr;
-            </Link>
-          </div>
+      {/* Projets phares */}
+      <section className="pb-16 border-t border-border pt-12">
+        <div className="flex items-baseline justify-between gap-4 mb-8">
+          <h2 className="text-xs font-medium text-secondary uppercase tracking-wider">
+            {t.home.featuredTitle}
+          </h2>
+          <Link href={`/${locale}/projects`} className="text-xs text-accent hover:underline underline-offset-4">
+            {t.home.viewAll} &rarr;
+          </Link>
+        </div>
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+          {highlights.map((project) => (
+            <article
+              key={project.repo}
+              className="fade-in card card-accent flex flex-col gap-3 rounded border border-border p-5"
+            >
+              <h3 className="text-base font-medium text-primary leading-snug">
+                {project.title[locale]}
+              </h3>
+              <p className="text-sm text-secondary leading-relaxed">{project.summary[locale]}</p>
+              <ul className="flex flex-wrap gap-1.5 mt-auto">
+                {project.stack.map((tech) => (
+                  <li key={tech} className="text-xs text-tertiary bg-badge-bg px-2 py-0.5 rounded">
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={`https://github.com/${profile.github}/${project.repo}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-accent hover:underline underline-offset-4"
+              >
+                {t.home.viewCode} &rarr;
+              </a>
+            </article>
+          ))}
         </div>
       </section>
 

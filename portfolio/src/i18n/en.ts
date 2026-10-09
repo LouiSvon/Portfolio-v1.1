@@ -23,30 +23,23 @@ const en: Translations = {
       contact: "Get in touch",
       cv: "Download my resume (PDF)",
     },
-    pathA: "Discover my profile",
-    pathB: "See my projects",
-  },
-  features: {
-    sectionTitle: "What you'll find here",
-    projects: {
-      title: "Projects",
-      description: "Widgets, sites and tools — built and testable. From no-code to LLM APIs.",
-    },
-    articles: {
-      title: "Articles",
-      description: "Notes on LLMs and prompt engineering.",
-    },
-  },
-  latestAdds: {
-    sectionTitle: "Right now",
-    latestArticle: "Latest article",
-    latestProject: "Last updated project",
-    readArticle: "Read",
-    viewProject: "View on GitHub",
-    minRead: "min read",
   },
   manifeste: {
     text: "This site brings together what I build and what I learn.",
+  },
+  home: {
+    available: "Available: internship from April 2027, work-study 2027-2028",
+    inBriefTitle: "In brief",
+    facts: {
+      school: { title: "Epitech Marseille", text: "Second year of a computer science bachelor" },
+      gdg: { title: "GDG Marseille", text: "Volunteer web developer since April 2026" },
+      certifications: { title: "certifications", text: "Verifiable online" },
+      international: { title: "International", text: "Erasmus in Dublin, multicultural team" },
+    },
+    featuredTitle: "Featured projects",
+    viewAll: "All projects",
+    viewCode: "View code",
+    portraitAlt: "Portrait",
   },
   projects: {
     title: "Projects",
