@@ -1,16 +1,17 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
+import { siteUrl } from "@/lib/site";
 import { articles } from "@/data/articles";
 
-const BASE_URL = "https://louissavon.dev";
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // /cv et /experience redirigent vers /about : ils ne figurent pas ici.
   const staticRoutes = [
     "",
+    "/about",
     "/projects",
     "/blog",
-    "/experience",
-    "/cv",
     "/contact",
     "/legal",
     "/privacy",
@@ -18,8 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticEntries = locales.flatMap((locale) =>
     staticRoutes.map((route) => ({
-      url: `${BASE_URL}/${locale}${route}`,
-      lastModified: new Date(),
+      url: `${siteUrl}/${locale}${route}`,
       changeFrequency: "monthly" as const,
       priority: route === "" ? 1 : 0.8,
     }))
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const articleEntries = locales.flatMap((locale) =>
     articles.map((article) => ({
-      url: `${BASE_URL}/${locale}/blog/${article.slug}`,
+      url: `${siteUrl}/${locale}/blog/${article.slug}`,
       lastModified: new Date(article.date),
       changeFrequency: "monthly" as const,
       priority: 0.7,

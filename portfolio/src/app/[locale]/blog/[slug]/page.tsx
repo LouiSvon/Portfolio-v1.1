@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { alternatesFor, siteUrl } from "@/lib/site";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { articles, getArticleBySlug } from "@/data/articles";
-import { ResourceGate } from "@/components/ui/resource-gate";
 import { CopyLink } from "@/components/ui/copy-link";
 import GuideContent from "@/content/articles/guide-llm-debutants";
 import PromptContent from "@/content/articles/prompt-engineering-avance";
@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.title[locale],
     description: article.summary[locale],
+    alternates: alternatesFor(locale, `/blog/${slug}`),
     openGraph: { title: article.title[locale], description: article.summary[locale], type: "article", publishedTime: article.date },
   };
 }
@@ -113,14 +114,6 @@ export default async function ArticlePage({ params }: Props) {
             <span className="text-xs text-tertiary">{locale === "fr" ? "Partager :" : "Share:"}</span>
             <CopyLink label={t.blog.shareLink} copiedLabel={t.blog.linkCopied} />
           </div>
-
-          {/* Ressource liée */}
-          {article.linkedResource && (
-            <section aria-label={t.blog.relatedResource}>
-              <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-4">{t.blog.relatedResource}</h2>
-              <ResourceGate locale={locale} resourceTitle={article.linkedResource.title[locale]} filename={article.linkedResource.filename} />
-            </section>
-          )}
         </article>
 
         {/* TOC sidebar sticky — desktop uniquement */}
@@ -154,7 +147,7 @@ export default async function ArticlePage({ params }: Props) {
             headline: article.title[locale],
             description: article.summary[locale],
             datePublished: article.date,
-            author: { "@type": "Person", name: "Louis Savon", url: "https://louissavon.dev" },
+            author: { "@type": "Person", name: "Louis Savon", url: siteUrl },
           }),
         }}
       />

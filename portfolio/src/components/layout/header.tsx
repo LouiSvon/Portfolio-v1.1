@@ -12,6 +12,7 @@ export function Header({ locale }: { locale: Locale }) {
     { href: `/${locale}/projects`, label: t.nav.projects },
     { href: `/${locale}/blog`, label: t.nav.blog },
     { href: `/${locale}/about`, label: t.nav.about },
+    { href: `/${locale}/about#cv`, label: t.nav.cv },
     { href: `/${locale}/contact`, label: t.nav.contact },
   ];
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales, formatDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { experiences } from "@/data/experience";
@@ -12,7 +13,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-const CV_FILE_NAME = "Louis_Savon.pdf";
+const CV_FILE_NAME = profile.cvFile;
 const CV_HREF = `/${CV_FILE_NAME}`;
 
 type Props = { params: Promise<{ locale: string }> };
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t.about.title,
     description: t.about.subtitle,
+    alternates: alternatesFor(locale, "/about"),
     openGraph: { title: t.about.title, description: t.about.subtitle },
   };
 }
@@ -79,7 +81,7 @@ function formatPeriod(exp: { startDate: string; endDate: string | null }, locale
 
 const TYPE_LABELS: Record<string, Record<string, string>> = {
   professional: { fr: "Professionnel", en: "Professional" },
-  personal:     { fr: "Pause", en: "Break" },
+  personal:     { fr: "Personnel", en: "Personal" },
 };
 
 // ── Page ───────────────────────────────────────────────────────────────────

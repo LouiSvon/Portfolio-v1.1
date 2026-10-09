@@ -35,14 +35,6 @@ export const certificationsBySector: CertificationSecteur[] = [
         statut: "obtenu",
         logo: "google",
       },
-      {
-        titre: { fr: "Certification LVMH", en: "LVMH Certification" },
-        organisme: "LVMH",
-        date: null,
-        lien: null,
-        competences: [],
-        statut: "en_cours",
-      },
     ],
   },
   {

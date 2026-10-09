@@ -5,6 +5,8 @@ export interface Translations {
     blog: string;
     about: string;
     contact: string;
+    cv: string;
+    skip: string;
     menu: string;
     close: string;
   };
@@ -17,6 +19,7 @@ export interface Translations {
       resources: string;
       about: string;
       contact: string;
+      cv: string;
     };
     pathA: string;
     pathB: string;
@@ -24,34 +27,18 @@ export interface Translations {
   features: {
     sectionTitle: string;
     projects: { title: string; description: string };
-    resources: { title: string; description: string };
     articles: { title: string; description: string };
   };
   latestAdds: {
     sectionTitle: string;
     latestArticle: string;
-    latestResource: string;
     latestProject: string;
     readArticle: string;
-    downloadResource: string;
     viewProject: string;
     minRead: string;
   };
-  stats: {
-    sectionTitle: string;
-    sites: string;
-    conferences: string;
-    opportunities: string;
-    community: string;
-  };
   manifeste: {
     text: string;
-  };
-  latestResources: {
-    sectionTitle: string;
-    free: string;
-    emailGated: string;
-    access: string;
   };
   projects: {
     title: string;
@@ -84,36 +71,10 @@ export interface Translations {
     tableOfContents: string;
     shareLink: string;
     linkCopied: string;
-    relatedResource: string;
-    downloadPDF: string;
     filterAll: string;
     tags: string;
     publishedOn: string;
-    tabArticles: string;
-    tabResources: string;
     searchPlaceholder: string;
-    resourceFree: string;
-    resourceEmailGated: string;
-    resourceTypes: {
-      pdf: string;
-      template: string;
-      video: string;
-      other: string;
-    };
-    downloadResource: string;
-    accessResource: string;
-  };
-  resources: {
-    gateTitle: string;
-    gateDescription: string;
-    emailPlaceholder: string;
-    submit: string;
-    submitting: string;
-    successTitle: string;
-    successMessage: string;
-    downloadLink: string;
-    noSpam: string;
-    modalClose: string;
   };
   about: {
     title: string;
@@ -174,8 +135,8 @@ export interface Translations {
     ratingLabel: string;
     subjectOptions: {
       placeholder: string;
+      internship: string;
       collaboration: string;
-      resource: string;
       article: string;
       partnership: string;
       other: string;
@@ -185,6 +146,8 @@ export interface Translations {
     successTitle: string;
     successMessage: string;
     errorMessage: string;
+    formNotice: string;
+    privacyLink: string;
   };
   footer: {
     builtWith: string;
@@ -219,22 +182,25 @@ const fr: Translations = {
     blog: "Blog",
     about: "À propos",
     contact: "Contact",
+    cv: "CV",
+    skip: "Aller au contenu",
     menu: "Menu",
     close: "Fermer",
   },
   hero: {
     greeting: "Louis Savon",
-    role: "Développeur Full-Stack",
+    role: "Étudiant en informatique, full-stack et IA",
     tagline:
-      "Je construis des outils web et partage mes recherches sur les LLM.",
+      "2e année de bachelor à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     cta: {
       projects: "Voir les projets",
       resources: "Lire le blog",
       about: "Mon parcours",
       contact: "Me contacter",
+      cv: "Télécharger mon CV (PDF)",
     },
     pathA: "Découvrir mon profil",
-    pathB: "Explorer le blog & ressources",
+    pathB: "Voir mes projets",
   },
   features: {
     sectionTitle: "Ce que vous trouverez ici",
@@ -242,40 +208,21 @@ const fr: Translations = {
       title: "Projets",
       description: "Widgets, sites et outils construits et testables. Du no-code à l'API LLM.",
     },
-    resources: {
-      title: "Ressources",
-      description: "Guides PDF pratiques pour comprendre et utiliser les LLM. Téléchargeables.",
-    },
     articles: {
       title: "Articles",
-      description: "Notes de recherche et explorations publiées régulièrement.",
+      description: "Notes sur les LLM et le prompt engineering.",
     },
   },
   latestAdds: {
     sectionTitle: "En ce moment",
     latestArticle: "Dernier article",
-    latestResource: "Dernière ressource",
     latestProject: "Dernier projet mis à jour",
     readArticle: "Lire",
-    downloadResource: "Accéder",
     viewProject: "Voir sur GitHub",
     minRead: "min de lecture",
   },
-  stats: {
-    sectionTitle: "En chiffres",
-    sites: "Sites livrés",
-    conferences: "Conférences organisées",
-    opportunities: "Opportunités générées",
-    community: "Personnes accompagnées (crypto)",
-  },
   manifeste: {
-    text: "Ce site n'est pas un CV statique. C'est un espace de travail ouvert : j'y documente ce que j'apprends, partage ce que je construis et publie les ressources que j'aurais voulu trouver plus tôt.",
-  },
-  latestResources: {
-    sectionTitle: "Dernières ressources",
-    free: "Gratuit",
-    emailGated: "Sur email",
-    access: "Accéder →",
+    text: "Ce site rassemble ce que je construis et ce que j'apprends.",
   },
   projects: {
     title: "Projets",
@@ -300,7 +247,7 @@ const fr: Translations = {
   },
   blog: {
     title: "Blog",
-    subtitle: "Articles, guides et ressources sur le développement web et l'IA.",
+    subtitle: "Articles sur le développement web et l'IA.",
     readingTime: "min de lecture",
     noArticles: "Aucun article pour l'instant.",
     noResults: "Aucun résultat pour cette recherche.",
@@ -308,41 +255,15 @@ const fr: Translations = {
     tableOfContents: "Sommaire",
     shareLink: "Copier le lien",
     linkCopied: "Lien copié !",
-    relatedResource: "Ressource liée",
-    downloadPDF: "Télécharger le guide PDF",
     filterAll: "Tous",
     tags: "Tags",
     publishedOn: "Publié le",
-    tabArticles: "Articles",
-    tabResources: "Ressources & Guides",
     searchPlaceholder: "Rechercher…",
-    resourceFree: "Gratuit",
-    resourceEmailGated: "Sur email",
-    resourceTypes: {
-      pdf: "PDF",
-      template: "Template",
-      video: "Vidéo",
-      other: "Autre",
-    },
-    downloadResource: "Télécharger",
-    accessResource: "Accéder",
-  },
-  resources: {
-    gateTitle: "Recevoir le guide gratuitement",
-    gateDescription: "Entrez votre email pour recevoir le lien de téléchargement.",
-    emailPlaceholder: "votre@email.com",
-    submit: "Recevoir le PDF",
-    submitting: "Envoi en cours…",
-    successTitle: "C'est parti !",
-    successMessage: "Le lien de téléchargement vous a été envoyé.",
-    downloadLink: "Télécharger maintenant",
-    noSpam: "Pas de spam. Désabonnement en 1 clic.",
-    modalClose: "Fermer",
   },
   about: {
     title: "À propos",
-    subtitle: "Développeur full-stack basé à Marseille.",
-    tagline: "Développeur Full-Stack · Freelance · Epitech",
+    subtitle: "Étudiant en informatique à Epitech Marseille.",
+    tagline: "Étudiant en informatique, Epitech Marseille. Recherche un stage puis une alternance.",
     anchorCV: "CV",
     anchorCompetences: "Compétences",
     anchorParcours: "Parcours",
@@ -382,11 +303,11 @@ const fr: Translations = {
   },
   contact: {
     title: "Contact",
-    subtitle: "Un projet, une question, ou juste envie d'échanger.",
-    intro: "Disponible pour des projets web, des collaborations ou des opportunités.",
+    subtitle: "Une offre de stage ou d'alternance, une question : écrivez-moi.",
+    intro: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     email: "Envoyer un email",
     availability: "Disponibilité",
-    availabilityText: "Ouvert aux projets freelance, collaborations et opportunités développeur.",
+    availabilityText: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     channels: "Me retrouver",
     or: "ou",
     formName: "Prénom",
@@ -398,8 +319,8 @@ const fr: Translations = {
     ratingLabel: "Avez-vous aimé le site ?",
     subjectOptions: {
       placeholder: "Choisissez un sujet",
+      internship: "Offre de stage ou d'alternance",
       collaboration: "Collaboration sur un projet",
-      resource: "Question sur une ressource",
       article: "Retour sur un article",
       partnership: "Proposition / partenariat",
       other: "Autre",
@@ -409,13 +330,15 @@ const fr: Translations = {
     successTitle: "Message envoyé !",
     successMessage: "Merci pour votre message. Je vous répondrai rapidement.",
     errorMessage: "Une erreur est survenue. Réessayez ou contactez-moi par email.",
+    formNotice: "Vos informations servent uniquement à répondre à votre demande. Le message transite par Formspree. Vous pouvez demander l'accès ou la suppression de vos données par email.",
+    privacyLink: "Politique de confidentialité",
   },
   footer: {
     builtWith: "Construit avec Next.js et TypeScript.",
     navigationTitle: "Navigation",
     legalTitle: "Légal",
     aboutTitle: "À propos",
-    aboutText: "Développeur full-stack à Marseille. Outils web et recherches sur les LLM.",
+    aboutText: "Étudiant en informatique à Epitech Marseille. Applications web et outils d'IA.",
     mentionsLegales: "Mentions légales",
     privacy: "Politique de confidentialité",
     copyright: "Louis Savon",

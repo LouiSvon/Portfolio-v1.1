@@ -1,16 +1,22 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { alternatesFor, siteUrl } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { fetchGitHubRepos } from "@/lib/github";
 import { getLatestArticle } from "@/data/articles";
-import { resources } from "@/data/resources";
-import { CountUpStats } from "@/components/ui/count-up-stats";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isValidLocale(locale)) return {};
+  return { alternates: alternatesFor(locale, "") };
+}
 
 export default async function HomePage({ params }: Props) {
   const { locale: localeParam } = await params;
@@ -22,17 +28,6 @@ export default async function HomePage({ params }: Props) {
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   )[0];
   const latestArticle = getLatestArticle();
-
-  const stats = [
-    { value: 5,   suffix: "+",   label: t.stats.sites,          decimals: false },
-    { value: 50,  suffix: "+",   label: t.stats.conferences,     decimals: false },
-    { value: 1.8, suffix: "M€+", label: t.stats.opportunities,   decimals: true  },
-    { value: 150, suffix: "+",   label: t.stats.community,       decimals: false },
-  ];
-
-  const latestResources = resources.slice(0, 3);
-
-  const siteUrl = "https://louissavon.dev";
 
   return (
     <>
@@ -61,8 +56,34 @@ export default async function HomePage({ params }: Props) {
           {t.hero.greeting}
         </h1>
         <p className="text-xl text-accent mb-4">{t.hero.role}</p>
-        <p className="text-base text-secondary leading-relaxed max-w-xl mb-12">
+        <p className="text-base text-secondary leading-relaxed max-w-xl mb-6">
           {t.hero.tagline}
+        </p>
+        <div className="flex flex-wrap gap-3 mb-4">
+          <a
+            href={`/${profile.cvFile}`}
+            download={profile.cvFile}
+            className="btn-animated inline-flex items-center gap-2 rounded border border-accent bg-accent px-4 py-2 text-sm font-medium text-background"
+          >
+            {t.hero.cta.cv} &darr;
+          </a>
+          <Link
+            href={`/${locale}/contact`}
+            className="btn-animated inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
+          >
+            {t.hero.cta.contact} &rarr;
+          </Link>
+        </div>
+        <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-secondary mb-10">
+          <a href={`mailto:${profile.email}`} className="hover:text-accent hover:underline underline-offset-4">
+            {profile.email}
+          </a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
+            LinkedIn
+          </a>
+          <a href={`https://github.com/${profile.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
+            GitHub
+          </a>
         </p>
         <div className="grid gap-4 sm:grid-cols-2 max-w-xl">
           <Link
@@ -77,11 +98,11 @@ export default async function HomePage({ params }: Props) {
             </span>
           </Link>
           <Link
-            href={`/${locale}/blog`}
+            href={`/${locale}/projects`}
             className="btn-animated group flex flex-col gap-2 rounded border border-border p-5 hover:border-accent transition-colors duration-150"
           >
             <span className="text-xs text-tertiary uppercase tracking-wider">
-              {locale === "fr" ? "Contenu" : "Content"}
+              {locale === "fr" ? "Projets" : "Projects"}
             </span>
             <span className="text-sm font-medium text-primary group-hover:text-accent transition-colors duration-150">
               {t.hero.pathB} &rarr;
@@ -151,7 +172,7 @@ export default async function HomePage({ params }: Props) {
         <h2 className="text-xs font-medium text-secondary uppercase tracking-wider mb-8">
           {t.features.sectionTitle}
         </h2>
-        <div className="grid gap-6 sm:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2">
           <div className="fade-in">
             <div className="mb-3 text-accent">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
@@ -171,19 +192,6 @@ export default async function HomePage({ params }: Props) {
           <div className="fade-in">
             <div className="mb-3 text-accent">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-                <path d="M4 4h12M4 8h8M4 12h10M4 16h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <p className="text-sm font-medium text-primary mb-1">{t.features.resources.title}</p>
-            <p className="text-xs text-secondary leading-relaxed">{t.features.resources.description}</p>
-            <Link href={`/${locale}/blog?tab=resources`} className="mt-3 inline-block text-xs text-accent hover:underline underline-offset-4">
-              {locale === "fr" ? "Voir les ressources" : "View resources"} &rarr;
-            </Link>
-          </div>
-
-          <div className="fade-in">
-            <div className="mb-3 text-accent">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
                 <path d="M3 5h14M3 10h10M3 15h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
             </div>
@@ -193,58 +201,6 @@ export default async function HomePage({ params }: Props) {
               {locale === "fr" ? "Lire le blog" : "Read the blog"} &rarr;
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Chiffres */}
-      <section className="pb-16 border-t border-border pt-12">
-        <h2 className="text-xs font-medium text-secondary uppercase tracking-wider mb-8">
-          {t.stats.sectionTitle}
-        </h2>
-        <CountUpStats stats={stats} />
-      </section>
-
-      {/* Dernières ressources */}
-      <section className="pb-16 border-t border-border pt-12">
-        <h2 className="text-xs font-medium text-secondary uppercase tracking-wider mb-8">
-          {t.latestResources.sectionTitle}
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {latestResources.map((resource) => (
-            <div key={resource.id} className="fade-in card flex flex-col gap-2 rounded border border-border p-4">
-              <div className="flex items-center gap-2">
-                <span className="text-accent" aria-hidden>
-                  {resource.type === "pdf" ? (
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <rect x="1" y="1" width="12" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-                      <path d="M4 5h6M4 7h4M4 9h5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                    </svg>
-                  ) : (
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <rect x="1" y="1" width="12" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-                      <path d="M4 5h6M4 7h6M4 9h3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                    </svg>
-                  )}
-                </span>
-                <span className="text-xs text-tertiary uppercase tracking-wider">{resource.type.toUpperCase()}</span>
-                <span className={`ml-auto text-[10px] rounded px-1.5 py-0.5 ${
-                  resource.free
-                    ? "bg-accent-soft text-accent"
-                    : "bg-badge-bg text-tertiary"
-                }`}>
-                  {resource.free ? t.latestResources.free : t.latestResources.emailGated}
-                </span>
-              </div>
-              <p className="text-sm font-medium text-primary leading-snug">{resource.title[locale]}</p>
-              <p className="text-xs text-secondary leading-relaxed line-clamp-2">{resource.description[locale]}</p>
-              <Link
-                href={`/${locale}/blog?tab=resources`}
-                className="mt-auto text-xs text-accent hover:underline underline-offset-4"
-              >
-                {t.latestResources.access}
-              </Link>
-            </div>
-          ))}
         </div>
       </section>
 

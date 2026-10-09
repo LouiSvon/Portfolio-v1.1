@@ -11,6 +11,7 @@ export interface Profile {
   linkedin: string;
   blog?: string;
   available?: boolean;
+  cvFile: string;
 }
 
 export interface Experience {
@@ -47,6 +48,7 @@ export interface GitHubRepo {
   topics: string[];
   updated_at: string;
   homepage: string | null;
+  fork: boolean;
 }
 
 export interface Project {
@@ -69,19 +71,6 @@ export interface Social {
   name: string;
   url: string;
   label: string;
-}
-
-export interface Resource {
-  id: string;
-  title: Record<Locale, string>;
-  description: Record<Locale, string>;
-  type: "pdf" | "template" | "video" | "other";
-  tags: string[];
-  date: string; // YYYY-MM-DD
-  free: boolean;
-  filename?: string; // /resources/filename — email-gated
-  url?: string; // direct link if free
-  linkedArticleSlug?: string;
 }
 
 export interface Certification {
@@ -123,8 +112,4 @@ export interface Article {
   tags: string[];
   readingTime: number; // minutes
   toc?: ArticleTocEntry[];
-  linkedResource?: {
-    title: Record<Locale, string>;
-    filename: string; // public/resources/filename.pdf
-  };
 }

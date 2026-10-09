@@ -1,10 +1,34 @@
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { isValidLocale, getTranslations, locales } from "@/lib/i18n";
+import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
+import type { Metadata, Viewport } from "next";
+import { isValidLocale, getTranslations } from "@/lib/i18n";
+import { siteUrl } from "@/lib/site";
 import { profile } from "@/data/profile";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { FadeObserver } from "@/components/ui/fade-observer";
 import type { Locale } from "@/types";
+import "../globals.css";
+
+// Ce layout est le layout racine : il porte <html> pour que l'attribut lang suive la langue de la route.
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  initialScale: 1,
+  themeColor: "#0a0a0a",
+  width: "device-width",
+};
 
 type Props = {
   children: React.ReactNode;
@@ -28,14 +52,7 @@ export async function generateMetadata({
       template: `%s — ${profile.name}`,
     },
     description: profile.tagline[locale],
-    metadataBase: new URL("https://louissavon.dev"),
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        fr: "/fr",
-        en: "/en",
-      },
-    },
+    metadataBase: new URL(siteUrl),
     openGraph: {
       title: `${profile.name} — ${t.hero.role}`,
       description: profile.tagline[locale],
@@ -53,10 +70,28 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   return (
-    <>
-      <Header locale={locale as Locale} />
-      <main className="flex-1">{children}</main>
-      <Footer locale={locale as Locale} />
-    </>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+    >
+      <body className="min-h-full flex flex-col">
+        {/* Restore accent color before first paint — no flash */}
+        <Script
+          id="accent-restore"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `try{var a=localStorage.getItem('accent-color');if(a)document.documentElement.style.setProperty('--accent',a)}catch(e){}`,
+          }}
+        />
+        <a href="#main" className="skip-link">
+          {getTranslations(locale as Locale).nav.skip}
+        </a>
+        <FadeObserver />
+        <Header locale={locale as Locale} />
+        <main id="main" className="flex-1">{children}</main>
+        <Footer locale={locale as Locale} />
+      </body>
+    </html>
   );
 }
