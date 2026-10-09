@@ -143,6 +143,7 @@ const en: Translations = {
     ratingLabel: "Did you like the site?",
     subjectOptions: {
       placeholder: "Choose a subject",
+      internship: "Internship or work-study offer",
       collaboration: "Project collaboration",
       article: "Feedback on an article",
       partnership: "Proposal / partnership",
@@ -153,6 +154,8 @@ const en: Translations = {
     successTitle: "Message sent!",
     successMessage: "Thank you for your message. I'll get back to you soon.",
     errorMessage: "Something went wrong. Please try again or email me directly.",
+    formNotice: "Your information is used only to answer your request. The message goes through Formspree. You can ask for access to or deletion of your data by email.",
+    privacyLink: "Privacy policy",
   },
   footer: {
     builtWith: "Built with Next.js and TypeScript.",

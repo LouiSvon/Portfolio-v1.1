@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 import { StarRating } from "@/components/ui/star-rating";
@@ -117,6 +118,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           className="rounded border border-border bg-background px-3 py-2 text-sm text-primary focus:border-accent focus:outline-none transition-colors duration-150"
         >
           <option value="" disabled>{t.contact.subjectOptions.placeholder}</option>
+          <option value="internship">{t.contact.subjectOptions.internship}</option>
           <option value="collaboration">{t.contact.subjectOptions.collaboration}</option>
           <option value="article">{t.contact.subjectOptions.article}</option>
           <option value="partnership">{t.contact.subjectOptions.partnership}</option>
@@ -158,6 +160,13 @@ export function ContactForm({ locale }: { locale: Locale }) {
       >
         {state === "submitting" ? t.contact.submitting : t.contact.submit}
       </button>
+
+      <p className="text-xs text-tertiary leading-relaxed">
+        {t.contact.formNotice}{" "}
+        <Link href={`/${locale}/privacy`} className="underline underline-offset-4 hover:text-accent">
+          {t.contact.privacyLink}
+        </Link>
+      </p>
     </form>
   );
 }

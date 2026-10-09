@@ -135,6 +135,7 @@ export interface Translations {
     ratingLabel: string;
     subjectOptions: {
       placeholder: string;
+      internship: string;
       collaboration: string;
       article: string;
       partnership: string;
@@ -145,6 +146,8 @@ export interface Translations {
     successTitle: string;
     successMessage: string;
     errorMessage: string;
+    formNotice: string;
+    privacyLink: string;
   };
   footer: {
     builtWith: string;
@@ -316,6 +319,7 @@ const fr: Translations = {
     ratingLabel: "Avez-vous aimé le site ?",
     subjectOptions: {
       placeholder: "Choisissez un sujet",
+      internship: "Offre de stage ou d'alternance",
       collaboration: "Collaboration sur un projet",
       article: "Retour sur un article",
       partnership: "Proposition / partenariat",
@@ -326,6 +330,8 @@ const fr: Translations = {
     successTitle: "Message envoyé !",
     successMessage: "Merci pour votre message. Je vous répondrai rapidement.",
     errorMessage: "Une erreur est survenue. Réessayez ou contactez-moi par email.",
+    formNotice: "Vos informations servent uniquement à répondre à votre demande. Le message transite par Formspree. Vous pouvez demander l'accès ou la suppression de vos données par email.",
+    privacyLink: "Politique de confidentialité",
   },
   footer: {
     builtWith: "Construit avec Next.js et TypeScript.",
