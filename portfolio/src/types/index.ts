@@ -71,19 +71,6 @@ export interface Social {
   label: string;
 }
 
-export interface Resource {
-  id: string;
-  title: Record<Locale, string>;
-  description: Record<Locale, string>;
-  type: "pdf" | "template" | "video" | "other";
-  tags: string[];
-  date: string; // YYYY-MM-DD
-  free: boolean;
-  filename?: string; // /resources/filename — email-gated
-  url?: string; // direct link if free
-  linkedArticleSlug?: string;
-}
-
 export interface Certification {
   titre: Record<Locale, string>;
   organisme: string;
@@ -123,8 +110,4 @@ export interface Article {
   tags: string[];
   readingTime: number; // minutes
   toc?: ArticleTocEntry[];
-  linkedResource?: {
-    title: Record<Locale, string>;
-    filename: string; // public/resources/filename.pdf
-  };
 }

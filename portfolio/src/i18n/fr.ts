@@ -24,34 +24,18 @@ export interface Translations {
   features: {
     sectionTitle: string;
     projects: { title: string; description: string };
-    resources: { title: string; description: string };
     articles: { title: string; description: string };
   };
   latestAdds: {
     sectionTitle: string;
     latestArticle: string;
-    latestResource: string;
     latestProject: string;
     readArticle: string;
-    downloadResource: string;
     viewProject: string;
     minRead: string;
   };
-  stats: {
-    sectionTitle: string;
-    sites: string;
-    conferences: string;
-    opportunities: string;
-    community: string;
-  };
   manifeste: {
     text: string;
-  };
-  latestResources: {
-    sectionTitle: string;
-    free: string;
-    emailGated: string;
-    access: string;
   };
   projects: {
     title: string;
@@ -84,36 +68,10 @@ export interface Translations {
     tableOfContents: string;
     shareLink: string;
     linkCopied: string;
-    relatedResource: string;
-    downloadPDF: string;
     filterAll: string;
     tags: string;
     publishedOn: string;
-    tabArticles: string;
-    tabResources: string;
     searchPlaceholder: string;
-    resourceFree: string;
-    resourceEmailGated: string;
-    resourceTypes: {
-      pdf: string;
-      template: string;
-      video: string;
-      other: string;
-    };
-    downloadResource: string;
-    accessResource: string;
-  };
-  resources: {
-    gateTitle: string;
-    gateDescription: string;
-    emailPlaceholder: string;
-    submit: string;
-    submitting: string;
-    successTitle: string;
-    successMessage: string;
-    downloadLink: string;
-    noSpam: string;
-    modalClose: string;
   };
   about: {
     title: string;
@@ -175,7 +133,6 @@ export interface Translations {
     subjectOptions: {
       placeholder: string;
       collaboration: string;
-      resource: string;
       article: string;
       partnership: string;
       other: string;
@@ -234,17 +191,13 @@ const fr: Translations = {
       contact: "Me contacter",
     },
     pathA: "Découvrir mon profil",
-    pathB: "Explorer le blog & ressources",
+    pathB: "Lire le blog",
   },
   features: {
     sectionTitle: "Ce que vous trouverez ici",
     projects: {
       title: "Projets",
       description: "Widgets, sites et outils construits et testables. Du no-code à l'API LLM.",
-    },
-    resources: {
-      title: "Ressources",
-      description: "Guides PDF pratiques pour comprendre et utiliser les LLM. Téléchargeables.",
     },
     articles: {
       title: "Articles",
@@ -254,28 +207,13 @@ const fr: Translations = {
   latestAdds: {
     sectionTitle: "En ce moment",
     latestArticle: "Dernier article",
-    latestResource: "Dernière ressource",
     latestProject: "Dernier projet mis à jour",
     readArticle: "Lire",
-    downloadResource: "Accéder",
     viewProject: "Voir sur GitHub",
     minRead: "min de lecture",
   },
-  stats: {
-    sectionTitle: "En chiffres",
-    sites: "Sites livrés",
-    conferences: "Conférences organisées",
-    opportunities: "Opportunités générées",
-    community: "Personnes accompagnées (crypto)",
-  },
   manifeste: {
     text: "Ce site n'est pas un CV statique. C'est un espace de travail ouvert : j'y documente ce que j'apprends, partage ce que je construis et publie les ressources que j'aurais voulu trouver plus tôt.",
-  },
-  latestResources: {
-    sectionTitle: "Dernières ressources",
-    free: "Gratuit",
-    emailGated: "Sur email",
-    access: "Accéder →",
   },
   projects: {
     title: "Projets",
@@ -300,7 +238,7 @@ const fr: Translations = {
   },
   blog: {
     title: "Blog",
-    subtitle: "Articles, guides et ressources sur le développement web et l'IA.",
+    subtitle: "Articles sur le développement web et l'IA.",
     readingTime: "min de lecture",
     noArticles: "Aucun article pour l'instant.",
     noResults: "Aucun résultat pour cette recherche.",
@@ -308,36 +246,10 @@ const fr: Translations = {
     tableOfContents: "Sommaire",
     shareLink: "Copier le lien",
     linkCopied: "Lien copié !",
-    relatedResource: "Ressource liée",
-    downloadPDF: "Télécharger le guide PDF",
     filterAll: "Tous",
     tags: "Tags",
     publishedOn: "Publié le",
-    tabArticles: "Articles",
-    tabResources: "Ressources & Guides",
     searchPlaceholder: "Rechercher…",
-    resourceFree: "Gratuit",
-    resourceEmailGated: "Sur email",
-    resourceTypes: {
-      pdf: "PDF",
-      template: "Template",
-      video: "Vidéo",
-      other: "Autre",
-    },
-    downloadResource: "Télécharger",
-    accessResource: "Accéder",
-  },
-  resources: {
-    gateTitle: "Recevoir le guide gratuitement",
-    gateDescription: "Entrez votre email pour recevoir le lien de téléchargement.",
-    emailPlaceholder: "votre@email.com",
-    submit: "Recevoir le PDF",
-    submitting: "Envoi en cours…",
-    successTitle: "C'est parti !",
-    successMessage: "Le lien de téléchargement vous a été envoyé.",
-    downloadLink: "Télécharger maintenant",
-    noSpam: "Pas de spam. Désabonnement en 1 clic.",
-    modalClose: "Fermer",
   },
   about: {
     title: "À propos",
@@ -399,7 +311,6 @@ const fr: Translations = {
     subjectOptions: {
       placeholder: "Choisissez un sujet",
       collaboration: "Collaboration sur un projet",
-      resource: "Question sur une ressource",
       article: "Retour sur un article",
       partnership: "Proposition / partenariat",
       other: "Autre",

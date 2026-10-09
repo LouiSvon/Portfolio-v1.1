@@ -20,13 +20,6 @@ export const articles: Article[] = [
       { id: "erreurs-classiques", text: { fr: "Erreurs classiques à éviter", en: "Common mistakes to avoid" }, level: 2 },
       { id: "pour-aller-plus-loin", text: { fr: "Pour aller plus loin", en: "Going further" }, level: 2 },
     ],
-    linkedResource: {
-      title: {
-        fr: "Guide PDF — LLM pour débutants",
-        en: "PDF Guide — LLM for Beginners",
-      },
-      filename: "guide-llm-debutants.pdf",
-    },
   },
   {
     slug: "prompt-engineering-avance",
@@ -56,10 +49,4 @@ export function getArticleBySlug(slug: string): Article | undefined {
 
 export function getLatestArticle(): Article | undefined {
   return [...articles].sort((a, b) => b.date.localeCompare(a.date))[0];
-}
-
-export function getLatestResource(): Article | undefined {
-  return [...articles]
-    .filter((a) => a.linkedResource)
-    .sort((a, b) => b.date.localeCompare(a.date))[0];
 }

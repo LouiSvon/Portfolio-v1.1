@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { articles } from "@/data/articles";
-import { resources } from "@/data/resources";
-import { BlogTabs } from "@/components/ui/blog-tabs";
+import { BlogList } from "@/components/ui/blog-list";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -10,7 +9,6 @@ export function generateStaticParams() {
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ tab?: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -24,12 +22,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function BlogPage({ params, searchParams }: Props) {
+export default async function BlogPage({ params }: Props) {
   const { locale: localeParam } = await params;
-  const { tab } = await searchParams;
   const locale = isValidLocale(localeParam) ? localeParam : defaultLocale;
   const t = getTranslations(locale);
-  const initialTab = tab === "ressources" ? "ressources" : "articles";
 
   return (
     <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
@@ -40,12 +36,7 @@ export default async function BlogPage({ params, searchParams }: Props) {
         <p className="text-sm text-secondary mt-2">{t.blog.subtitle}</p>
       </header>
 
-      <BlogTabs
-        articles={articles}
-        resources={resources}
-        initialTab={initialTab}
-        locale={locale}
-      />
+      <BlogList articles={articles} locale={locale} />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { articles, getArticleBySlug } from "@/data/articles";
-import { ResourceGate } from "@/components/ui/resource-gate";
 import { CopyLink } from "@/components/ui/copy-link";
 import GuideContent from "@/content/articles/guide-llm-debutants";
 import PromptContent from "@/content/articles/prompt-engineering-avance";
@@ -113,14 +112,6 @@ export default async function ArticlePage({ params }: Props) {
             <span className="text-xs text-tertiary">{locale === "fr" ? "Partager :" : "Share:"}</span>
             <CopyLink label={t.blog.shareLink} copiedLabel={t.blog.linkCopied} />
           </div>
-
-          {/* Ressource liée */}
-          {article.linkedResource && (
-            <section aria-label={t.blog.relatedResource}>
-              <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-4">{t.blog.relatedResource}</h2>
-              <ResourceGate locale={locale} resourceTitle={article.linkedResource.title[locale]} filename={article.linkedResource.filename} />
-            </section>
-          )}
         </article>
 
         {/* TOC sidebar sticky — desktop uniquement */}

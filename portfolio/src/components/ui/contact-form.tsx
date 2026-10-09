@@ -118,7 +118,6 @@ export function ContactForm({ locale }: { locale: Locale }) {
         >
           <option value="" disabled>{t.contact.subjectOptions.placeholder}</option>
           <option value="collaboration">{t.contact.subjectOptions.collaboration}</option>
-          <option value="resource">{t.contact.subjectOptions.resource}</option>
           <option value="article">{t.contact.subjectOptions.article}</option>
           <option value="partnership">{t.contact.subjectOptions.partnership}</option>
           <option value="other">{t.contact.subjectOptions.other}</option>
