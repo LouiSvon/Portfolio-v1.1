@@ -27,15 +27,10 @@ export interface Translations {
   };
   home: {
     available: string;
-    scrollCue: string;
     inBriefTitle: string;
     // {n} est remplacé par le nombre de certifications obtenues.
     statement: { highlight: string; text: string }[];
     featuredTitle: string;
-    carouselLabel: string;
-    prevProject: string;
-    nextProject: string;
-    goToProject: string;
     stackLabel: string;
     viewAll: string;
     viewCode: string;
@@ -207,7 +202,6 @@ const fr: Translations = {
   },
   home: {
     available: "Stage dès avril 2027 · Alternance 2027-2028",
-    scrollCue: "Défiler",
     inBriefTitle: "En bref",
     statement: [
       { highlight: "2e année", text: "de bachelor informatique à Epitech Marseille." },
@@ -216,10 +210,6 @@ const fr: Translations = {
       { highlight: "Erasmus à Dublin,", text: "en équipe multiculturelle." },
     ],
     featuredTitle: "Projets phares",
-    carouselLabel: "Projets phares",
-    prevProject: "Projet précédent",
-    nextProject: "Projet suivant",
-    goToProject: "Aller au projet",
     stackLabel: "Technologies utilisées dans mes projets",
     viewAll: "Tous les projets",
     viewCode: "Voir le code",

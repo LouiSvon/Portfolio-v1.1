@@ -22,10 +22,10 @@ export function Header({ locale }: { locale: Locale }) {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-[clamp(1rem,4vw,3rem)]">
         <Link
           href={`/${locale}`}
-          aria-label={t.nav.home}
-          className="nav-pill !p-0 h-11 w-11 justify-center font-[family-name:var(--font-archivo)] text-sm font-extrabold tracking-tight text-primary"
+          className="nav-pill flex !p-0 h-11 w-11 justify-center font-[family-name:var(--font-archivo)] text-sm font-extrabold tracking-tight text-primary"
         >
-          LS
+          <span aria-hidden="true">LS</span>
+          <span className="sr-only">{t.nav.home}</span>
         </Link>
 
         <div className="nav-pill hidden md:flex">

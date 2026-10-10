@@ -8,7 +8,8 @@ import { highlights } from "@/data/highlights";
 import { certificationsBySector } from "@/data/certifications";
 import { stack } from "@/data/stack";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { ProjectCarousel } from "@/components/ui/project-carousel";
+import { ProjectList } from "@/components/ui/project-list";
+import { DotGrid } from "@/components/ui/dot-grid";
 import { Marquee } from "@/components/ui/marquee";
 import { ScrollStatement } from "@/components/ui/scroll-statement";
 
@@ -41,7 +42,8 @@ export default async function HomePage({ params }: Props) {
     text: part.text,
   }));
 
-  const [firstName, ...lastName] = profile.name.split(" ");
+  // Le dernier mot du rôle (« IA », « AI ») ressort en bleu.
+  const roleCut = t.hero.role.lastIndexOf(" ") + 1;
   const half = Math.ceil(stack.length / 2);
 
   return (
@@ -67,33 +69,34 @@ export default async function HomePage({ params }: Props) {
     {/* Héros plein écran */}
     <section className="hero-screen">
       <div className="hero-bg" aria-hidden="true">
-        <div className="hero-blob" />
+        <div className="hero-glow" />
+        <DotGrid />
       </div>
 
-      <div className="mx-auto w-full max-w-6xl px-[clamp(1rem,4vw,3rem)]">
-        <p className="avail-pill reveal-soft text-xs text-secondary sm:text-sm" style={delay(0.05)}>
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,3rem)] text-center">
+        <p className="avail-pill reveal-soft whitespace-nowrap text-xs text-secondary sm:text-sm" style={delay(0.05)}>
           <Image
             src="/portrait.jpg"
             alt={`${t.home.portraitAlt} ${profile.name}`}
             width={32}
             height={32}
             priority
-            className="h-8 w-8 object-cover"
+            className="hidden h-8 w-8 object-cover sm:block"
           />
           <span className="availability-dot" aria-hidden="true" />
           <span>{t.home.available}</span>
         </p>
 
         <h1 className="hero-name mt-8 text-primary">
-          <span className="reveal-line"><span style={delay(0.15)}>{firstName}</span></span>
-          <span className="reveal-line"><span className="grad-text" style={delay(0.3)}>{lastName.join(" ")}</span></span>
+          <span className="reveal-line"><span style={delay(0.15)}>{profile.name}</span></span>
         </h1>
 
-        <p className="reveal-soft mt-8 max-w-xl text-lg text-secondary sm:text-xl" style={delay(0.6)}>
-          {t.hero.role}
+        <p className="reveal-soft mt-6 max-w-xl text-lg text-secondary sm:text-2xl" style={delay(0.45)}>
+          {t.hero.role.slice(0, roleCut)}
+          <span className="hero-role-hl">{t.hero.role.slice(roleCut)}</span>
         </p>
 
-        <div className="reveal-soft mt-8 flex flex-wrap gap-3" style={delay(0.75)}>
+        <div className="reveal-soft mt-10 flex flex-wrap justify-center gap-3" style={delay(0.6)}>
           <a href={`/${profile.cvFile}`} download={profile.cvFile} className="btn-pill">
             {t.hero.cta.cv} <span className="arrow" aria-hidden="true">&darr;</span>
           </a>
@@ -101,11 +104,8 @@ export default async function HomePage({ params }: Props) {
             {t.hero.cta.contact} <span className="arrow" aria-hidden="true">&rarr;</span>
           </Link>
         </div>
-      </div>
 
-      <div className="reveal-soft mx-auto mt-16 flex w-full max-w-6xl items-center justify-between px-[clamp(1rem,4vw,3rem)]" style={delay(1)}>
-        <span className="eyebrow">{profile.location}</span>
-        <span className="eyebrow scroll-cue">{t.home.scrollCue}</span>
+        <p className="reveal-soft mt-8 text-sm text-tertiary" style={delay(0.75)}>{profile.location}</p>
       </div>
     </section>
 
@@ -129,26 +129,17 @@ export default async function HomePage({ params }: Props) {
           id="projets-phares"
           title={t.home.featuredTitle}
           action={
-            <Link href={`/${locale}/projects`} className="btn-ghost hidden sm:inline-flex">
+            <Link href={`/${locale}/projects`} className="btn-ghost">
               {t.home.viewAll} <span className="arrow" aria-hidden="true">&rarr;</span>
             </Link>
           }
         />
-        <ProjectCarousel
+        <ProjectList
           projects={highlights}
           github={profile.github}
           locale={locale}
-          labels={{
-            carousel: t.home.carouselLabel,
-            prev: t.home.prevProject,
-            next: t.home.nextProject,
-            goTo: t.home.goToProject,
-            viewCode: t.home.viewCode,
-          }}
+          viewCode={t.home.viewCode}
         />
-        <Link href={`/${locale}/projects`} className="btn-ghost mt-8 sm:hidden">
-          {t.home.viewAll} <span className="arrow" aria-hidden="true">&rarr;</span>
-        </Link>
       </section>
 
       {/* Appel final */}

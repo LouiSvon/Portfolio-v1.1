@@ -50,7 +50,7 @@ export function MobileNavigation({
         aria-controls={menuId}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
-        className="nav-pill h-11 px-4 font-[family-name:var(--font-geist-mono)] text-xs uppercase tracking-[0.12em] text-primary"
+        className="nav-pill flex h-11 !px-4 text-sm font-medium text-primary"
       >
         {isOpen ? closeLabel : menuLabel}
       </button>

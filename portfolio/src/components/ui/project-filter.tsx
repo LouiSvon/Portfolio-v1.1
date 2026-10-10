@@ -80,7 +80,7 @@ function ProjectGridCard({
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-secondary hover:text-accent-warm transition-colors duration-150"
+              className="text-xs text-secondary hover:text-accent transition-colors duration-150"
             >
               Demo &rarr;
             </a>

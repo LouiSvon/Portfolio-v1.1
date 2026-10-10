@@ -1,4 +1,4 @@
-// Bandeau qui défile tout seul en boucle (CSS pur, pause au survol).
+// Bandeau qui défile tout seul en boucle, sans pause (CSS pur).
 // La liste est doublée pour une boucle sans saut ; la copie est masquée aux lecteurs d'écran.
 export function Marquee({
   items,

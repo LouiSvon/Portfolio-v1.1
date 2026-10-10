@@ -29,7 +29,6 @@ const en: Translations = {
   },
   home: {
     available: "Internship from April 2027 · Work-study 2027-2028",
-    scrollCue: "Scroll",
     inBriefTitle: "In brief",
     statement: [
       { highlight: "Second year", text: "of a computer science bachelor at Epitech Marseille." },
@@ -38,10 +37,6 @@ const en: Translations = {
       { highlight: "Erasmus in Dublin,", text: "in a multicultural team." },
     ],
     featuredTitle: "Featured projects",
-    carouselLabel: "Featured projects",
-    prevProject: "Previous project",
-    nextProject: "Next project",
-    goToProject: "Go to project",
     stackLabel: "Technologies used in my projects",
     viewAll: "All projects",
     viewCode: "View code",
