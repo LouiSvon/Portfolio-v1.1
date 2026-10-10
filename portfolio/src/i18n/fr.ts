@@ -224,9 +224,9 @@ const fr: Translations = {
   },
   hero: {
     greeting: "Louis Savon",
-    role: "Développeur Full-Stack",
+    role: "Étudiant en IA à Epitech, en recherche de stage puis d'alternance",
     tagline:
-      "Je construis des outils web et partage mes recherches sur les LLM.",
+      "Je conçois des outils web et d'IA : comprendre un besoin, structurer une solution, la mettre en ligne. Freelance depuis 2022.",
     cta: {
       projects: "Voir les projets",
       resources: "Lire le blog",

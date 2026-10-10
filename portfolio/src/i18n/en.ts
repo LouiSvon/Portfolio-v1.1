@@ -12,8 +12,8 @@ const en: Translations = {
   },
   hero: {
     greeting: "Louis Savon",
-    role: "Full-Stack Developer",
-    tagline: "I build web tools and share my research on LLMs.",
+    role: "AI student at Epitech, seeking an internship then a work-study position",
+    tagline: "I build web and AI tools: understand a need, structure a solution, ship it. Freelancing since 2022.",
     cta: {
       projects: "View projects",
       resources: "Read the blog",
