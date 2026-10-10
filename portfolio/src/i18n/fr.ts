@@ -29,9 +29,15 @@ export interface Translations {
     available: string;
     inBriefTitle: string;
     // {n} est remplacé par le nombre de certifications obtenues.
-    statement: { highlight: string; text: string }[];
+    // Faits courts de « En bref » : {n} = nombre de certifications obtenues.
+    facts: { value: string; label: string }[];
     featuredTitle: string;
+    stackTitle: string;
     stackLabel: string;
+    toolsLabel: string;
+    nowTitle: string;
+    // link : cible facultative de la ligne (projet phare, blog ou contact).
+    now: { label: string; text: string; link?: "project" | "blog" | "contact" }[];
     viewAll: string;
     viewCode: string;
     portraitAlt: string;
@@ -203,14 +209,23 @@ const fr: Translations = {
   home: {
     available: "Stage dès avril 2027 · Alternance 2027-2028",
     inBriefTitle: "En bref",
-    statement: [
-      { highlight: "2e année", text: "de bachelor informatique à Epitech Marseille." },
-      { highlight: "Développeur bénévole", text: "au GDG Marseille depuis avril 2026." },
-      { highlight: "{n} certifications", text: "vérifiables en ligne." },
-      { highlight: "Erasmus à Dublin,", text: "en équipe multiculturelle." },
+    facts: [
+      { value: "2e année", label: "Bachelor informatique, Epitech Marseille" },
+      { value: "GDG Marseille", label: "Développeur bénévole depuis avril 2026" },
+      { value: "{n} certifications", label: "Vérifiables en ligne" },
+      { value: "Erasmus", label: "À Dublin, en équipe multiculturelle" },
     ],
     featuredTitle: "Projets phares",
-    stackLabel: "Technologies utilisées dans mes projets",
+    stackTitle: "Stack et outils",
+    stackLabel: "Stack",
+    toolsLabel: "Outils IA",
+    nowTitle: "En ce moment",
+    now: [
+      { label: "Construit", text: "La carte de membre numérique du GDG Marseille.", link: "project" },
+      { label: "Explore", text: "Les LLM en local, avec Ollama, Hugging Face et DeepSeek." },
+      { label: "Écrit", text: "Des articles pour comprendre les LLM.", link: "blog" },
+      { label: "Cherche", text: "Un stage dès avril 2027, puis une alternance 2027-2028.", link: "contact" },
+    ],
     viewAll: "Tous les projets",
     viewCode: "Voir le code",
     portraitAlt: "Portrait",

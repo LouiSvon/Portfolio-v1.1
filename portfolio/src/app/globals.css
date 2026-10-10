@@ -474,13 +474,66 @@ h1, h2, .display {
   overflow: hidden;
   pointer-events: none;
 }
-.hero-bg canvas {
+/* Logos IA flottants : ancre fixe > flottement CSS > tuile poussée par la souris (Motion). */
+/* Mobile : rangée sous le texte (aucun chevauchement possible). Grand écran : dispersés autour du nom. */
+.ai-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+  padding-inline: 1rem;
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  .ai-logos { position: absolute; inset: 0; z-index: -1; margin: 0; padding: 0; }
+  .ai-logo { position: absolute; left: var(--x); top: var(--y); translate: -50% -50%; }
+}
+.ai-float { animation: float-y var(--dur, 8s) ease-in-out var(--delay, 0s) infinite; }
+@keyframes float-y {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-14px) rotate(3deg); }
+}
+.ai-tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(2.9rem, 2rem + 2.6vw, 4.5rem);
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  border-radius: 28%;
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.8);
+  pointer-events: auto; /* tap mobile ; le reste du fond laisse passer les clics */
+  -webkit-tap-highlight-color: transparent;
+}
+.ai-mono,
+.ai-color {
+  grid-area: 1 / 1;
+  width: 50%;
+  height: 50%;
+}
+.ai-mono {
+  background: var(--foreground);
+  opacity: 0.5;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.ai-name {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 20%, transparent 78%);
-  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 20%, transparent 78%);
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  translate: -50% 0;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  color: var(--secondary);
+  white-space: nowrap;
 }
 .hero-glow {
   position: absolute;
@@ -530,10 +583,12 @@ h1, h2, .display {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 38s linear infinite;
+  animation: marquee 76s linear infinite;
 }
-.marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 46s; }
+.marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 92s; }
 .marquee-list { display: flex; flex-shrink: 0; }
+.marquee.accent .marquee-list li { color: color-mix(in srgb, var(--accent) 85%, transparent); }
+.marquee.accent .marquee-list li::after { background: var(--foreground); opacity: 0.35; }
 .marquee-list li {
   display: inline-flex;
   align-items: center;
@@ -557,23 +612,86 @@ h1, h2, .display {
   to   { transform: translateX(-50%); }
 }
 
-/* ── Phrase « En bref » qui s'allume au défilement ────── */
-.statement {
+/* ── « En bref » : quatre faits courts, lisibles d'un coup d'œil ── */
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+@media (min-width: 1024px) {
+  .fact-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.fact-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 9.5rem;
+  padding: clamp(1.1rem, 0.8rem + 1vw, 1.6rem);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: var(--surface);
+  transition-property: opacity, transform, border-color;
+}
+.fact-tile:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.fact-value {
   font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(1.35rem, 1rem + 1.4vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--foreground);
+}
+.fact-label { font-size: 0.875rem; line-height: 1.4; color: var(--secondary); }
+
+/* ── « En ce moment » : lignes d'état ──────────────────── */
+.now-row {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.6rem 0;
+  border-top: 1px solid var(--border);
+}
+@media (min-width: 768px) {
+  .now-row { grid-template-columns: 11rem 1fr auto; align-items: center; gap: 2rem; }
+}
+.now-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.now-dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.now-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: ping-dot 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.now-text {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(1.2rem, 0.9rem + 1.2vw, 1.75rem);
   font-weight: 600;
-  font-size: clamp(1.75rem, 1rem + 3.4vw, 3.75rem);
-  line-height: 1.12;
+  line-height: 1.2;
   letter-spacing: -0.03em;
   color: var(--foreground);
-  text-wrap: balance;
+  transition: color 0.25s ease, transform 0.5s var(--ease-out);
 }
-.statement > span { margin-right: 0.15em; }
-.statement-hl { color: var(--accent); }
-.statement.is-scrubbing [data-w] {
-  opacity: 0.16;
-  transition: opacity 0.35s ease;
+.now-arrow {
+  display: none;
+  font-size: 1.4rem;
+  color: var(--secondary);
+  transition: transform 0.4s var(--ease-out), color 0.25s ease;
 }
-.statement.is-scrubbing [data-w].is-lit { opacity: 1; }
+@media (min-width: 768px) { .now-arrow { display: block; } }
+.now-row.is-link:hover .now-text { color: var(--accent); transform: translateX(6px); }
+.now-row.is-link:hover .now-arrow { color: var(--accent); transform: translateX(4px); }
 
 /* ── Titres de section ─────────────────────────────────── */
 .section-head {
@@ -829,13 +947,15 @@ h1, h2, .display {
   .availability-dot,
   .availability-dot::after,
   .hero-glow,
+  .ai-float,
+  .now-dot::after,
   .proj-visual::before,
   .proj-visual::after,
   .marquee-track { animation: none; }
   .reveal-line > span,
   .reveal-soft { animation: none; transform: none; opacity: 1; }
-  .statement [data-w] { opacity: 1 !important; }
   .marquee-list[aria-hidden="true"] { display: none; }
+  .marquee { -webkit-mask-image: none; mask-image: none; padding-inline: clamp(1rem, 4vw, 3rem); }
   .marquee-track, .marquee-list { flex-wrap: wrap; width: auto; row-gap: 0.5rem; }
 }
 

@@ -6,12 +6,11 @@ import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i1
 import { profile } from "@/data/profile";
 import { highlights } from "@/data/highlights";
 import { certificationsBySector } from "@/data/certifications";
-import { stack } from "@/data/stack";
+import { aiTools, stack } from "@/data/stack";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ProjectList } from "@/components/ui/project-list";
-import { DotGrid } from "@/components/ui/dot-grid";
+import { AiLogos } from "@/components/ui/ai-logos";
 import { Marquee } from "@/components/ui/marquee";
-import { ScrollStatement } from "@/components/ui/scroll-statement";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -37,14 +36,20 @@ export default async function HomePage({ params }: Props) {
     .flatMap((s) => s.certifs)
     .filter((c) => c.statut === "obtenu").length;
 
-  const statement = t.home.statement.map((part) => ({
-    highlight: part.highlight.replace("{n}", String(certificationCount)),
-    text: part.text,
+  const facts = t.home.facts.map((fact) => ({
+    value: fact.value.replace("{n}", String(certificationCount)),
+    label: fact.label,
   }));
+
+  // Cibles des lignes « En ce moment ».
+  const nowLinks = {
+    project: { href: `https://github.com/${profile.github}/pass-gdg`, external: true },
+    blog: { href: `/${locale}/blog`, external: false },
+    contact: { href: `/${locale}/contact`, external: false },
+  };
 
   // Le dernier mot du rôle (« IA », « AI ») ressort en bleu.
   const roleCut = t.hero.role.lastIndexOf(" ") + 1;
-  const half = Math.ceil(stack.length / 2);
 
   return (
     <>
@@ -70,7 +75,6 @@ export default async function HomePage({ params }: Props) {
     <section className="hero-screen">
       <div className="hero-bg" aria-hidden="true">
         <div className="hero-glow" />
-        <DotGrid />
       </div>
 
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,3rem)] text-center">
@@ -107,20 +111,35 @@ export default async function HomePage({ params }: Props) {
 
         <p className="reveal-soft mt-8 text-sm text-tertiary" style={delay(0.75)}>{profile.location}</p>
       </div>
+
+      {/* Autour du nom sur grand écran, en rangée sous le texte sur mobile. */}
+      <AiLogos />
     </section>
 
-    {/* Bandeau de technologies */}
-    <div className="flex flex-col gap-4 border-y border-border py-6">
-      <Marquee items={stack.slice(0, half)} label={t.home.stackLabel} />
-      <Marquee items={stack.slice(half)} label={t.home.stackLabel} reverse />
-    </div>
+    {/* Stack et outils */}
+    <section className="border-y border-border py-8" aria-labelledby="stack">
+      <h2 id="stack" className="eyebrow mx-auto mb-6 max-w-6xl px-[clamp(1rem,4vw,3rem)]">
+        {t.home.stackTitle}
+      </h2>
+      <div className="flex flex-col gap-4">
+        <Marquee items={stack} label={t.home.stackLabel} />
+        <Marquee items={aiTools} label={t.home.toolsLabel} reverse accent />
+      </div>
+    </section>
 
     <div className="mx-auto max-w-6xl px-[clamp(1rem,4vw,3rem)]">
 
       {/* En bref */}
       <section className="py-24 sm:py-32" aria-labelledby="en-bref">
         <h2 id="en-bref" className="sr-only">{t.home.inBriefTitle}</h2>
-        <ScrollStatement parts={statement} />
+        <ul className="fact-grid">
+          {facts.map((fact, i) => (
+            <li key={fact.value} className="fact-tile fade-in" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <p className="fact-value">{fact.value}</p>
+              <p className="fact-label">{fact.label}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Projets phares */}
@@ -140,6 +159,37 @@ export default async function HomePage({ params }: Props) {
           locale={locale}
           viewCode={t.home.viewCode}
         />
+      </section>
+
+      {/* En ce moment */}
+      <section className="pb-24 sm:pb-32" aria-labelledby="en-ce-moment">
+        <SectionHeading id="en-ce-moment" title={t.home.nowTitle} />
+        <ul className="now-list">
+          {t.home.now.map((item) => {
+            const content = (
+              <>
+                <span className="eyebrow now-label">
+                  <span className="now-dot" aria-hidden="true" />
+                  {item.label}
+                </span>
+                <span className="now-text">{item.text}</span>
+                {item.link && <span className="now-arrow" aria-hidden="true">&rarr;</span>}
+              </>
+            );
+            const target = item.link ? nowLinks[item.link] : null;
+            return (
+              <li key={item.label} className="fade-in">
+                {!target ? (
+                  <div className="now-row">{content}</div>
+                ) : target.external ? (
+                  <a href={target.href} target="_blank" rel="noopener noreferrer" className="now-row is-link">{content}</a>
+                ) : (
+                  <Link href={target.href} className="now-row is-link">{content}</Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       {/* Appel final */}
