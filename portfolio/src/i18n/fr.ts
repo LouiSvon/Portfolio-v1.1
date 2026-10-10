@@ -21,24 +21,23 @@ export interface Translations {
       contact: string;
       cv: string;
     };
-    pathA: string;
-    pathB: string;
-  };
-  features: {
-    sectionTitle: string;
-    projects: { title: string; description: string };
-    articles: { title: string; description: string };
-  };
-  latestAdds: {
-    sectionTitle: string;
-    latestArticle: string;
-    latestProject: string;
-    readArticle: string;
-    viewProject: string;
-    minRead: string;
   };
   manifeste: {
     text: string;
+  };
+  home: {
+    available: string;
+    inBriefTitle: string;
+    facts: {
+      school: { title: string; text: string };
+      gdg: { title: string; text: string };
+      certifications: { title: string; text: string };
+      international: { title: string; text: string };
+    };
+    featuredTitle: string;
+    viewAll: string;
+    viewCode: string;
+    portraitAlt: string;
   };
   projects: {
     title: string;
@@ -199,30 +198,23 @@ const fr: Translations = {
       contact: "Me contacter",
       cv: "Télécharger mon CV (PDF)",
     },
-    pathA: "Découvrir mon profil",
-    pathB: "Voir mes projets",
-  },
-  features: {
-    sectionTitle: "Ce que vous trouverez ici",
-    projects: {
-      title: "Projets",
-      description: "Widgets, sites et outils construits et testables. Du no-code à l'API LLM.",
-    },
-    articles: {
-      title: "Articles",
-      description: "Notes sur les LLM et le prompt engineering.",
-    },
-  },
-  latestAdds: {
-    sectionTitle: "En ce moment",
-    latestArticle: "Dernier article",
-    latestProject: "Dernier projet mis à jour",
-    readArticle: "Lire",
-    viewProject: "Voir sur GitHub",
-    minRead: "min de lecture",
   },
   manifeste: {
     text: "Ce site rassemble ce que je construis et ce que j'apprends.",
+  },
+  home: {
+    available: "Disponible : stage dès avril 2027, alternance 2027-2028",
+    inBriefTitle: "En bref",
+    facts: {
+      school: { title: "Epitech Marseille", text: "2e année de bachelor informatique" },
+      gdg: { title: "GDG Marseille", text: "Développeur web bénévole depuis avril 2026" },
+      certifications: { title: "certifications", text: "Vérifiables en ligne" },
+      international: { title: "International", text: "Erasmus à Dublin, équipe multiculturelle" },
+    },
+    featuredTitle: "Projets phares",
+    viewAll: "Tous les projets",
+    viewCode: "Voir le code",
+    portraitAlt: "Portrait",
   },
   projects: {
     title: "Projets",
