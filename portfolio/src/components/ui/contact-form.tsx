@@ -78,7 +78,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="name" className="text-xs font-medium text-secondary uppercase tracking-wider">
+          <label htmlFor="name" className="eyebrow">
             {t.contact.formName} <span className="text-accent">*</span>
           </label>
           <input
@@ -87,12 +87,12 @@ export function ContactForm({ locale }: { locale: Locale }) {
             type="text"
             required
             autoComplete="given-name"
-            className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent transition-colors duration-150"
+            className="field"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-xs font-medium text-secondary uppercase tracking-wider">
+          <label htmlFor="email" className="eyebrow">
             {t.contact.formEmail} <span className="text-accent">*</span>
           </label>
           <input
@@ -101,13 +101,13 @@ export function ContactForm({ locale }: { locale: Locale }) {
             type="email"
             required
             autoComplete="email"
-            className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent transition-colors duration-150"
+            className="field"
           />
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="subject" className="text-xs font-medium text-secondary uppercase tracking-wider">
+        <label htmlFor="subject" className="eyebrow">
           {t.contact.formSubject} <span className="text-accent">*</span>
         </label>
         <select
@@ -115,7 +115,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           name="subject"
           required
           defaultValue=""
-          className="rounded border border-border bg-background px-3 py-2 text-sm text-primary focus:border-accent transition-colors duration-150"
+          className="field"
         >
           <option value="" disabled>{t.contact.subjectOptions.placeholder}</option>
           <option value="internship">{t.contact.subjectOptions.internship}</option>
@@ -127,7 +127,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="message" className="text-xs font-medium text-secondary uppercase tracking-wider">
+        <label htmlFor="message" className="eyebrow">
           {t.contact.formMessage} <span className="text-accent">*</span>
         </label>
         <textarea
@@ -137,7 +137,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           minLength={50}
           rows={4}
           onChange={() => messageError && setMessageError("")}
-          className="rounded border border-border bg-background px-3 py-2 text-sm text-primary placeholder:text-tertiary focus:border-accent transition-colors duration-150 resize-none"
+          className="field resize-none"
         />
         {messageError ? (
           <p className="text-xs text-accent-warm">{messageError}</p>
@@ -156,7 +156,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="self-end inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm font-medium text-primary hover:border-accent hover:text-accent transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="btn-pill self-end disabled:cursor-not-allowed disabled:opacity-50"
       >
         {state === "submitting" ? t.contact.submitting : t.contact.submit}
       </button>

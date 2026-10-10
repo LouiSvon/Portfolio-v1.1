@@ -20,9 +20,9 @@ function ProjectGridCard({
   const extraTopics = project.topics.length - 3;
 
   return (
-    <article className="card group flex flex-col rounded border border-border p-5 hover:border-accent transition-colors duration-150">
+    <article className="panel group flex flex-col">
       <div className="flex items-start justify-between gap-2 mb-3">
-        <h2 className="text-sm font-medium text-primary leading-snug">
+        <h2 className="panel-title">
           <a
             href={project.url}
             target="_blank"
@@ -40,7 +40,7 @@ function ProjectGridCard({
       </div>
 
       {description && (
-        <p className="text-xs text-secondary leading-relaxed line-clamp-2 mb-3 flex-1">
+        <p className="text-sm text-secondary leading-relaxed line-clamp-3 mb-4 flex-1">
           {description}
         </p>
       )}
@@ -80,7 +80,7 @@ function ProjectGridCard({
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-secondary hover:text-accent-warm transition-colors duration-150"
+              className="text-xs text-secondary hover:text-accent transition-colors duration-150"
             >
               Demo &rarr;
             </a>
@@ -179,7 +179,7 @@ export function ProjectFilter({
             onClick={() => setPanelOpen((v) => !v)}
             aria-expanded={panelOpen}
             aria-label={isFr ? "Filtres et tri" : "Filters and sort"}
-            className="relative flex items-center justify-center w-9 h-9 rounded border border-border text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
+            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-border text-secondary transition-colors duration-150 hover:border-accent hover:text-accent"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <circle cx="3" cy="8" r="1.5" fill="currentColor"/>
@@ -204,7 +204,7 @@ export function ProjectFilter({
             >
               {/* Sort */}
               <div className="mb-5">
-                <p className="text-[10px] font-medium text-tertiary uppercase tracking-wider mb-2">
+                <p className="eyebrow mb-3">
                   {isFr ? "Trier par" : "Sort by"}
                 </p>
                 <div className="space-y-1.5">
@@ -230,7 +230,7 @@ export function ProjectFilter({
 
               {/* Filter: featured */}
               <div className="mb-4">
-                <p className="text-[10px] font-medium text-tertiary uppercase tracking-wider mb-2">
+                <p className="eyebrow mb-3">
                   {isFr ? "Filtrer" : "Filter"}
                 </p>
                 <label className="flex items-center gap-2 cursor-pointer mb-2">
@@ -250,7 +250,7 @@ export function ProjectFilter({
                       <button
                         key={lang}
                         onClick={() => toggleFilter(lang)}
-                        className={`text-xs px-2.5 py-1 rounded border transition-colors duration-150 ${
+                        className={`chip transition-colors duration-150 ${
                           selected.has(lang)
                             ? "border-accent text-accent bg-accent-soft"
                             : "border-border text-secondary hover:border-accent hover:text-accent"
@@ -267,7 +267,7 @@ export function ProjectFilter({
               {isFiltered && (
                 <button
                   onClick={() => { setSelected(new Set()); setSort("recent"); }}
-                  className="w-full text-xs text-tertiary border border-border rounded py-1.5 hover:text-accent hover:border-accent transition-colors duration-150"
+                  className="btn-ghost w-full justify-center !h-10"
                 >
                   {t.projects.resetFilters}
                 </button>

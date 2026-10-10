@@ -28,16 +28,25 @@ export interface Translations {
   home: {
     available: string;
     inBriefTitle: string;
-    facts: {
-      school: { title: string; text: string };
-      gdg: { title: string; text: string };
-      certifications: { title: string; text: string };
-      international: { title: string; text: string };
-    };
+    // {n} est remplacé par le nombre de certifications obtenues.
+    // « En bref » : une présentation, puis des faits classés. {n} = certifications obtenues ;
+    // anchor = section de la page À propos qui détaille le fait.
+    introLead: string;
+    introText: string;
+    introLink: string;
+    facts: { category: string; value: string; label: string; anchor: string }[];
     featuredTitle: string;
+    stackLabel: string;
+    toolsLabel: string;
+    nowTitle: string;
+    // link : cible facultative de la ligne (projet phare, blog ou contact).
+    now: { label: string; text: string; link?: "project" | "blog" | "contact" }[];
     viewAll: string;
     viewCode: string;
     portraitAlt: string;
+    ctaTitle: string;
+    ctaEmail: string;
+    ctaForm: string;
   };
   projects: {
     title: string;
@@ -157,8 +166,6 @@ export interface Translations {
     mentionsLegales: string;
     privacy: string;
     copyright: string;
-    madeWithCare: string;
-    accentLabel: string;
   };
   legal: {
     title: string;
@@ -188,7 +195,7 @@ const fr: Translations = {
   },
   hero: {
     greeting: "Louis Savon",
-    role: "Étudiant en informatique, full-stack et IA",
+    role: "Étudiant en informatique, spécialité IA",
     tagline:
       "2e année de bachelor à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     cta: {
@@ -203,18 +210,33 @@ const fr: Translations = {
     text: "Ce site rassemble ce que je construis et ce que j'apprends.",
   },
   home: {
-    available: "Disponible : stage dès avril 2027, alternance 2027-2028",
+    available: "Stage dès avril 2027 · Alternance 2027-2028",
     inBriefTitle: "En bref",
-    facts: {
-      school: { title: "Epitech Marseille", text: "2e année de bachelor informatique" },
-      gdg: { title: "GDG Marseille", text: "Développeur web bénévole depuis avril 2026" },
-      certifications: { title: "certifications", text: "Vérifiables en ligne" },
-      international: { title: "International", text: "Erasmus à Dublin, équipe multiculturelle" },
-    },
+    introLead: "Je conçois des applications web et des outils d'IA.",
+    introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    introLink: "En savoir plus",
+    facts: [
+      { category: "Formation", value: "2e année", label: "Bachelor informatique à Epitech Marseille", anchor: "etudes" },
+      { category: "Engagement", value: "GDG Marseille", label: "Développeur bénévole depuis avril 2026", anchor: "benevol" },
+      { category: "Certifications", value: "{n} obtenues", label: "Vérifiables en ligne", anchor: "certifications" },
+      { category: "International", value: "Erasmus", label: "À Dublin, en équipe multiculturelle", anchor: "parcours" },
+    ],
     featuredTitle: "Projets phares",
+    stackLabel: "Stack",
+    toolsLabel: "Outils IA",
+    nowTitle: "En ce moment",
+    now: [
+      { label: "Construit", text: "La carte de membre numérique du GDG Marseille.", link: "project" },
+      { label: "Explore", text: "Les LLM en local, avec Ollama, Hugging Face et DeepSeek." },
+      { label: "Écrit", text: "Des articles pour comprendre les LLM.", link: "blog" },
+      { label: "Cherche", text: "Un stage dès avril 2027, puis une alternance 2027-2028.", link: "contact" },
+    ],
     viewAll: "Tous les projets",
     viewCode: "Voir le code",
     portraitAlt: "Portrait",
+    ctaTitle: "Un stage à proposer ?",
+    ctaEmail: "Écrire un email",
+    ctaForm: "Formulaire",
   },
   projects: {
     title: "Projets",
@@ -243,7 +265,7 @@ const fr: Translations = {
     readingTime: "min de lecture",
     noArticles: "Aucun article pour l'instant.",
     noResults: "Aucun résultat pour cette recherche.",
-    backToBlog: "← Retour au blog",
+    backToBlog: "Retour au blog",
     tableOfContents: "Sommaire",
     shareLink: "Copier le lien",
     linkCopied: "Lien copié !",
@@ -334,8 +356,6 @@ const fr: Translations = {
     mentionsLegales: "Mentions légales",
     privacy: "Politique de confidentialité",
     copyright: "Louis Savon",
-    madeWithCare: "Fait avec soin",
-    accentLabel: "Couleur d'accent",
   },
   legal: {
     title: "Mentions légales",

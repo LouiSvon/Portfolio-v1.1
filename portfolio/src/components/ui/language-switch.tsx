@@ -20,7 +20,7 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
     <button
       onClick={switchLocale}
       aria-label={`${t.language.switch} (${t.language.label})`}
-      className="text-sm text-secondary hover:text-accent transition-colors duration-150 cursor-pointer"
+      className="nav-link cursor-pointer"
     >
       {t.language.switch}
     </button>

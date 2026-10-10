@@ -3,6 +3,7 @@ import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { articles } from "@/data/articles";
 import { BlogList } from "@/components/ui/blog-list";
+import { PageHeader } from "@/components/ui/page-header";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -30,13 +31,8 @@ export default async function BlogPage({ params }: Props) {
   const t = getTranslations(locale);
 
   return (
-    <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
-      <header className="mb-10">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
-          {t.blog.title}
-        </h1>
-        <p className="text-sm text-secondary mt-2">{t.blog.subtitle}</p>
-      </header>
+    <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
+      <PageHeader title={t.blog.title} subtitle={t.blog.subtitle} />
 
       <BlogList articles={articles} locale={locale} />
     </div>

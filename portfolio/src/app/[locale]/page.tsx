@@ -6,6 +6,11 @@ import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i1
 import { profile } from "@/data/profile";
 import { highlights } from "@/data/highlights";
 import { certificationsBySector } from "@/data/certifications";
+import { aiTools, stack } from "@/data/stack";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { ProjectList } from "@/components/ui/project-list";
+import { LogoStars } from "@/components/ui/logo-stars";
+import { Marquee } from "@/components/ui/marquee";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -19,6 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { alternates: alternatesFor(locale, "") };
 }
 
+// Délai d'animation passé au CSS (.reveal-line, .reveal-soft).
+const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as React.CSSProperties;
+
 export default async function HomePage({ params }: Props) {
   const { locale: localeParam } = await params;
   const locale = isValidLocale(localeParam) ? localeParam : defaultLocale;
@@ -28,12 +36,20 @@ export default async function HomePage({ params }: Props) {
     .flatMap((s) => s.certifs)
     .filter((c) => c.statut === "obtenu").length;
 
-  const facts = [
-    { value: t.home.facts.school.title, text: t.home.facts.school.text },
-    { value: t.home.facts.gdg.title, text: t.home.facts.gdg.text },
-    { value: `${certificationCount} ${t.home.facts.certifications.title}`, text: t.home.facts.certifications.text },
-    { value: t.home.facts.international.title, text: t.home.facts.international.text },
-  ];
+  const facts = t.home.facts.map((fact) => ({
+    ...fact,
+    value: fact.value.replace("{n}", String(certificationCount)),
+  }));
+
+  // Cibles des lignes « En ce moment ».
+  const nowLinks = {
+    project: { href: `https://github.com/${profile.github}/pass-gdg`, external: true },
+    blog: { href: `/${locale}/blog`, external: false },
+    contact: { href: `/${locale}/contact`, external: false },
+  };
+
+  // Le dernier mot du rôle (« IA », « AI ») ressort en bleu.
+  const roleCut = t.hero.role.lastIndexOf(" ") + 1;
 
   return (
     <>
@@ -54,142 +70,159 @@ export default async function HomePage({ params }: Props) {
         }),
       }}
     />
-    <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)]">
 
-      {/* Hero */}
-      <section className="hero relative py-14 sm:py-24">
-        <div className="hero-halo" aria-hidden="true" />
-        <div className="relative flex flex-col-reverse gap-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="max-w-xl">
-            <p className="availability !mt-0 !mb-5">
-              <span className="availability-dot" aria-hidden="true" />
-              <span>{t.home.available}</span>
-            </p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-primary mb-3">
-              {t.hero.greeting}
-            </h1>
-            <p className="text-xl text-accent mb-4">{t.hero.role}</p>
-            <p className="text-base text-secondary leading-relaxed mb-6">
-              {t.hero.tagline}
-            </p>
-            <div className="flex flex-wrap gap-3 mb-4">
-              <a
-                href={`/${profile.cvFile}`}
-                download={profile.cvFile}
-                className="btn-animated inline-flex items-center gap-2 rounded border border-accent bg-accent px-4 py-2 text-sm font-medium text-background"
-              >
-                {t.hero.cta.cv} &darr;
-              </a>
-              <Link
-                href={`/${locale}/contact`}
-                className="btn-animated inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
-              >
-                {t.hero.cta.contact} &rarr;
-              </Link>
-            </div>
-            <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-secondary">
-              <a href={`mailto:${profile.email}`} className="hover:text-accent hover:underline underline-offset-4">
-                {profile.email}
-              </a>
-              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
-                LinkedIn
-              </a>
-              <a href={`https://github.com/${profile.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-accent hover:underline underline-offset-4">
-                GitHub
-              </a>
-            </p>
-          </div>
+    {/* Héros plein écran */}
+    <section className="hero-screen">
+      <div className="hero-bg" aria-hidden="true">
+        <div className="hero-glow" />
+        <LogoStars />
+      </div>
+
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,3rem)] text-center">
+        <p className="avail-pill reveal-soft whitespace-nowrap text-xs text-secondary sm:text-sm" style={delay(0.05)}>
           <Image
             src="/portrait.jpg"
             alt={`${t.home.portraitAlt} ${profile.name}`}
-            width={176}
-            height={176}
+            width={32}
+            height={32}
             priority
-            className="portrait h-24 w-24 sm:h-44 sm:w-44 shrink-0 rounded-full object-cover"
+            className="hidden h-8 w-8 object-cover sm:block"
           />
+          <span className="availability-dot" aria-hidden="true" />
+          <span>{t.home.available}</span>
+        </p>
+
+        <h1 className="hero-name mt-8 text-primary">
+          <span className="reveal-line"><span style={delay(0.15)}>{profile.name}</span></span>
+        </h1>
+
+        <p className="reveal-soft mt-6 max-w-xl text-lg text-secondary sm:text-2xl" style={delay(0.45)}>
+          {t.hero.role.slice(0, roleCut)}
+          <span className="hero-role-hl">{t.hero.role.slice(roleCut)}</span>
+        </p>
+
+        <div className="reveal-soft mt-10 flex flex-wrap justify-center gap-3" style={delay(0.6)}>
+          <a href={`/${profile.cvFile}`} download={profile.cvFile} className="btn-pill">
+            {t.hero.cta.cv} <span className="arrow" aria-hidden="true">&darr;</span>
+          </a>
+          <Link href={`/${locale}/contact`} className="btn-ghost">
+            {t.hero.cta.contact} <span className="arrow" aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
-      </section>
+
+        <p className="reveal-soft mt-8 text-sm text-tertiary" style={delay(0.75)}>{profile.location}</p>
+      </div>
+    </section>
+
+    {/* Stack et outils : deux rangées fines, sans titre */}
+    <div className="flex flex-col gap-2 border-y border-border py-4">
+      <Marquee items={stack} label={t.home.stackLabel} />
+      <Marquee items={aiTools} label={t.home.toolsLabel} reverse accent />
+    </div>
+
+    <div className="mx-auto max-w-6xl px-[clamp(1rem,4vw,3rem)]">
 
       {/* En bref */}
-      <section className="pb-16 border-t border-border pt-12">
-        <h2 className="text-xs font-medium text-secondary uppercase tracking-wider mb-8">
-          {t.home.inBriefTitle}
-        </h2>
-        <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {facts.map((fact) => (
-            <li key={fact.value} className="fade-in rounded border border-border p-4">
-              <p className="text-sm font-medium text-primary mb-1">{fact.value}</p>
-              <p className="text-xs text-secondary leading-relaxed">{fact.text}</p>
-            </li>
+      <section className="py-24 sm:py-32" aria-labelledby="en-bref">
+        <SectionHeading id="en-bref" title={t.home.inBriefTitle} />
+        <div className="brief-grid">
+          <div className="brief-intro fade-in">
+            <Image
+              src="/portrait.jpg"
+              alt={`${t.home.portraitAlt} ${profile.name}`}
+              width={64}
+              height={64}
+              className="h-16 w-16 rounded-full object-cover"
+            />
+            <p className="brief-lead">{t.home.introLead}</p>
+            <p className="brief-text">{t.home.introText}</p>
+            <Link href={`/${locale}/about`} className="btn-ghost mt-auto self-start">
+              {t.home.introLink} <span className="arrow" aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+          {facts.map((fact, i) => (
+            <Link
+              key={fact.anchor}
+              href={`/${locale}/about#${fact.anchor}`}
+              className="fact-card fade-in"
+              style={{ transitionDelay: `${(i + 1) * 0.07}s` }}
+            >
+              <span className="fact-head">
+                <span className="eyebrow">{fact.category}</span>
+                <span className="fact-arrow" aria-hidden="true">&rarr;</span>
+              </span>
+              <span className="fact-value">{fact.value}</span>
+              <span className="fact-label">{fact.label}</span>
+            </Link>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* Projets phares */}
-      <section className="pb-16 border-t border-border pt-12">
-        <div className="flex items-baseline justify-between gap-4 mb-8">
-          <h2 className="text-xs font-medium text-secondary uppercase tracking-wider">
-            {t.home.featuredTitle}
-          </h2>
-          <Link href={`/${locale}/projects`} className="text-xs text-accent hover:underline underline-offset-4">
-            {t.home.viewAll} &rarr;
-          </Link>
-        </div>
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-          {highlights.map((project) => (
-            <article
-              key={project.repo}
-              className="fade-in card card-accent flex flex-col gap-3 rounded border border-border p-5"
-            >
-              <h3 className="text-base font-medium text-primary leading-snug">
-                {project.title[locale]}
-              </h3>
-              <p className="text-sm text-secondary leading-relaxed">{project.summary[locale]}</p>
-              <ul className="flex flex-wrap gap-1.5 mt-auto">
-                {project.stack.map((tech) => (
-                  <li key={tech} className="text-xs text-tertiary bg-badge-bg px-2 py-0.5 rounded">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={`https://github.com/${profile.github}/${project.repo}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-accent hover:underline underline-offset-4"
-              >
-                {t.home.viewCode} &rarr;
-              </a>
-            </article>
-          ))}
-        </div>
+      <section className="pb-24 sm:pb-32" aria-labelledby="projets-phares">
+        <SectionHeading
+          id="projets-phares"
+          title={t.home.featuredTitle}
+          action={
+            <Link href={`/${locale}/projects`} className="btn-ghost">
+              {t.home.viewAll} <span className="arrow" aria-hidden="true">&rarr;</span>
+            </Link>
+          }
+        />
+        <ProjectList
+          projects={highlights}
+          github={profile.github}
+          locale={locale}
+          viewCode={t.home.viewCode}
+        />
       </section>
 
-      {/* Manifeste */}
-      <section className="pb-16 border-t border-border pt-12">
-        <p className="max-w-[600px] mx-auto text-center text-base text-secondary leading-relaxed">
-          {t.manifeste.text}
+      {/* En ce moment */}
+      <section className="pb-24 sm:pb-32" aria-labelledby="en-ce-moment">
+        <SectionHeading id="en-ce-moment" title={t.home.nowTitle} />
+        <ul className="now-list">
+          {t.home.now.map((item) => {
+            const content = (
+              <>
+                <span className="eyebrow now-label">
+                  <span className="now-dot" aria-hidden="true" />
+                  {item.label}
+                </span>
+                <span className="now-text">{item.text}</span>
+                {item.link && <span className="now-arrow" aria-hidden="true">&rarr;</span>}
+              </>
+            );
+            const target = item.link ? nowLinks[item.link] : null;
+            return (
+              <li key={item.label} className="fade-in">
+                {!target ? (
+                  <div className="now-row">{content}</div>
+                ) : target.external ? (
+                  <a href={target.href} target="_blank" rel="noopener noreferrer" className="now-row is-link">{content}</a>
+                ) : (
+                  <Link href={target.href} className="now-row is-link">{content}</Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      {/* Appel final */}
+      <section className="border-t border-border py-24 sm:py-32" aria-labelledby="cta">
+        <h2 id="cta" className="cta-xl fade-in text-primary">
+          {t.home.ctaTitle}
+        </h2>
+        <p className="availability fade-in">
+          <span className="availability-dot" aria-hidden="true" />
+          <span>{t.home.available}</span>
         </p>
-      </section>
-
-      {/* Contact rapide */}
-      <section className="pb-20 border-t border-border pt-12">
-        <h2 className="text-sm font-medium text-primary mb-1">{t.contact.title}</h2>
-        <p className="text-sm text-secondary mb-4">{t.contact.subtitle}</p>
-        <div className="flex flex-wrap gap-4">
-          {profile.email && (
-            <a
-              href={`mailto:${profile.email}`}
-              className="text-sm font-medium text-accent hover:underline underline-offset-4"
-            >
-              {t.contact.email} &rarr;
-            </a>
-          )}
-          <Link
-            href={`/${locale}/contact`}
-            className="text-sm text-secondary hover:text-accent hover:underline underline-offset-4 transition-colors duration-150"
-          >
-            {t.contact.submit} &rarr;
+        <div className="fade-in flex flex-wrap gap-3">
+          <a href={`mailto:${profile.email}`} className="btn-pill">
+            {t.home.ctaEmail} <span className="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+          <Link href={`/${locale}/contact`} className="btn-ghost">
+            {t.home.ctaForm} <span className="arrow" aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </section>

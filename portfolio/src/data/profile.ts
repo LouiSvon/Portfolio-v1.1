@@ -3,8 +3,8 @@ import { Profile } from "@/types";
 export const profile: Profile = {
   name: "Louis Savon",
   title: {
-    fr: "Développeur Full-Stack",
-    en: "Full-Stack Developer",
+    fr: "Étudiant en informatique, spécialité IA",
+    en: "Computer science student, specializing in AI",
   },
   tagline: {
     fr: "Étudiant en informatique à Epitech Marseille. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance en 2027-2028.",

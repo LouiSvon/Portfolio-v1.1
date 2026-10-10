@@ -3,6 +3,7 @@ import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { fetchGitHubRepos } from "@/lib/github";
 import { ProjectFilter } from "@/components/ui/project-filter";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const revalidate = 3600;
 
@@ -26,13 +27,8 @@ export default async function ProjectsPage({ params }: Props) {
   const projects = await fetchGitHubRepos();
 
   return (
-    <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
-      <header className="mb-10">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
-          {t.projects.title}
-        </h1>
-        <p className="text-sm text-secondary mt-2">{t.projects.subtitle}</p>
-      </header>
+    <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
+      <PageHeader title={t.projects.title} subtitle={t.projects.subtitle} />
 
       {projects.length > 0 ? (
         <ProjectFilter projects={projects} locale={locale} />

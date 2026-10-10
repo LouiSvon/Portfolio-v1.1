@@ -3,6 +3,7 @@ import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales, formatFullDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { FORM_PROCESSOR, HOST, LEGAL_LAST_UPDATED } from "@/lib/legal";
+import { PageHeader } from "@/components/ui/page-header";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -24,17 +25,13 @@ export default async function PrivacyPage({ params }: Props) {
   const isFr = locale === "fr";
 
   return (
-    <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
-      <header className="mb-10">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
-          {t.privacy.title}
-        </h1>
-        <p className="text-xs text-tertiary mt-2">
-          {t.privacy.lastUpdated} : {formatFullDate(LEGAL_LAST_UPDATED, locale)}
-        </p>
-      </header>
+    <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
+      <PageHeader
+        title={t.privacy.title}
+        subtitle={`${t.privacy.lastUpdated} : ${formatFullDate(LEGAL_LAST_UPDATED, locale)}`}
+      />
 
-      <div className="prose">
+      <div className="prose prose-page">
         {isFr ? (
           <>
             <h2 id="responsable">Responsable du traitement</h2>
@@ -86,13 +83,9 @@ export default async function PrivacyPage({ params }: Props) {
             <h2 id="cookies">Cookies et stockage local</h2>
             <p>
               Ce site n&apos;utilise ni cookie de suivi, ni cookie publicitaire,
-              ni outil d&apos;analytique. Il utilise seulement :
-              <br />
-              - un cookie <code>locale</code>, posé quand vous changez de langue,
-              pour mémoriser ce choix pendant un an ;
-              <br />
-              - une entrée de stockage local <code>accent-color</code>, si vous
-              choisissez une couleur d&apos;accent.
+              ni outil d&apos;analytique. Il utilise seulement un cookie{" "}
+              <code>locale</code>, posé quand vous changez de langue, pour
+              mémoriser ce choix pendant un an.
             </p>
 
             <h2 id="droits">Vos droits</h2>
@@ -170,13 +163,8 @@ export default async function PrivacyPage({ params }: Props) {
             <h2 id="cookies">Cookies and local storage</h2>
             <p>
               This site uses no tracking cookies, no advertising cookies and no
-              analytics. It only uses:
-              <br />
-              - a <code>locale</code> cookie, set when you switch language, to
-              remember that choice for one year;
-              <br />
-              - an <code>accent-color</code> local storage entry, if you pick an
-              accent color.
+              analytics. It only uses a <code>locale</code> cookie, set when you
+              switch language, to remember that choice for one year.
             </p>
 
             <h2 id="droits">Your rights</h2>

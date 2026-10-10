@@ -34,7 +34,7 @@ export function StarRating({
 
   return (
     <fieldset className="space-y-2">
-      <legend className="text-xs font-medium text-secondary uppercase tracking-wider">
+      <legend className="eyebrow">
         {label}
       </legend>
       <div className="flex items-center gap-1" role="group">

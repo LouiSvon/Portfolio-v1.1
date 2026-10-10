@@ -1,13 +1,14 @@
 import { notFound } from "next/navigation";
-import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
+import { Archivo, Doto, Geist, Geist_Mono } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { isValidLocale, getTranslations } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site";
 import { profile } from "@/data/profile";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { FadeObserver } from "@/components/ui/fade-observer";
+import { SmoothScroll } from "@/components/ui/smooth-scroll";
 import type { Locale } from "@/types";
 import "../globals.css";
 
@@ -23,10 +24,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Titres : grotesque élargie (axe wdth), accents français compris.
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin", "latin-ext"],
+  axes: ["wdth"],
+});
+
+// Chiffres façon matrice de points ; réservée aux chiffres et à l'ASCII.
+const doto = Doto({
+  variable: "--font-doto",
+  subsets: ["latin"],
+  weight: ["700", "900"],
+});
+
 export const viewport: Viewport = {
   colorScheme: "dark",
   initialScale: 1,
-  themeColor: "#0a0a0a",
+  themeColor: "#08080a",
   width: "device-width",
 };
 
@@ -73,21 +88,15 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html
       lang={locale}
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} ${archivo.variable} ${doto.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col">
-        {/* Restore accent color before first paint — no flash */}
-        <Script
-          id="accent-restore"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `try{var a=localStorage.getItem('accent-color');if(a)document.documentElement.style.setProperty('--accent',a)}catch(e){}`,
-          }}
-        />
         <a href="#main" className="skip-link">
           {getTranslations(locale as Locale).nav.skip}
         </a>
         <FadeObserver />
+        <ScrollProgress />
+        <SmoothScroll />
         <Header locale={locale as Locale} />
         <main id="main" className="flex-1">{children}</main>
         <Footer locale={locale as Locale} />

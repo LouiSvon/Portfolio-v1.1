@@ -1,28 +1,34 @@
 .badge {
   align-items: center;
-  border-radius: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--secondary);
   display: inline-flex;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.125rem 0.5rem;
+  font-size: 0.78rem;
+  gap: 0.4rem;
+  line-height: 1.2;
+  padding: 0.3rem 0.75rem;
+  white-space: nowrap;
 }
 
 .badge-neutral {
-  background: var(--badge-bg);
-  color: var(--secondary);
+  background: transparent;
 }
 
 .badge-featured {
-  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
   color: var(--accent);
 }
 
 .badge-technology {
   --tech-color: var(--badge-technology-fallback);
-  background: color-mix(in srgb, var(--tech-color) 12%, transparent);
-  /* Texte éclairci vers --foreground pour tenir 4,5:1 quelle que soit la couleur de la techno */
-  color: color-mix(in srgb, var(--tech-color) 55%, var(--foreground));
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+}
+.badge-technology::before {
+  background: var(--tech-color);
+  border-radius: 50%;
+  content: '';
+  height: 6px;
+  width: 6px;
 }
 
 .language-dot {
