@@ -119,7 +119,7 @@ export default async function AboutPage({ params }: Props) {
       {/* Sticky anchor nav */}
       <nav
         aria-label="Sections"
-        className="sticky top-14 z-40 border-b border-border bg-background/90 backdrop-blur-sm"
+        className="sticky top-16 z-40 border-b border-border bg-background/90 backdrop-blur-sm"
       >
         <div className="mx-auto max-w-5xl px-[clamp(1rem,4vw,3rem)] h-10 flex items-center gap-6 overflow-x-auto scrollbar-none">
           {anchors.map((a) => (

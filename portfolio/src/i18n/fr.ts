@@ -27,16 +27,11 @@ export interface Translations {
   };
   home: {
     available: string;
+    scrollCue: string;
     inBriefTitle: string;
-    inBriefSubtitle: string;
-    facts: {
-      school: { title: string; text: string };
-      gdg: { title: string; text: string };
-      certifications: { title: string; text: string };
-      international: { title: string; text: string };
-    };
+    // {n} est remplacé par le nombre de certifications obtenues.
+    statement: { highlight: string; text: string }[];
     featuredTitle: string;
-    featuredSubtitle: string;
     carouselLabel: string;
     prevProject: string;
     nextProject: string;
@@ -45,6 +40,9 @@ export interface Translations {
     viewAll: string;
     viewCode: string;
     portraitAlt: string;
+    ctaTitle: string;
+    ctaEmail: string;
+    ctaForm: string;
   };
   projects: {
     title: string;
@@ -164,8 +162,6 @@ export interface Translations {
     mentionsLegales: string;
     privacy: string;
     copyright: string;
-    madeWithCare: string;
-    accentLabel: string;
   };
   legal: {
     title: string;
@@ -210,17 +206,16 @@ const fr: Translations = {
     text: "Ce site rassemble ce que je construis et ce que j'apprends.",
   },
   home: {
-    available: "Disponible : stage dès avril 2027, alternance 2027-2028",
+    available: "Stage dès avril 2027 · Alternance 2027-2028",
+    scrollCue: "Défiler",
     inBriefTitle: "En bref",
-    inBriefSubtitle: "L'essentiel avant d'ouvrir le CV.",
-    facts: {
-      school: { title: "Epitech Marseille", text: "2e année de bachelor informatique" },
-      gdg: { title: "GDG Marseille", text: "Développeur web bénévole depuis avril 2026" },
-      certifications: { title: "certifications", text: "Vérifiables en ligne" },
-      international: { title: "International", text: "Erasmus à Dublin, équipe multiculturelle" },
-    },
+    statement: [
+      { highlight: "2e année", text: "de bachelor informatique à Epitech Marseille." },
+      { highlight: "Développeur bénévole", text: "au GDG Marseille depuis avril 2026." },
+      { highlight: "{n} certifications", text: "vérifiables en ligne." },
+      { highlight: "Erasmus à Dublin,", text: "en équipe multiculturelle." },
+    ],
     featuredTitle: "Projets phares",
-    featuredSubtitle: "Trois projets récents, du web à macOS.",
     carouselLabel: "Projets phares",
     prevProject: "Projet précédent",
     nextProject: "Projet suivant",
@@ -229,6 +224,9 @@ const fr: Translations = {
     viewAll: "Tous les projets",
     viewCode: "Voir le code",
     portraitAlt: "Portrait",
+    ctaTitle: "Un stage à proposer ?",
+    ctaEmail: "Écrire un email",
+    ctaForm: "Formulaire",
   },
   projects: {
     title: "Projets",
@@ -348,8 +346,6 @@ const fr: Translations = {
     mentionsLegales: "Mentions légales",
     privacy: "Politique de confidentialité",
     copyright: "Louis Savon",
-    madeWithCare: "Fait avec soin",
-    accentLabel: "Couleur d'accent",
   },
   legal: {
     title: "Mentions légales",

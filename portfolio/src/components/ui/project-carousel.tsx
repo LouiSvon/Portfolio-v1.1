@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type React from "react";
 import type { Locale } from "@/types";
 import type { Highlight } from "@/data/highlights";
 
@@ -68,7 +69,7 @@ export function ProjectCarousel({
   };
 
   return (
-    <div role="region" aria-roledescription="carousel" aria-label={labels.carousel}>
+    <div className="fade-in" role="region" aria-roledescription="carousel" aria-label={labels.carousel}>
       <ul ref={trackRef} className="carousel-track scrollbar-none">
         {projects.map((project, i) => (
           <li
@@ -77,27 +78,34 @@ export function ProjectCarousel({
             aria-roledescription="slide"
             aria-label={`${i + 1} / ${projects.length}`}
           >
-            <article className="card card-accent flex h-full flex-col gap-3 rounded border border-border p-5">
-              <p className="font-mono text-xs text-accent">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="text-lg font-medium text-primary leading-snug">{project.title[locale]}</h3>
-              <p className="text-sm text-secondary leading-relaxed">{project.summary[locale]}</p>
-              <ul className="flex flex-wrap gap-1.5 mt-auto">
-                {project.stack.map((tech) => (
-                  <li key={tech} className="text-xs text-tertiary bg-badge-bg px-2 py-0.5 rounded">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={`https://github.com/${github}/${project.repo}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-accent hover:underline underline-offset-4"
-              >
-                {labels.viewCode} &rarr;
-              </a>
+            <article
+              className="proj-card"
+              style={{ "--c1": project.colors[0], "--c2": project.colors[1] } as React.CSSProperties}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <span className="proj-index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <span className="eyebrow">{project.kind[locale]}</span>
+              </div>
+              <div className="mt-auto pt-16">
+                <h3 className="proj-title">{project.title[locale]}</h3>
+                <p className="mt-3 max-w-md text-[0.95rem] leading-relaxed text-secondary">{project.tagline[locale]}</p>
+                <div className="mt-6 flex items-end justify-between gap-4">
+                  <ul className="flex flex-wrap gap-1.5">
+                    {project.stack.map((tech) => (
+                      <li key={tech} className="proj-chip">{tech}</li>
+                    ))}
+                  </ul>
+                  <a
+                    href={`https://github.com/${github}/${project.repo}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${labels.viewCode} : ${project.title[locale]}`}
+                    className="proj-link shrink-0"
+                  >
+                    &rarr;
+                  </a>
+                </div>
+              </div>
             </article>
           </li>
         ))}

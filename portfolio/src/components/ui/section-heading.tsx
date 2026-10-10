@@ -1,14 +1,16 @@
 import type { ReactNode } from "react";
 
-// Titre de section commun : trait d'accent qui se dessine à l'apparition (via .fade-in.visible),
-// titre affirmé, sous-titre facultatif et action alignée à droite.
+// Titre de section commun : petit libellé à chasse fixe, grand titre d'affichage,
+// sous-titre facultatif et action alignée à droite. Apparaît au défilement (.fade-in).
 export function SectionHeading({
   title,
+  eyebrow,
   subtitle,
   action,
   id,
 }: {
   title: string;
+  eyebrow?: string;
   subtitle?: string;
   action?: ReactNode;
   id?: string;
@@ -16,7 +18,7 @@ export function SectionHeading({
   return (
     <div className="section-head fade-in">
       <div className="min-w-0">
-        <span className="section-mark" aria-hidden="true" />
+        {eyebrow && <p className="eyebrow section-eyebrow">{eyebrow}</p>}
         <h2 id={id} className="section-title">
           {title}
         </h2>
