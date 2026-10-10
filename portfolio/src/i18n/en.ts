@@ -37,7 +37,6 @@ const en: Translations = {
       { value: "Erasmus", label: "In Dublin, in a multicultural team" },
     ],
     featuredTitle: "Featured projects",
-    stackTitle: "Stack and tools",
     stackLabel: "Stack",
     toolsLabel: "AI tools",
     nowTitle: "Right now",

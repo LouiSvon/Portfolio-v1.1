@@ -9,7 +9,7 @@ import { certificationsBySector } from "@/data/certifications";
 import { aiTools, stack } from "@/data/stack";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ProjectList } from "@/components/ui/project-list";
-import { AiLogos } from "@/components/ui/ai-logos";
+import { BallPit } from "@/components/ui/ball-pit";
 import { Marquee } from "@/components/ui/marquee";
 
 export function generateStaticParams() {
@@ -75,6 +75,7 @@ export default async function HomePage({ params }: Props) {
     <section className="hero-screen">
       <div className="hero-bg" aria-hidden="true">
         <div className="hero-glow" />
+        <BallPit />
       </div>
 
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,3rem)] text-center">
@@ -111,21 +112,13 @@ export default async function HomePage({ params }: Props) {
 
         <p className="reveal-soft mt-8 text-sm text-tertiary" style={delay(0.75)}>{profile.location}</p>
       </div>
-
-      {/* Autour du nom sur grand écran, en rangée sous le texte sur mobile. */}
-      <AiLogos />
     </section>
 
-    {/* Stack et outils */}
-    <section className="border-y border-border py-8" aria-labelledby="stack">
-      <h2 id="stack" className="eyebrow mx-auto mb-6 max-w-6xl px-[clamp(1rem,4vw,3rem)]">
-        {t.home.stackTitle}
-      </h2>
-      <div className="flex flex-col gap-4">
-        <Marquee items={stack} label={t.home.stackLabel} />
-        <Marquee items={aiTools} label={t.home.toolsLabel} reverse accent />
-      </div>
-    </section>
+    {/* Stack et outils : deux rangées fines, sans titre */}
+    <div className="flex flex-col gap-2 border-y border-border py-4">
+      <Marquee items={stack} label={t.home.stackLabel} />
+      <Marquee items={aiTools} label={t.home.toolsLabel} reverse accent />
+    </div>
 
     <div className="mx-auto max-w-6xl px-[clamp(1rem,4vw,3rem)]">
 

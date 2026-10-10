@@ -32,7 +32,6 @@ export interface Translations {
     // Faits courts de « En bref » : {n} = nombre de certifications obtenues.
     facts: { value: string; label: string }[];
     featuredTitle: string;
-    stackTitle: string;
     stackLabel: string;
     toolsLabel: string;
     nowTitle: string;
@@ -216,7 +215,6 @@ const fr: Translations = {
       { value: "Erasmus", label: "À Dublin, en équipe multiculturelle" },
     ],
     featuredTitle: "Projets phares",
-    stackTitle: "Stack et outils",
     stackLabel: "Stack",
     toolsLabel: "Outils IA",
     nowTitle: "En ce moment",
