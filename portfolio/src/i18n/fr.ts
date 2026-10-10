@@ -28,6 +28,7 @@ export interface Translations {
   home: {
     available: string;
     inBriefTitle: string;
+    inBriefSubtitle: string;
     facts: {
       school: { title: string; text: string };
       gdg: { title: string; text: string };
@@ -35,6 +36,12 @@ export interface Translations {
       international: { title: string; text: string };
     };
     featuredTitle: string;
+    featuredSubtitle: string;
+    carouselLabel: string;
+    prevProject: string;
+    nextProject: string;
+    goToProject: string;
+    stackLabel: string;
     viewAll: string;
     viewCode: string;
     portraitAlt: string;
@@ -188,7 +195,7 @@ const fr: Translations = {
   },
   hero: {
     greeting: "Louis Savon",
-    role: "Étudiant en informatique, full-stack et IA",
+    role: "Étudiant en informatique, spécialité IA",
     tagline:
       "2e année de bachelor à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     cta: {
@@ -205,6 +212,7 @@ const fr: Translations = {
   home: {
     available: "Disponible : stage dès avril 2027, alternance 2027-2028",
     inBriefTitle: "En bref",
+    inBriefSubtitle: "L'essentiel avant d'ouvrir le CV.",
     facts: {
       school: { title: "Epitech Marseille", text: "2e année de bachelor informatique" },
       gdg: { title: "GDG Marseille", text: "Développeur web bénévole depuis avril 2026" },
@@ -212,6 +220,12 @@ const fr: Translations = {
       international: { title: "International", text: "Erasmus à Dublin, équipe multiculturelle" },
     },
     featuredTitle: "Projets phares",
+    featuredSubtitle: "Trois projets récents, du web à macOS.",
+    carouselLabel: "Projets phares",
+    prevProject: "Projet précédent",
+    nextProject: "Projet suivant",
+    goToProject: "Aller au projet",
+    stackLabel: "Technologies utilisées dans mes projets",
     viewAll: "Tous les projets",
     viewCode: "Voir le code",
     portraitAlt: "Portrait",

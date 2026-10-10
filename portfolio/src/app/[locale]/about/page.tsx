@@ -7,6 +7,7 @@ import { certificationsBySector } from "@/data/certifications";
 import { benevol } from "@/data/benevol";
 import { Badge } from "@/components/ui/badge";
 import { GitHubSkills } from "@/components/ui/github-skills";
+import { SectionHeading } from "@/components/ui/section-heading";
 import type { CertificationSecteur } from "@/types";
 
 export function generateStaticParams() {
@@ -170,17 +171,13 @@ export default async function AboutPage({ params }: Props) {
 
         {/* ── #competences ────────────────────────────────────────── */}
         <section id="competences" className="mb-20 scroll-mt-24">
-          <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-8">
-            {t.about.anchorCompetences}
-          </h2>
+          <SectionHeading title={t.about.anchorCompetences} />
           <GitHubSkills />
         </section>
 
         {/* ── #certifications ─────────────────────────────────────── */}
         <section id="certifications" className="mb-20 scroll-mt-24">
-          <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-8">
-            {t.about.anchorCertifications}
-          </h2>
+          <SectionHeading title={t.about.anchorCertifications} />
           <div className="space-y-10">
             {certificationsBySector.map((sector: CertificationSecteur) => (
               <div key={sector.secteur.fr}>
@@ -261,9 +258,7 @@ export default async function AboutPage({ params }: Props) {
 
         {/* ── #etudes ─────────────────────────────────────────────── */}
         <section id="etudes" className="mb-20 scroll-mt-24">
-          <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-8">
-            {t.about.anchorEtudes}
-          </h2>
+          <SectionHeading title={t.about.anchorEtudes} />
           <div className="space-y-4">
             {etudes.map((exp, i) => (
               <div key={i} className="fade-in border border-border rounded p-5">
@@ -291,9 +286,7 @@ export default async function AboutPage({ params }: Props) {
 
         {/* ── #benevol ────────────────────────────────────────────── */}
         <section id="benevol" className="mb-20 scroll-mt-24">
-          <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-8">
-            {t.about.anchorBenevol}
-          </h2>
+          <SectionHeading title={t.about.anchorBenevol} />
           <div className="space-y-4">
             {benevol.map((entry, i) => (
               <div key={i} className="fade-in border border-border rounded p-5">
@@ -318,9 +311,7 @@ export default async function AboutPage({ params }: Props) {
 
         {/* ── #parcours ────────────────────────────────────────────── */}
         <section id="parcours" className="scroll-mt-24">
-          <h2 className="text-sm font-medium text-accent uppercase tracking-wider mb-8">
-            {t.about.anchorParcours}
-          </h2>
+          <SectionHeading title={t.about.anchorParcours} />
           <ol className="relative border-l border-border space-y-0">
             {parcours.map((exp, i) => {
               const typeLabel = TYPE_LABELS[exp.type]?.[locale] ?? exp.type;

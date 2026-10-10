@@ -7,6 +7,7 @@ import { siteUrl } from "@/lib/site";
 import { profile } from "@/data/profile";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { FadeObserver } from "@/components/ui/fade-observer";
 import type { Locale } from "@/types";
 import "../globals.css";
@@ -88,6 +89,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           {getTranslations(locale as Locale).nav.skip}
         </a>
         <FadeObserver />
+        <ScrollProgress />
         <Header locale={locale as Locale} />
         <main id="main" className="flex-1">{children}</main>
         <Footer locale={locale as Locale} />

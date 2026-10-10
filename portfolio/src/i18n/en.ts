@@ -14,7 +14,7 @@ const en: Translations = {
   },
   hero: {
     greeting: "Louis Savon",
-    role: "Computer science student, full-stack and AI",
+    role: "Computer science student, specializing in AI",
     tagline: "Second year of a computer science bachelor at Epitech Marseille. I build web applications and AI tools. I am looking for a 3-month internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
     cta: {
       projects: "View projects",
@@ -30,6 +30,7 @@ const en: Translations = {
   home: {
     available: "Available: internship from April 2027, work-study 2027-2028",
     inBriefTitle: "In brief",
+    inBriefSubtitle: "The essentials before you open the resume.",
     facts: {
       school: { title: "Epitech Marseille", text: "Second year of a computer science bachelor" },
       gdg: { title: "GDG Marseille", text: "Volunteer web developer since April 2026" },
@@ -37,6 +38,12 @@ const en: Translations = {
       international: { title: "International", text: "Erasmus in Dublin, multicultural team" },
     },
     featuredTitle: "Featured projects",
+    featuredSubtitle: "Three recent projects, from the web to macOS.",
+    carouselLabel: "Featured projects",
+    prevProject: "Previous project",
+    nextProject: "Next project",
+    goToProject: "Go to project",
+    stackLabel: "Technologies used in my projects",
     viewAll: "All projects",
     viewCode: "View code",
     portraitAlt: "Portrait",

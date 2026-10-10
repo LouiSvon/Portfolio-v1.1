@@ -6,10 +6,38 @@ import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i1
 import { profile } from "@/data/profile";
 import { highlights } from "@/data/highlights";
 import { certificationsBySector } from "@/data/certifications";
+import { stack } from "@/data/stack";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { ProjectCarousel } from "@/components/ui/project-carousel";
+import { StackBand } from "@/components/ui/stack-band";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
+
+
+const FACT_ICONS = {
+  school: (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 7.5 10 4l8 3.5-8 3.5-8-3.5Z" /><path d="M5.5 9v4c0 1 2 2.5 4.5 2.5s4.5-1.5 4.5-2.5V9" />
+    </svg>
+  ),
+  community: (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="7" cy="7" r="2.5" /><circle cx="14" cy="8" r="2" /><path d="M2.5 16c.5-2.5 2.3-4 4.5-4s4 1.5 4.5 4M12 12.2c2.3-.4 4.6.8 5.3 3.8" />
+    </svg>
+  ),
+  badge: (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="10" cy="8" r="5" /><path d="m7 12.2-1 5.3 4-2 4 2-1-5.3" /><path d="m8 8 1.5 1.5L12.5 6.5" />
+    </svg>
+  ),
+  globe: (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="10" cy="10" r="7.5" /><path d="M2.5 10h15M10 2.5c2 2.2 3 4.7 3 7.5s-1 5.3-3 7.5c-2-2.2-3-4.7-3-7.5s1-5.3 3-7.5Z" />
+    </svg>
+  ),
+};
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -29,11 +57,11 @@ export default async function HomePage({ params }: Props) {
     .filter((c) => c.statut === "obtenu").length;
 
   const facts = [
-    { value: t.home.facts.school.title, text: t.home.facts.school.text },
-    { value: t.home.facts.gdg.title, text: t.home.facts.gdg.text },
-    { value: `${certificationCount} ${t.home.facts.certifications.title}`, text: t.home.facts.certifications.text },
-    { value: t.home.facts.international.title, text: t.home.facts.international.text },
-  ];
+    { icon: "school", value: t.home.facts.school.title, text: t.home.facts.school.text },
+    { icon: "community", value: t.home.facts.gdg.title, text: t.home.facts.gdg.text },
+    { icon: "badge", value: `${certificationCount} ${t.home.facts.certifications.title}`, text: t.home.facts.certifications.text },
+    { icon: "globe", value: t.home.facts.international.title, text: t.home.facts.international.text },
+  ] as const;
 
   return (
     <>
@@ -111,58 +139,52 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* En bref */}
-      <section className="pb-16 border-t border-border pt-12">
-        <h2 className="text-xs font-medium text-secondary uppercase tracking-wider mb-8">
-          {t.home.inBriefTitle}
-        </h2>
+      <section className="pb-16 border-t border-border pt-12" aria-labelledby="en-bref">
+        <SectionHeading id="en-bref" title={t.home.inBriefTitle} subtitle={t.home.inBriefSubtitle} />
         <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {facts.map((fact) => (
-            <li key={fact.value} className="fade-in rounded border border-border p-4">
-              <p className="text-sm font-medium text-primary mb-1">{fact.value}</p>
-              <p className="text-xs text-secondary leading-relaxed">{fact.text}</p>
+          {facts.map((fact, i) => (
+            <li
+              key={fact.value}
+              className="fade-in fact-card"
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
+              <span className="fact-icon" aria-hidden="true">{FACT_ICONS[fact.icon]}</span>
+              <p className="text-lg font-semibold tracking-tight text-primary mb-1">{fact.value}</p>
+              <p className="text-sm text-secondary leading-relaxed">{fact.text}</p>
             </li>
           ))}
         </ul>
       </section>
 
+      {/* Technologies */}
+      <div className="pb-16">
+        <StackBand items={stack} label={t.home.stackLabel} />
+      </div>
+
       {/* Projets phares */}
-      <section className="pb-16 border-t border-border pt-12">
-        <div className="flex items-baseline justify-between gap-4 mb-8">
-          <h2 className="text-xs font-medium text-secondary uppercase tracking-wider">
-            {t.home.featuredTitle}
-          </h2>
-          <Link href={`/${locale}/projects`} className="text-xs text-accent hover:underline underline-offset-4">
-            {t.home.viewAll} &rarr;
-          </Link>
-        </div>
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-          {highlights.map((project) => (
-            <article
-              key={project.repo}
-              className="fade-in card card-accent flex flex-col gap-3 rounded border border-border p-5"
-            >
-              <h3 className="text-base font-medium text-primary leading-snug">
-                {project.title[locale]}
-              </h3>
-              <p className="text-sm text-secondary leading-relaxed">{project.summary[locale]}</p>
-              <ul className="flex flex-wrap gap-1.5 mt-auto">
-                {project.stack.map((tech) => (
-                  <li key={tech} className="text-xs text-tertiary bg-badge-bg px-2 py-0.5 rounded">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={`https://github.com/${profile.github}/${project.repo}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-accent hover:underline underline-offset-4"
-              >
-                {t.home.viewCode} &rarr;
-              </a>
-            </article>
-          ))}
-        </div>
+      <section className="pb-16 pt-4" aria-labelledby="projets-phares">
+        <SectionHeading
+          id="projets-phares"
+          title={t.home.featuredTitle}
+          subtitle={t.home.featuredSubtitle}
+          action={
+            <Link href={`/${locale}/projects`} className="text-sm text-accent hover:underline underline-offset-4">
+              {t.home.viewAll} &rarr;
+            </Link>
+          }
+        />
+        <ProjectCarousel
+          projects={highlights}
+          github={profile.github}
+          locale={locale}
+          labels={{
+            carousel: t.home.carouselLabel,
+            prev: t.home.prevProject,
+            next: t.home.nextProject,
+            goTo: t.home.goToProject,
+            viewCode: t.home.viewCode,
+          }}
+        />
       </section>
 
       {/* Manifeste */}
@@ -173,9 +195,8 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* Contact rapide */}
-      <section className="pb-20 border-t border-border pt-12">
-        <h2 className="text-sm font-medium text-primary mb-1">{t.contact.title}</h2>
-        <p className="text-sm text-secondary mb-4">{t.contact.subtitle}</p>
+      <section className="pb-20 border-t border-border pt-12" aria-labelledby="contact-rapide">
+        <SectionHeading id="contact-rapide" title={t.contact.title} subtitle={t.contact.subtitle} />
         <div className="flex flex-wrap gap-4">
           {profile.email && (
             <a
