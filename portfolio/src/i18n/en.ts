@@ -83,7 +83,7 @@ const en: Translations = {
     readingTime: "min read",
     noArticles: "No articles yet.",
     noResults: "No results for this search.",
-    backToBlog: "← Back to blog",
+    backToBlog: "Back to blog",
     tableOfContents: "Table of contents",
     shareLink: "Copy link",
     linkCopied: "Link copied!",

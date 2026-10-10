@@ -8,6 +8,7 @@ import { benevol } from "@/data/benevol";
 import { Badge } from "@/components/ui/badge";
 import { GitHubSkills } from "@/components/ui/github-skills";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { PageHeader } from "@/components/ui/page-header";
 import type { CertificationSecteur } from "@/types";
 
 export function generateStaticParams() {
@@ -119,14 +120,14 @@ export default async function AboutPage({ params }: Props) {
       {/* Sticky anchor nav */}
       <nav
         aria-label="Sections"
-        className="sticky top-16 z-40 border-b border-border bg-background/90 backdrop-blur-sm"
+        className="sticky top-16 z-40 bg-background/80 backdrop-blur-md"
       >
-        <div className="mx-auto max-w-5xl px-[clamp(1rem,4vw,3rem)] h-10 flex items-center gap-6 overflow-x-auto scrollbar-none">
+        <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 overflow-x-auto px-[clamp(1rem,4vw,3rem)] scrollbar-none">
           {anchors.map((a) => (
             <a
               key={a.id}
               href={`#${a.id}`}
-              className="shrink-0 text-xs text-secondary hover:text-accent transition-colors duration-150"
+              className="chip shrink-0 transition-colors duration-150 hover:border-accent hover:text-accent"
             >
               {a.label}
             </a>
@@ -134,49 +135,31 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
+      <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
 
         {/* ── #cv ─────────────────────────────────────────────────── */}
-        <section id="cv" className="mb-20 scroll-mt-24">
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary mb-2">
-            {profile.name}
-          </h1>
-          <p className="text-base text-accent mb-8">{t.about.tagline}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={CV_HREF}
-              download={CV_FILE_NAME}
-              className="btn-animated inline-flex items-center gap-2 rounded border border-accent bg-accent px-4 py-2 text-sm font-medium text-background"
-            >
-              {t.about.downloadCV} &darr;
+        <section id="cv" className="mb-16 scroll-mt-32">
+          <PageHeader title={profile.name} subtitle={t.about.tagline}>
+            <a href={CV_HREF} download={CV_FILE_NAME} className="btn-pill">
+              {t.about.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
             </a>
-            <a
-              href={CV_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-animated inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
-            >
-              {t.about.openCV} &rarr;
+            <a href={CV_HREF} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+              {t.about.openCV} <span className="arrow" aria-hidden="true">&rarr;</span>
             </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-animated inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
-            >
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost">
               {t.about.viewLinkedin}
             </a>
-          </div>
+          </PageHeader>
         </section>
 
         {/* ── #competences ────────────────────────────────────────── */}
-        <section id="competences" className="mb-20 scroll-mt-24">
+        <section id="competences" className="mb-24 scroll-mt-32 sm:mb-32">
           <SectionHeading title={t.about.anchorCompetences} />
           <GitHubSkills />
         </section>
 
         {/* ── #certifications ─────────────────────────────────────── */}
-        <section id="certifications" className="mb-20 scroll-mt-24">
+        <section id="certifications" className="mb-24 scroll-mt-32 sm:mb-32">
           <SectionHeading title={t.about.anchorCertifications} />
           <div className="space-y-10">
             {certificationsBySector.map((sector: CertificationSecteur) => (
@@ -186,7 +169,7 @@ export default async function AboutPage({ params }: Props) {
                   {sector.logo && SECTOR_LOGOS[sector.logo] && (
                     <span className="shrink-0">{SECTOR_LOGOS[sector.logo]}</span>
                   )}
-                  <h3 className="text-xs font-medium text-tertiary uppercase tracking-wider">
+                  <h3 className="eyebrow">
                     {sector.secteur[L]}
                   </h3>
                 </div>
@@ -197,11 +180,7 @@ export default async function AboutPage({ params }: Props) {
                     return (
                       <div
                         key={i}
-                        className={`fade-in rounded p-5 flex flex-col gap-2 ${
-                          isPending
-                            ? "border border-dashed border-border"
-                            : "border border-border"
-                        }`}
+                        className={`fade-in panel flex flex-col gap-2 ${isPending ? "border-dashed" : ""}`}
                       >
                         <div className="flex items-start justify-between gap-2">
                           {/* Cert title with optional per-cert logo */}
@@ -209,12 +188,12 @@ export default async function AboutPage({ params }: Props) {
                             {cert.logo && CERT_LOGOS[cert.logo] && (
                               <span className="shrink-0">{CERT_LOGOS[cert.logo]}</span>
                             )}
-                            <p className="text-sm font-medium text-primary leading-snug">
+                            <p className="panel-title">
                               {cert.titre[L]}
                             </p>
                           </div>
                           {isPending ? (
-                            <span className="cert-pending shrink-0 text-xs text-tertiary border border-border rounded px-2 py-0.5">
+                            <span className="cert-pending chip shrink-0">
                               {t.about.inProgress}
                               <span className="dot-loader" aria-hidden>...</span>
                             </span>
@@ -242,7 +221,7 @@ export default async function AboutPage({ params }: Props) {
                             href={cert.lien}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-1 text-xs text-accent hover:underline underline-offset-4"
+                            className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-accent hover:underline underline-offset-4"
                           >
                             {t.about.viewCertificate}
                           </a>
@@ -257,17 +236,17 @@ export default async function AboutPage({ params }: Props) {
         </section>
 
         {/* ── #etudes ─────────────────────────────────────────────── */}
-        <section id="etudes" className="mb-20 scroll-mt-24">
+        <section id="etudes" className="mb-24 scroll-mt-32 sm:mb-32">
           <SectionHeading title={t.about.anchorEtudes} />
           <div className="space-y-4">
             {etudes.map((exp, i) => (
-              <div key={i} className="fade-in border border-border rounded p-5">
+              <div key={i} className="fade-in panel">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                   <div>
-                    <p className="text-sm font-medium text-primary">{exp.role[L]}</p>
+                    <p className="panel-title">{exp.role[L]}</p>
                     <p className="text-sm text-secondary">{exp.company}</p>
                   </div>
-                  <time className="text-xs text-tertiary sm:whitespace-nowrap shrink-0">
+                  <time className="chip shrink-0 self-start sm:whitespace-nowrap">
                     {formatPeriod(exp, locale, t.experience.present)}
                   </time>
                 </div>
@@ -285,20 +264,20 @@ export default async function AboutPage({ params }: Props) {
         </section>
 
         {/* ── #benevol ────────────────────────────────────────────── */}
-        <section id="benevol" className="mb-20 scroll-mt-24">
+        <section id="benevol" className="mb-24 scroll-mt-32 sm:mb-32">
           <SectionHeading title={t.about.anchorBenevol} />
           <div className="space-y-4">
             {benevol.map((entry, i) => (
-              <div key={i} className="fade-in border border-border rounded p-5">
+              <div key={i} className="fade-in panel">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                   <div>
                     <div className="flex items-center gap-1.5">
                       <GoogleLogo />
-                      <p className="text-sm font-medium text-primary">{entry.titre[L]}</p>
+                      <p className="panel-title">{entry.titre[L]}</p>
                     </div>
                     <p className="text-sm text-secondary">{entry.structure}</p>
                   </div>
-                  <time className="text-xs text-tertiary sm:whitespace-nowrap shrink-0">
+                  <time className="chip shrink-0 self-start sm:whitespace-nowrap">
                     {entry.periode[L]}
                   </time>
                 </div>
@@ -310,7 +289,7 @@ export default async function AboutPage({ params }: Props) {
         </section>
 
         {/* ── #parcours ────────────────────────────────────────────── */}
-        <section id="parcours" className="scroll-mt-24">
+        <section id="parcours" className="scroll-mt-32">
           <SectionHeading title={t.about.anchorParcours} />
           <ol className="relative border-l border-border space-y-0">
             {parcours.map((exp, i) => {
@@ -318,16 +297,16 @@ export default async function AboutPage({ params }: Props) {
               const period = formatPeriod(exp, locale, t.experience.present);
               return (
                 <li key={i} className="fade-in relative pl-8 pb-10 last:pb-0">
-                  <span className="absolute left-[-5px] top-1.5 w-2.5 h-2.5 rounded-full bg-border border-2 border-background ring-1 ring-border" />
+                  <span className="timeline-dot" aria-hidden="true" />
 
                   <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="text-[10px] font-medium text-tertiary border border-border rounded px-1.5 py-0.5 uppercase tracking-wider">
+                    <span className="chip">
                       {typeLabel}
                     </span>
                     <time className="text-xs text-tertiary">{period}</time>
                   </div>
 
-                  <p className="text-sm font-medium text-primary">{exp.role[L]}</p>
+                  <p className="panel-title">{exp.role[L]}</p>
                   <p className="text-sm text-secondary mb-3">{exp.company}</p>
 
                   <details className="group">

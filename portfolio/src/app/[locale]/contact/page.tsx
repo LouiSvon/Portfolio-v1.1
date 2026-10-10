@@ -3,6 +3,7 @@ import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { ContactForm } from "@/components/ui/contact-form";
+import { PageHeader } from "@/components/ui/page-header";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -55,18 +56,12 @@ export default async function ContactPage({ params }: Props) {
       : "Currently busy, I'll reply within 48h";
 
   return (
-    <div className="mx-auto max-w-5xl px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
+    <div className="mx-auto max-w-6xl px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
+      <PageHeader title={t.contact.title} subtitle={t.contact.subtitle} />
       <div className="contact-layout">
         {/* Left — context */}
         <div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary mb-3">
-            {t.contact.title}
-          </h1>
-          <p className="text-sm text-secondary leading-relaxed">
-            {t.contact.subtitle}
-          </p>
-
-          <div className="availability">
+          <div className="availability !mt-0">
             <span className={`availability-dot${isAvailable ? "" : " busy"}`} />
             <span>{availableText}</span>
           </div>
@@ -98,7 +93,7 @@ export default async function ContactPage({ params }: Props) {
         </div>
 
         {/* Right — form */}
-        <div>
+        <div className="panel">
           <ContactForm locale={locale} />
         </div>
       </div>

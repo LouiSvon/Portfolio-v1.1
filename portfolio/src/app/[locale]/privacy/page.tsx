@@ -3,6 +3,7 @@ import { alternatesFor } from "@/lib/site";
 import { defaultLocale, isValidLocale, getTranslations, locales, formatFullDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { FORM_PROCESSOR, HOST, LEGAL_LAST_UPDATED } from "@/lib/legal";
+import { PageHeader } from "@/components/ui/page-header";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -24,17 +25,13 @@ export default async function PrivacyPage({ params }: Props) {
   const isFr = locale === "fr";
 
   return (
-    <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
-      <header className="mb-10">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
-          {t.privacy.title}
-        </h1>
-        <p className="text-xs text-tertiary mt-2">
-          {t.privacy.lastUpdated} : {formatFullDate(LEGAL_LAST_UPDATED, locale)}
-        </p>
-      </header>
+    <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
+      <PageHeader
+        title={t.privacy.title}
+        subtitle={`${t.privacy.lastUpdated} : ${formatFullDate(LEGAL_LAST_UPDATED, locale)}`}
+      />
 
-      <div className="prose">
+      <div className="prose prose-page">
         {isFr ? (
           <>
             <h2 id="responsable">Responsable du traitement</h2>

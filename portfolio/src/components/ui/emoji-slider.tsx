@@ -15,7 +15,7 @@ export function EmojiSlider({
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="text-xs font-medium text-secondary uppercase tracking-wider">
+      <label className="eyebrow">
         {label}
       </label>
 

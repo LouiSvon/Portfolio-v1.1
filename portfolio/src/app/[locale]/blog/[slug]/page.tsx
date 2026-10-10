@@ -8,6 +8,7 @@ import { CopyLink } from "@/components/ui/copy-link";
 import GuideContent from "@/content/articles/guide-llm-debutants";
 import PromptContent from "@/content/articles/prompt-engineering-avance";
 import type { Locale } from "@/types";
+import { PageHeader } from "@/components/ui/page-header";
 
 const contentMap: Record<string, React.ComponentType<{ locale: Locale }>> = {
   "guide-llm-debutants": GuideContent,
@@ -51,44 +52,37 @@ export default async function ArticlePage({ params }: Props) {
   );
 
   return (
-    <div className="max-w-5xl mx-auto px-[clamp(1rem,4vw,3rem)] py-12 sm:py-20">
+    <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
       <div className="lg:flex lg:gap-12">
         {/* Contenu principal — largeur de lecture optimale */}
         <article className="min-w-0 flex-1 max-w-[720px]">
-          <nav className="mb-8">
-            <Link href={`/${locale}/blog`} className="text-sm text-secondary hover:text-accent transition-colors duration-150">
-              {t.blog.backToBlog}
-            </Link>
-          </nav>
-
-          <header className="mb-10">
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <time dateTime={article.date} className="text-xs text-tertiary">
-                {t.blog.publishedOn} {formattedDate}
-              </time>
-              <span className="text-xs text-tertiary">·</span>
-              <span className="text-xs text-tertiary">{article.readingTime} {t.blog.readingTime}</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary mb-3">
-              {article.title[locale]}
-            </h1>
-            <p className="text-base text-secondary leading-relaxed">{article.summary[locale]}</p>
-            {article.tags.length > 0 && (
-              <ul className="flex flex-wrap gap-1.5 mt-4">
-                {article.tags.map((tag) => (
-                  <li key={tag} className="text-xs text-tertiary bg-badge-bg px-2 py-0.5 rounded">{tag}</li>
-                ))}
-              </ul>
-            )}
-          </header>
+          <PageHeader
+            compact
+            eyebrow={
+              <Link href={`/${locale}/blog`} className="btn-ghost">
+                <span className="arrow" aria-hidden="true">&larr;</span> {t.blog.backToBlog}
+              </Link>
+            }
+            title={article.title[locale]}
+            subtitle={article.summary[locale]}
+          />
+          <div className="-mt-4 mb-12 flex flex-wrap items-center gap-2">
+            <time dateTime={article.date} className="chip">
+              {t.blog.publishedOn} {formattedDate}
+            </time>
+            <span className="chip">{article.readingTime} {t.blog.readingTime}</span>
+            {article.tags.map((tag) => (
+              <span key={tag} className="chip">{tag}</span>
+            ))}
+          </div>
 
           {/* TOC mobile — repliable */}
           {article.toc && article.toc.length > 0 && (
-            <details className="mb-8 rounded border border-border lg:hidden">
-              <summary className="px-4 py-3 text-xs font-medium text-secondary uppercase tracking-wider cursor-pointer">
+            <details className="panel mb-8 !p-0 lg:hidden">
+              <summary className="eyebrow cursor-pointer px-5 py-4">
                 {t.blog.tableOfContents}
               </summary>
-              <ol className="px-4 pb-4 space-y-2">
+              <ol className="px-5 pb-5 space-y-2">
                 {article.toc.map((entry) => (
                   <li key={entry.id} className={entry.level === 3 ? "ml-4" : ""}>
                     <a href={`#${entry.id}`} className="text-sm text-secondary hover:text-accent transition-colors duration-150">
@@ -120,7 +114,7 @@ export default async function ArticlePage({ params }: Props) {
         {article.toc && article.toc.length > 0 && (
           <aside className="hidden lg:block w-52 shrink-0">
             <nav aria-label={t.blog.tableOfContents} className="sticky top-24">
-              <p className="text-xs font-medium text-secondary uppercase tracking-wider mb-4">
+              <p className="eyebrow mb-4">
                 {t.blog.tableOfContents}
               </p>
               <ol className="space-y-2">

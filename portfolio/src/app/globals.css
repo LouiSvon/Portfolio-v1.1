@@ -209,11 +209,11 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   top: calc(100% + 8px);
   right: 0;
   width: 260px;
-  background: var(--background);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 1.25rem;
   padding: 1.25rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 20px 50px -12px rgba(0,0,0,0.7);
   z-index: 100;
   animation: panel-in 0.15s ease;
 }
@@ -229,28 +229,110 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
     left: 0;
     right: 0;
     width: 100%;
-    border-radius: 12px 12px 0 0;
+    border-radius: 1.5rem 1.5rem 0 0;
     padding: 1.5rem;
     top: auto;
   }
 }
 
-/* Unified tag — accent-based, used for skills and project topics */
+/* ── Briques communes à toutes les pages ───────────────── */
+/* Pastille neutre : technos, tags, dates, filtres. */
+.chip,
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.2rem 0.65rem;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 0.78rem;
-  font-weight: 500;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  line-height: 1.2;
+  color: var(--secondary);
   white-space: nowrap;
-  transition: background 0.15s;
 }
-.tag:hover {
-  background: color-mix(in srgb, var(--accent) 20%, transparent);
+
+/* Carte : même matière que les cartes de l'accueil. */
+.panel {
+  position: relative;
+  padding: clamp(1.15rem, 0.85rem + 1vw, 1.75rem);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: var(--surface);
+  transition: border-color 0.3s ease;
+}
+.panel:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.panel-title {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(1.1rem, 1rem + 0.45vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--foreground);
+}
+
+/* Champ de formulaire. */
+.field {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--surface);
+  font-size: 0.95rem;
+  color: var(--foreground);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.field::placeholder { color: var(--tertiary); }
+.field:hover { border-color: color-mix(in srgb, var(--foreground) 18%, var(--border)); }
+.field:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); outline: none; }
+
+/* En-tête des pages intérieures. */
+.page-header {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(3rem, 2rem + 5vw, 6.5rem) 0 clamp(2.5rem, 2rem + 2vw, 4rem);
+}
+.page-glow {
+  position: absolute;
+  z-index: -1;
+  top: -9rem;
+  left: -12rem;
+  width: min(60rem, 140vw);
+  aspect-ratio: 2 / 1;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 16%, transparent), transparent 62%);
+  pointer-events: none;
+}
+.page-title {
+  font-weight: 700;
+  font-size: clamp(2.75rem, 1rem + 7vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+.page-title.is-compact { font-size: clamp(2rem, 1rem + 3.6vw, 3.75rem); line-height: 1.02; letter-spacing: -0.045em; }
+.page-subtitle {
+  margin-top: 1.25rem;
+  max-width: 40rem;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--secondary);
+}
+/* Grand chiffre à points (404). */
+.proj-num-inline {
+  font-family: var(--font-doto), ui-monospace, monospace;
+  font-weight: 900;
+  font-size: clamp(3rem, 2rem + 4vw, 5rem);
+  line-height: 1;
+  color: var(--accent);
+}
+/* Frise du parcours. */
+.timeline-dot {
+  position: absolute;
+  left: -5px;
+  top: 0.4rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--background), 0 0 12px var(--accent);
 }
 
 /* Footer — discreet */
@@ -274,7 +356,7 @@ footer a:hover {
 .competences-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 0.75rem;
 }
 @media (max-width: 900px) {
   .competences-grid { grid-template-columns: repeat(2, 1fr); }
@@ -286,15 +368,14 @@ footer a:hover {
 .skill-card {
   position: relative;
   overflow: hidden;
-  padding: 1.25rem 1.5rem;
+  padding: clamp(1.15rem, 0.85rem + 1vw, 1.75rem);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  background: transparent;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  border-radius: 1.5rem;
+  background: var(--surface);
+  transition: border-color 0.3s ease;
 }
 .skill-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
 }
 .skill-card::after {
   content: '';
@@ -323,11 +404,12 @@ footer a:hover {
   flex-shrink: 0;
 }
 .skill-categorie {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--tertiary);
+  color: var(--secondary);
 }
 .skill-items {
   display: flex;
@@ -948,23 +1030,28 @@ h1, h2, .display {
   line-height: 1.75;
 }
 
+.prose {
+  font-size: 1rem;
+}
 .prose h2 {
   color: var(--foreground);
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  scroll-margin-top: 4.5rem;
+  font-size: clamp(1.4rem, 1.15rem + 0.9vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  margin-top: 3rem;
+  margin-bottom: 0.9rem;
+  scroll-margin-top: 6rem;
 }
+.prose-page { max-width: 46rem; }
 
 .prose h3 {
   color: var(--foreground);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
-  scroll-margin-top: 4.5rem;
+  scroll-margin-top: 6rem;
 }
 
 .prose p {
@@ -1009,8 +1096,8 @@ h1, h2, .display {
 .prose pre {
   background: var(--badge-bg);
   border: 1px solid var(--border);
-  border-radius: 0.375rem;
-  padding: 1rem;
+  border-radius: 1rem;
+  padding: 1.1rem 1.25rem;
   overflow-x: auto;
   margin-bottom: 1.25rem;
 }
@@ -1040,7 +1127,7 @@ h1, h2, .display {
 }
 
 .prose blockquote {
-  border-left: 3px solid var(--border);
+  border-left: 3px solid var(--accent);
   padding-left: 1rem;
   color: var(--tertiary);
   font-style: italic;

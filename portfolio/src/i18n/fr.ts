@@ -265,7 +265,7 @@ const fr: Translations = {
     readingTime: "min de lecture",
     noArticles: "Aucun article pour l'instant.",
     noResults: "Aucun résultat pour cette recherche.",
-    backToBlog: "← Retour au blog",
+    backToBlog: "Retour au blog",
     tableOfContents: "Sommaire",
     shareLink: "Copier le lien",
     linkCopied: "Lien copié !",
