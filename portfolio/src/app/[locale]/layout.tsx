@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { FadeObserver } from "@/components/ui/fade-observer";
+import { SmoothScroll } from "@/components/ui/smooth-scroll";
 import type { Locale } from "@/types";
 import "../globals.css";
 
@@ -95,6 +96,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         </a>
         <FadeObserver />
         <ScrollProgress />
+        <SmoothScroll />
         <Header locale={locale as Locale} />
         <main id="main" className="flex-1">{children}</main>
         <Footer locale={locale as Locale} />
