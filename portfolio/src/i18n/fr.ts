@@ -29,8 +29,12 @@ export interface Translations {
     available: string;
     inBriefTitle: string;
     // {n} est remplacé par le nombre de certifications obtenues.
-    // Faits courts de « En bref » : {n} = nombre de certifications obtenues.
-    facts: { value: string; label: string }[];
+    // « En bref » : une présentation, puis des faits classés. {n} = certifications obtenues ;
+    // anchor = section de la page À propos qui détaille le fait.
+    introLead: string;
+    introText: string;
+    introLink: string;
+    facts: { category: string; value: string; label: string; anchor: string }[];
     featuredTitle: string;
     stackLabel: string;
     toolsLabel: string;
@@ -208,11 +212,14 @@ const fr: Translations = {
   home: {
     available: "Stage dès avril 2027 · Alternance 2027-2028",
     inBriefTitle: "En bref",
+    introLead: "Je conçois des applications web et des outils d'IA.",
+    introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    introLink: "En savoir plus",
     facts: [
-      { value: "2e année", label: "Bachelor informatique, Epitech Marseille" },
-      { value: "GDG Marseille", label: "Développeur bénévole depuis avril 2026" },
-      { value: "{n} certifications", label: "Vérifiables en ligne" },
-      { value: "Erasmus", label: "À Dublin, en équipe multiculturelle" },
+      { category: "Formation", value: "2e année", label: "Bachelor informatique à Epitech Marseille", anchor: "etudes" },
+      { category: "Engagement", value: "GDG Marseille", label: "Développeur bénévole depuis avril 2026", anchor: "benevol" },
+      { category: "Certifications", value: "{n} obtenues", label: "Vérifiables en ligne", anchor: "certifications" },
+      { category: "International", value: "Erasmus", label: "À Dublin, en équipe multiculturelle", anchor: "parcours" },
     ],
     featuredTitle: "Projets phares",
     stackLabel: "Stack",

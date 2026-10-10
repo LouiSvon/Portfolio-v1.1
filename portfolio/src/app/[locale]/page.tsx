@@ -9,7 +9,7 @@ import { certificationsBySector } from "@/data/certifications";
 import { aiTools, stack } from "@/data/stack";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ProjectList } from "@/components/ui/project-list";
-import { BallPit } from "@/components/ui/ball-pit";
+import { LogoStars } from "@/components/ui/logo-stars";
 import { Marquee } from "@/components/ui/marquee";
 
 export function generateStaticParams() {
@@ -37,8 +37,8 @@ export default async function HomePage({ params }: Props) {
     .filter((c) => c.statut === "obtenu").length;
 
   const facts = t.home.facts.map((fact) => ({
+    ...fact,
     value: fact.value.replace("{n}", String(certificationCount)),
-    label: fact.label,
   }));
 
   // Cibles des lignes « En ce moment ».
@@ -75,7 +75,7 @@ export default async function HomePage({ params }: Props) {
     <section className="hero-screen">
       <div className="hero-bg" aria-hidden="true">
         <div className="hero-glow" />
-        <BallPit />
+        <LogoStars />
       </div>
 
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,3rem)] text-center">
@@ -124,15 +124,38 @@ export default async function HomePage({ params }: Props) {
 
       {/* En bref */}
       <section className="py-24 sm:py-32" aria-labelledby="en-bref">
-        <h2 id="en-bref" className="sr-only">{t.home.inBriefTitle}</h2>
-        <ul className="fact-grid">
+        <SectionHeading id="en-bref" title={t.home.inBriefTitle} />
+        <div className="brief-grid">
+          <div className="brief-intro fade-in">
+            <Image
+              src="/portrait.jpg"
+              alt={`${t.home.portraitAlt} ${profile.name}`}
+              width={64}
+              height={64}
+              className="h-16 w-16 rounded-full object-cover"
+            />
+            <p className="brief-lead">{t.home.introLead}</p>
+            <p className="brief-text">{t.home.introText}</p>
+            <Link href={`/${locale}/about`} className="btn-ghost mt-auto self-start">
+              {t.home.introLink} <span className="arrow" aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
           {facts.map((fact, i) => (
-            <li key={fact.value} className="fact-tile fade-in" style={{ transitionDelay: `${i * 0.08}s` }}>
-              <p className="fact-value">{fact.value}</p>
-              <p className="fact-label">{fact.label}</p>
-            </li>
+            <Link
+              key={fact.anchor}
+              href={`/${locale}/about#${fact.anchor}`}
+              className="fact-card fade-in"
+              style={{ transitionDelay: `${(i + 1) * 0.07}s` }}
+            >
+              <span className="fact-head">
+                <span className="eyebrow">{fact.category}</span>
+                <span className="fact-arrow" aria-hidden="true">&rarr;</span>
+              </span>
+              <span className="fact-value">{fact.value}</span>
+              <span className="fact-label">{fact.label}</span>
+            </Link>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* Projets phares */}

@@ -30,11 +30,14 @@ const en: Translations = {
   home: {
     available: "Internship from April 2027 · Work-study 2027-2028",
     inBriefTitle: "In brief",
+    introLead: "I build web applications and AI tools.",
+    introText: "Student at Epitech Marseille, looking for a 3-month internship starting April 2027, then a work-study contract for 2027-2028.",
+    introLink: "More about me",
     facts: [
-      { value: "Second year", label: "Computer science bachelor, Epitech Marseille" },
-      { value: "GDG Marseille", label: "Volunteer developer since April 2026" },
-      { value: "{n} certifications", label: "Verifiable online" },
-      { value: "Erasmus", label: "In Dublin, in a multicultural team" },
+      { category: "Education", value: "Second year", label: "Computer science bachelor at Epitech Marseille", anchor: "etudes" },
+      { category: "Community", value: "GDG Marseille", label: "Volunteer developer since April 2026", anchor: "benevol" },
+      { category: "Certifications", value: "{n} earned", label: "Verifiable online", anchor: "certifications" },
+      { category: "International", value: "Erasmus", label: "In Dublin, in a multicultural team", anchor: "parcours" },
     ],
     featuredTitle: "Featured projects",
     stackLabel: "Stack",

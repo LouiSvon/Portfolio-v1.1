@@ -475,12 +475,14 @@ h1, h2, .display {
   pointer-events: none;
 }
 /* Logos IA flottants : ancre fixe > flottement CSS > tuile poussée par la souris (Motion). */
-/* Piscine à balles (canvas Matter.js) au pied du héros. */
-.ball-pit {
+/* Ciel de petits logos d'IA (canvas). */
+.logo-stars {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 25%, transparent 80%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 25%, transparent 80%);
 }
 .hero-glow {
   position: absolute;
@@ -530,9 +532,9 @@ h1, h2, .display {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 76s linear infinite;
+  animation: marquee 150s linear infinite;
 }
-.marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 92s; }
+.marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 180s; }
 .marquee-list { display: flex; flex-shrink: 0; }
 .marquee.accent .marquee-list li { color: color-mix(in srgb, var(--accent) 85%, transparent); }
 .marquee.accent .marquee-list li::after { background: var(--foreground); opacity: 0.35; }
@@ -559,31 +561,65 @@ h1, h2, .display {
   to   { transform: translateX(-50%); }
 }
 
-/* ── « En bref » : quatre faits courts, lisibles d'un coup d'œil ── */
-.fact-grid {
+/* ── « En bref » : présentation + faits classés, cliquables vers le détail ── */
+.brief-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
 }
-@media (min-width: 1024px) {
-  .fact-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-.fact-tile {
+.brief-intro {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1.5rem;
-  min-height: 9.5rem;
-  padding: clamp(1.1rem, 0.8rem + 1vw, 1.6rem);
+  gap: 1rem;
+  padding: clamp(1.4rem, 1rem + 1.5vw, 2.25rem);
+  border: 1px solid var(--border);
+  border-radius: 1.75rem;
+  background:
+    radial-gradient(ellipse at 0% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%),
+    var(--surface);
+}
+@media (min-width: 1024px) {
+  .brief-grid { grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: auto auto; }
+  .brief-intro { grid-column: 1; grid-row: 1 / 3; }
+}
+.brief-lead {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+.brief-text { max-width: 32rem; color: var(--secondary); }
+.fact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 10rem;
+  padding: clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
   border: 1px solid var(--border);
   border-radius: 1.5rem;
   background: var(--surface);
   transition-property: opacity, transform, border-color;
 }
-.fact-tile:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.fact-card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+.fact-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: auto;
+  padding-bottom: 1.25rem;
+}
+.fact-arrow {
+  color: var(--tertiary);
+  transition: transform 0.4s var(--ease-out), color 0.2s ease;
+}
+.fact-card:hover .fact-arrow { color: var(--accent); transform: translateX(3px); }
 .fact-value {
   font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: clamp(1.35rem, 1rem + 1.4vw, 2.1rem);
+  font-size: clamp(1.3rem, 1rem + 1.1vw, 1.9rem);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.04em;
