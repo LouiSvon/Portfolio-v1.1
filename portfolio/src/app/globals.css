@@ -1127,7 +1127,7 @@ h1, h2, .display {
 }
 
 .prose blockquote {
-  border-left: 3px solid var(--accent);
+  border-left: 1px solid var(--border);
   padding-left: 1rem;
   color: var(--tertiary);
   font-style: italic;
