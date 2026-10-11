@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import type { Project, Locale } from "@/types";
 import { getTranslations, formatFullDate } from "@/lib/i18n";
 import { highlights } from "@/data/highlights";
@@ -17,9 +18,12 @@ const PANEL_COLORS: [string, string][] = [
   ["#3ddc84", "#4d8dff"],
 ];
 
-// Même carte que les projets phares de l'accueil, en version empilée : panneau coloré
-// (trame de points, grand numéro, type), puis titre, phrase, technos et lien vers le code.
-function ProjectGridCard({
+const ease = [0.16, 1, 0.3, 1] as const;
+
+// Une scène par projet : la carte se dévoile au fil du défilement (liée à la molette, Motion).
+// Le panneau s'ouvre comme un rideau, le numéro dérive, le titre arrive mot à mot, puis les technos.
+// « Réduire les animations » : le CSS .showcase neutralise tous ces effets (contenu visible et fixe).
+function ProjectScene({
   project,
   index,
   locale,
@@ -29,41 +33,96 @@ function ProjectGridCard({
   locale: Locale;
 }) {
   const t = getTranslations(locale);
+  const ref = useRef<HTMLElement>(null);
   const highlight = highlights.find((h) => h.repo === project.name);
   const title = highlight?.title[locale] ?? project.name;
   const description =
     highlight?.tagline[locale] ?? project.customDescription?.[locale] ?? project.description;
   const kind = highlight?.kind[locale] ?? project.language;
   const [c1, c2] = highlight?.colors ?? PANEL_COLORS[index % PANEL_COLORS.length];
-  const chips = highlight?.stack ?? [project.language, ...project.topics].filter(Boolean).slice(0, 4) as string[];
+  const chips = (highlight?.stack ?? [project.language, ...project.topics].filter(Boolean).slice(0, 4)) as string[];
+
+  // Entrée : du bas de l'écran jusqu'au centre. Parallaxe : sur toute la traversée.
+  const { scrollYProgress: enter } = useScroll({ target: ref, offset: ["start end", "center center"] });
+  const { scrollYProgress: pass } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const progress = useSpring(enter, { stiffness: 140, damping: 30, mass: 0.4 });
+  const y = useTransform(progress, [0, 1], [90, 0]);
+  const scale = useTransform(progress, [0, 1], [0.9, 1]);
+  const opacity = useTransform(progress, [0, 0.55], [0, 1]);
+  const curtain = useTransform(
+    progress,
+    [0, 1],
+    ["inset(22% 14% 22% 14% round 2.5rem)", "inset(0% 0% 0% 0% round 0rem)"],
+  );
+  const glow = useTransform(progress, [0, 1], [1.35, 1]);
+  const numberY = useTransform(pass, [0, 1], [80, -80]);
+
+  const words = title.split(" ");
 
   return (
-    <article
-      className="proj-card is-stacked"
-      style={{ "--c1": c1, "--c2": c2 } as React.CSSProperties}
+    <motion.article
+      ref={ref}
+      className={`proj-card showcase-card${index % 2 ? " is-flipped" : ""}`}
+      style={{ "--c1": c1, "--c2": c2, y, scale, opacity } as never}
     >
-      <div className="proj-visual">
+      <motion.div className="proj-visual" style={{ clipPath: curtain }}>
+        <motion.span className="proj-glow" style={{ scale: glow }} aria-hidden="true" />
         <span className="proj-dots" aria-hidden="true" />
         {kind && <span className="eyebrow proj-kind">{kind}</span>}
         {project.featured && <span className="chip proj-featured">{t.projects.featured}</span>}
-        <span className="proj-num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-      </div>
-      <div className="proj-body">
-        <h2 className="proj-title">
+        <motion.span className="proj-num" style={{ y: numberY }} aria-hidden="true">
+          {String(index + 1).padStart(2, "0")}
+        </motion.span>
+      </motion.div>
+
+      <motion.div
+        className="proj-body"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ staggerChildren: 0.06 }}
+      >
+        <h2 className="proj-title showcase-title">
           {/* Lien étiré : toute la carte mène au dépôt. */}
           <a href={project.url} target="_blank" rel="noopener noreferrer" className="after:absolute after:inset-0">
-            {title}
+            {words.map((word, w) => (
+              <span key={w} className="inline-block overflow-hidden pb-[0.08em] align-top">
+                <motion.span
+                  className="showcase-anim inline-block"
+                  variants={{ hidden: { y: "105%" }, show: { y: 0, transition: { duration: 0.8, ease } } }}
+                >
+                  {word}
+                  {w < words.length - 1 ? "\u00a0" : ""}
+                </motion.span>
+              </span>
+            ))}
           </a>
         </h2>
-        {description && <p className="proj-tagline">{description}</p>}
+        {description && (
+          <motion.p
+            className="proj-tagline showcase-anim"
+            variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}
+          >
+            {description}
+          </motion.p>
+        )}
         {chips.length > 0 && (
           <ul className="proj-chips">
             {chips.map((chip) => (
-              <li key={chip} className="proj-chip">{chip}</li>
+              <motion.li
+                key={chip}
+                className="proj-chip showcase-anim"
+                variants={{ hidden: { opacity: 0, y: 10, scale: 0.9 }, show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease } } }}
+              >
+                {chip}
+              </motion.li>
             ))}
           </ul>
         )}
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <motion.div
+          className="showcase-anim flex flex-wrap items-center justify-between gap-3"
+          variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.6 } } }}
+        >
           <span className="proj-cta">
             {locale === "fr" ? "Voir le code" : "View code"} <span className="arrow" aria-hidden="true">&rarr;</span>
           </span>
@@ -81,9 +140,9 @@ function ProjectGridCard({
               </a>
             )}
           </span>
-        </div>
-      </div>
-    </article>
+        </motion.div>
+      </motion.div>
+    </motion.article>
   );
 }
 
@@ -277,9 +336,9 @@ export function ProjectFilter({
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="showcase flex flex-col gap-[clamp(4rem,10vh,8rem)]">
           {filtered.map((project, i) => (
-            <ProjectGridCard key={project.name} project={project} index={i} locale={locale} />
+            <ProjectScene key={project.name} project={project} index={i} locale={locale} />
           ))}
         </div>
       ) : (

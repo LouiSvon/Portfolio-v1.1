@@ -821,6 +821,31 @@ h1, h2, .display {
   .proj-card.is-flipped .proj-visual { order: -1; }
 }
 .proj-card:hover { border-color: color-mix(in srgb, var(--c1) 50%, var(--border)); }
+/* Page Projets : scènes plein écran qui se dévoilent au défilement. */
+.showcase-card { transform-origin: 50% 80%; will-change: transform, opacity; }
+@media (min-width: 768px) {
+  .showcase-card { min-height: min(34rem, 70vh); }
+  .showcase-card .proj-body { justify-content: center; gap: 1.25rem; padding: clamp(2rem, 1rem + 3vw, 3.5rem); }
+}
+.showcase-card .proj-visual { min-height: 15rem; }
+.showcase-card .proj-title { font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1; }
+.showcase-card .proj-num { font-size: clamp(6rem, 3rem + 9vw, 12rem); }
+.proj-glow {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background: radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--c2) 55%, transparent), transparent 60%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .showcase-card,
+  .showcase-card .proj-visual,
+  .showcase-card .proj-num,
+  .showcase-anim {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
 /* Variante empilée (page Projets) : panneau au-dessus, corps en dessous. */
 .proj-card.is-stacked { grid-template-columns: 1fr; min-height: 0; }
 .proj-card.is-stacked .proj-visual { order: -1; min-height: 9.5rem; }
