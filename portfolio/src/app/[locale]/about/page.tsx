@@ -6,7 +6,10 @@ import { experiences } from "@/data/experience";
 import { certificationsBySector } from "@/data/certifications";
 import { benevol } from "@/data/benevol";
 import { Badge } from "@/components/ui/badge";
-import { GitHubSkills } from "@/components/ui/github-skills";
+import Image from "next/image";
+import { SkillGrid } from "@/components/ui/skill-grid";
+import { Timeline, type TimelineItem } from "@/components/ui/timeline";
+import { CountUp } from "@/components/ui/count-up";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { PageHeader } from "@/components/ui/page-header";
 import type { CertificationSecteur } from "@/types";
@@ -86,6 +89,18 @@ const TYPE_LABELS: Record<string, Record<string, string>> = {
   personal:     { fr: "Personnel", en: "Personal" },
 };
 
+// Met en valeur les mots clés d'une phrase (reflet bleu animé, .shine).
+const BIO_TERMS: Record<"fr" | "en", string[]> = {
+  fr: ["Epitech Marseille", "outils d'IA", "stage de 3 mois", "avril 2027", "2027-2028"],
+  en: ["Epitech Marseille", "AI tools", "3-month internship", "April 2027", "2027-2028"],
+};
+function highlight(text: string, terms: string[]) {
+  const pattern = new RegExp(`(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`);
+  return text.split(pattern).map((part, i) =>
+    terms.includes(part) ? <span key={i} className="shine">{part}</span> : part,
+  );
+}
+
 // ── Page ───────────────────────────────────────────────────────────────────
 
 export default async function AboutPage({ params }: Props) {
@@ -105,6 +120,30 @@ export default async function AboutPage({ params }: Props) {
       if (a.endDate && !b.endDate) return 1;
       return b.startDate.localeCompare(a.startDate);
     });
+
+  const certCount = certificationsBySector.flatMap((s) => s.certifs).filter((c) => c.statut === "obtenu").length;
+  const stats = [
+    { value: 2, suffix: L === "fr" ? "e" : "nd", label: t.about.statYear },
+    { value: certCount, suffix: "", label: t.about.statCerts },
+    { value: parcours.length, suffix: "", label: t.about.statExp },
+    { value: 2, suffix: "", label: t.about.statLangs },
+  ];
+
+  const timeline: TimelineItem[] = parcours.map((exp) => ({
+    key: `${exp.company.en}-${exp.startDate}`,
+    typeLabel: TYPE_LABELS[exp.type]?.[locale] ?? exp.type,
+    period: formatPeriod(exp, locale, t.experience.present),
+    role: exp.role[L],
+    company: exp.company[L],
+    companyUrl: exp.companyUrl,
+    description: exp.description[L],
+    tags: [
+      ...exp.technologies.map((label) => ({ label, tech: true })),
+      ...(exp.skills?.[L] ?? []).map((label) => ({ label, tech: false })),
+    ],
+    links: (exp.links ?? []).map((link) => ({ label: link.label[L], url: link.url })),
+    images: (exp.images ?? []).map((img) => ({ src: img.src, alt: img.alt[L] })),
+  }));
 
   const anchors = [
     { id: "cv",             label: t.about.anchorCV },
@@ -139,7 +178,24 @@ export default async function AboutPage({ params }: Props) {
 
         {/* ── #cv ─────────────────────────────────────────────────── */}
         <section id="cv" className="mb-16 scroll-mt-32">
-          <PageHeader title={profile.name} subtitle={profile.bio[L]}>
+          <PageHeader
+            eyebrow={
+              <p className="avail-pill text-xs text-secondary sm:text-sm">
+                <Image
+                  src="/portrait.jpg"
+                  alt={`${t.home.portraitAlt} ${profile.name}`}
+                  width={32}
+                  height={32}
+                  priority
+                  className="hidden h-8 w-8 object-cover sm:block"
+                />
+                <span className="availability-dot" aria-hidden="true" />
+                <span>{t.home.available}</span>
+              </p>
+            }
+            title={profile.name}
+            subtitle={highlight(profile.bio[L], BIO_TERMS[L])}
+          >
             <a href={CV_HREF} download={CV_FILE_NAME} className="btn-pill">
               {t.about.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
             </a>
@@ -150,51 +206,22 @@ export default async function AboutPage({ params }: Props) {
               {t.about.viewLinkedin}
             </a>
           </PageHeader>
+
+          {/* Chiffres clés */}
+          <dl className="about-stats">
+            {stats.map((stat) => (
+              <div key={stat.label} className="about-stat fade-in">
+                <dt className="about-stat-label">{stat.label}</dt>
+                <dd className="about-stat-value"><CountUp value={stat.value} suffix={stat.suffix} /></dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
         {/* ── #parcours ────────────────────────────────────────────── */}
         <section id="parcours" className="mb-24 scroll-mt-32 sm:mb-32">
           <SectionHeading title={t.about.anchorParcours} />
-          <ol className="relative border-l border-border space-y-0">
-            {parcours.map((exp, i) => {
-              const typeLabel = TYPE_LABELS[exp.type]?.[locale] ?? exp.type;
-              const period = formatPeriod(exp, locale, t.experience.present);
-              return (
-                <li key={i} className="fade-in relative pl-8 pb-10 last:pb-0">
-                  <span className="timeline-dot" aria-hidden="true" />
-
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="chip">
-                      {typeLabel}
-                    </span>
-                    <time className="text-xs text-tertiary">{period}</time>
-                  </div>
-
-                  <p className="panel-title">{exp.role[L]}</p>
-                  <p className="text-sm text-secondary mb-3">{exp.company[L]}</p>
-
-                  <p className="text-sm text-secondary leading-relaxed">{exp.description[L]}</p>
-
-                  {exp.technologies.length > 0 && (
-                    <ul className="flex flex-wrap gap-1.5 mt-3">
-                      {exp.technologies.map((tech) => (
-                        <li key={tech}>
-                          <Badge variant="technology" data-tech={tech}>{tech}</Badge>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {exp.skills && (
-                    <ul className="flex flex-wrap gap-1.5 mt-3">
-                      {exp.skills[L].map((skill) => (
-                        <li key={skill} className="chip">{skill}</li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
+          <Timeline items={timeline} />
         </section>
 
         {/* ── #etudes ─────────────────────────────────────────────── */}
@@ -231,7 +258,7 @@ export default async function AboutPage({ params }: Props) {
         {/* ── #competences ────────────────────────────────────────── */}
         <section id="competences" className="mb-24 scroll-mt-32 sm:mb-32">
           <SectionHeading title={t.about.anchorCompetences} />
-          <GitHubSkills />
+          <SkillGrid locale={L} />
         </section>
 
         {/* ── #certifications ─────────────────────────────────────── */}

@@ -23,6 +23,10 @@ export interface Experience {
   technologies: string[];
   // Compétences non techniques, traduites (emplois hors informatique).
   skills?: Record<Locale, string[]>;
+  // Site de la structure, liens à l'appui (chaîne, article…) et photos (dans public/).
+  companyUrl?: string;
+  links?: { label: Record<Locale, string>; url: string }[];
+  images?: { src: string; alt: Record<Locale, string> }[];
   type: "professional" | "personal" | "volunteering" | "education";
 }
 

@@ -315,6 +315,154 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   line-height: 1.5;
   color: var(--secondary);
 }
+/* ── Page À propos ────────────────────────────────────── */
+/* Mots clés de la présentation : bleu, avec un reflet qui passe. */
+.shine {
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent) 40%, #cfe0ff 50%, var(--accent) 60%, var(--accent) 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 5s ease-in-out infinite;
+}
+@keyframes shine {
+  0%, 30% { background-position: 100% 0; }
+  70%, 100% { background-position: 0% 0; }
+}
+
+/* Chiffres clés. */
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+@media (min-width: 1024px) { .about-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.about-stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: var(--surface);
+}
+.about-stat-value {
+  font-family: var(--font-doto), ui-monospace, monospace;
+  font-weight: 900;
+  font-size: clamp(2.6rem, 1.8rem + 2.4vw, 3.75rem);
+  line-height: 1;
+  color: var(--accent);
+}
+.about-stat-label { font-size: 0.875rem; line-height: 1.4; color: var(--secondary); }
+
+/* Frise : la ligne se remplit au défilement, les points s'allument. */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-left: 2.25rem;
+}
+.timeline-track,
+.timeline-fill {
+  position: absolute;
+  left: 0.55rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  border-radius: 2px;
+}
+.timeline-track { background: var(--border); }
+.timeline-fill {
+  background: linear-gradient(180deg, var(--accent), #8b7dff);
+  transform-origin: top;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.timeline-item { position: relative; }
+.timeline-dot {
+  position: absolute;
+  left: -2.25rem;
+  top: 1.6rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--background);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 4px var(--background), 0 0 16px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.timeline-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.5rem;
+}
+.timeline-photos li {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+}
+
+/* Compétences : tuiles à logo. */
+.skill-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.25rem, 1fr));
+  gap: 0.6rem;
+}
+.skill-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 6.5rem;
+  padding: 1rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  text-align: center;
+  transition: border-color 0.3s ease, transform 0.4s var(--ease-out), background-color 0.3s ease;
+}
+.skill-tile:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+  transform: translateY(-3px);
+}
+.skill-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  background: var(--tertiary);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  transition: background-color 0.3s ease, transform 0.4s var(--ease-out);
+}
+.skill-tile:hover .skill-logo { background: var(--accent); transform: scale(1.12); }
+.skill-initial {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  border: 1.5px solid var(--tertiary);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--tertiary);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.skill-tile:hover .skill-initial { color: var(--accent); border-color: var(--accent); }
+.skill-name { font-size: 0.8rem; line-height: 1.25; color: var(--secondary); }
+
+@media (prefers-reduced-motion: reduce) {
+  .shine { animation: none; background-position: 50% 0; }
+  .timeline-fill { transform: none !important; }
+  .skill-tile:hover, .skill-tile:hover .skill-logo { transform: none; }
+}
+
 /* Grand chiffre à points (404). */
 .proj-num-inline {
   font-family: var(--font-doto), ui-monospace, monospace;
@@ -329,17 +477,6 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
     -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent);
     mask-image: linear-gradient(90deg, #000 80%, transparent);
   }
-}
-/* Frise du parcours. */
-.timeline-dot {
-  position: absolute;
-  left: -5px;
-  top: 0.4rem;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px var(--background), 0 0 12px var(--accent);
 }
 
 /* Footer — discreet */
@@ -359,70 +496,6 @@ footer a:hover {
   font-size: 0.75rem;
 }
 
-/* Competences grid */
-.competences-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-}
-@media (max-width: 900px) {
-  .competences-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 560px) {
-  .competences-grid { grid-template-columns: 1fr; }
-}
-
-.skill-card {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(1.15rem, 0.85rem + 1vw, 1.75rem);
-  border: 1px solid var(--border);
-  border-radius: 1.5rem;
-  background: var(--surface);
-  transition: border-color 0.3s ease;
-}
-.skill-card:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
-}
-.skill-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 100%;
-  height: 2px;
-  background: var(--accent);
-  transition: right 0.25s ease;
-}
-.skill-card:hover::after {
-  right: 0;
-}
-.skill-card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.9rem;
-}
-.skill-icon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--accent);
-  opacity: 0.8;
-  flex-shrink: 0;
-}
-.skill-categorie {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--secondary);
-}
-.skill-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
 
 /* Contact layout */
 .contact-layout {

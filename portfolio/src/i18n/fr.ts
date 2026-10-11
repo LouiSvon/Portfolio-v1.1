@@ -100,6 +100,11 @@ export interface Translations {
     noCV: string;
     viewLinkedin: string;
     viewCertificate: string;
+    // Chiffres clés sous l'en-tête.
+    statYear: string;
+    statCerts: string;
+    statExp: string;
+    statLangs: string;
     inProgress: string;
     expires: string;
     fetching: string;
@@ -285,6 +290,10 @@ const fr: Translations = {
     noCV: "Le CV sera disponible prochainement. Consultez mon LinkedIn en attendant.",
     viewLinkedin: "LinkedIn →",
     viewCertificate: "Voir le certificat →",
+    statYear: "année à Epitech Marseille",
+    statCerts: "certifications vérifiables",
+    statExp: "expériences, en France et à l'étranger",
+    statLangs: "langues de travail, français et anglais",
     inProgress: "En cours",
     expires: "Expire",
     fetching: "Chargement des langages GitHub…",
