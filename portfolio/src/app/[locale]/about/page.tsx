@@ -122,7 +122,7 @@ export default async function AboutPage({ params }: Props) {
         aria-label="Sections"
         className="sticky top-16 z-40 bg-background/80 backdrop-blur-md"
       >
-        <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 overflow-x-auto px-[clamp(1rem,4vw,3rem)] scrollbar-none">
+        <div className="anchor-scroll mx-auto flex h-14 max-w-6xl items-center gap-2 overflow-x-auto px-[clamp(1rem,4vw,3rem)] scrollbar-none">
           {anchors.map((a) => (
             <a
               key={a.id}

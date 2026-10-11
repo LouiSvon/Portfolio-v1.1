@@ -323,6 +323,13 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   line-height: 1;
   color: var(--accent);
 }
+/* Barre d'ancres : fondu à droite sur mobile pour signaler qu'elle défile. */
+@media (max-width: 767px) {
+  .anchor-scroll {
+    -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent);
+    mask-image: linear-gradient(90deg, #000 80%, transparent);
+  }
+}
 /* Frise du parcours. */
 .timeline-dot {
   position: absolute;

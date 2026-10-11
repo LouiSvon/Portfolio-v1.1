@@ -24,11 +24,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Titres : grotesque élargie (axe wdth), accents français compris.
+// Titres : grotesque Archivo, accents français compris.
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin", "latin-ext"],
-  axes: ["wdth"],
 });
 
 // Chiffres façon matrice de points ; réservée aux chiffres et à l'ASCII.
