@@ -18,7 +18,6 @@ const en: Translations = {
     tagline: "Second year of a computer science bachelor at Epitech Marseille. I build web applications and AI tools. I am looking for a 3-month internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
     cta: {
       projects: "View projects",
-      resources: "Read the blog",
       about: "My background",
       contact: "Get in touch",
       cv: "Download my resume (PDF)",

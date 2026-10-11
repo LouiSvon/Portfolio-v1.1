@@ -16,7 +16,6 @@ export interface Translations {
     tagline: string;
     cta: {
       projects: string;
-      resources: string;
       about: string;
       contact: string;
       cv: string;
@@ -200,7 +199,6 @@ const fr: Translations = {
       "2e année de bachelor à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
     cta: {
       projects: "Voir les projets",
-      resources: "Lire le blog",
       about: "Mon parcours",
       contact: "Me contacter",
       cv: "Télécharger mon CV (PDF)",
