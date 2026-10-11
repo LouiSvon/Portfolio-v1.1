@@ -3,88 +3,84 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import type { Project, Locale } from "@/types";
 import { getTranslations, formatFullDate } from "@/lib/i18n";
-import { Badge } from "@/components/ui/badge";
+import { highlights } from "@/data/highlights";
 
 type SortKey = "recent" | "oldest" | "az";
 
+// Couleurs des panneaux pour les projets sans couleur propre (les projets phares gardent la leur).
+const PANEL_COLORS: [string, string][] = [
+  ["#4f8cff", "#9b6bff"],
+  ["#2ee6a6", "#00b3ff"],
+  ["#ff6b35", "#ff3d7f"],
+  ["#8b7dff", "#4dd0ff"],
+  ["#ffb36b", "#ff6b9a"],
+  ["#3ddc84", "#4d8dff"],
+];
+
+// Même carte que les projets phares de l'accueil, en version empilée : panneau coloré
+// (trame de points, grand numéro, type), puis titre, phrase, technos et lien vers le code.
 function ProjectGridCard({
   project,
+  index,
   locale,
 }: {
   project: Project;
+  index: number;
   locale: Locale;
 }) {
   const t = getTranslations(locale);
-  const description = project.customDescription?.[locale] ?? project.description;
-  const visibleTopics = project.topics.slice(0, 3);
-  const extraTopics = project.topics.length - 3;
+  const highlight = highlights.find((h) => h.repo === project.name);
+  const title = highlight?.title[locale] ?? project.name;
+  const description =
+    highlight?.tagline[locale] ?? project.customDescription?.[locale] ?? project.description;
+  const kind = highlight?.kind[locale] ?? project.language;
+  const [c1, c2] = highlight?.colors ?? PANEL_COLORS[index % PANEL_COLORS.length];
+  const chips = highlight?.stack ?? [project.language, ...project.topics].filter(Boolean).slice(0, 4) as string[];
 
   return (
-    <article className="panel group flex flex-col">
-      <div className="flex items-start justify-between gap-2 mb-3">
-        <h2 className="panel-title">
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-accent transition-colors duration-150"
-          >
-            {project.name}
+    <article
+      className="proj-card is-stacked"
+      style={{ "--c1": c1, "--c2": c2 } as React.CSSProperties}
+    >
+      <div className="proj-visual">
+        <span className="proj-dots" aria-hidden="true" />
+        {kind && <span className="eyebrow proj-kind">{kind}</span>}
+        {project.featured && <span className="chip proj-featured">{t.projects.featured}</span>}
+        <span className="proj-num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+      </div>
+      <div className="proj-body">
+        <h2 className="proj-title">
+          {/* Lien étiré : toute la carte mène au dépôt. */}
+          <a href={project.url} target="_blank" rel="noopener noreferrer" className="after:absolute after:inset-0">
+            {title}
           </a>
         </h2>
-        {project.featured && (
-          <Badge variant="featured" className="shrink-0">
-            {t.projects.featured}
-          </Badge>
+        {description && <p className="proj-tagline">{description}</p>}
+        {chips.length > 0 && (
+          <ul className="proj-chips">
+            {chips.map((chip) => (
+              <li key={chip} className="proj-chip">{chip}</li>
+            ))}
+          </ul>
         )}
-      </div>
-
-      {description && (
-        <p className="text-sm text-secondary leading-relaxed line-clamp-3 mb-4 flex-1">
-          {description}
-        </p>
-      )}
-
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3 text-xs text-tertiary">
-        {project.language && (
-          <span className="flex items-center gap-1.5">
-            <span className="language-dot" data-language={project.language} aria-hidden />
-            {project.language}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="proj-cta">
+            {locale === "fr" ? "Voir le code" : "View code"} <span className="arrow" aria-hidden="true">&rarr;</span>
           </span>
-        )}
-        {project.stars > 0 && <span>★ {project.stars}</span>}
-      </div>
-
-      {project.topics.length > 0 && (
-        <ul className="flex flex-wrap gap-1 mb-4">
-          {visibleTopics.map((topic) => (
-            <li key={topic}><span className="tag">{topic}</span></li>
-          ))}
-          {extraTopics > 0 && <li><span className="tag">+{extraTopics}</span></li>}
-        </ul>
-      )}
-
-      <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
-        <span className="text-xs text-tertiary">{formatFullDate(project.updatedAt, locale)}</span>
-        <div className="flex gap-3">
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-secondary hover:text-accent transition-colors duration-150"
-          >
-            GitHub &rarr;
-          </a>
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-secondary hover:text-accent transition-colors duration-150"
-            >
-              Demo &rarr;
-            </a>
-          )}
+          <span className="flex items-center gap-3 text-xs text-tertiary">
+            {project.stars > 0 && <span>★ {project.stars}</span>}
+            <span>{formatFullDate(project.updatedAt, locale)}</span>
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 text-secondary hover:text-accent"
+              >
+                Demo &rarr;
+              </a>
+            )}
+          </span>
         </div>
       </div>
     </article>
@@ -151,6 +147,8 @@ export function ProjectFilter({
       });
     }
     return [...result].sort((a, b) => {
+      // Tri par défaut : le projet mis en avant reste en tête.
+      if (sort === "recent" && a.featured !== b.featured) return a.featured ? -1 : 1;
       if (sort === "az") return a.name.localeCompare(b.name);
       if (sort === "oldest") return new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
       return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
@@ -279,9 +277,9 @@ export function ProjectFilter({
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((project) => (
-            <ProjectGridCard key={project.name} project={project} locale={locale} />
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {filtered.map((project, i) => (
+            <ProjectGridCard key={project.name} project={project} index={i} locale={locale} />
           ))}
         </div>
       ) : (

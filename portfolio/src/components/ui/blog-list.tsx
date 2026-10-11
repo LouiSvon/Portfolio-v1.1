@@ -38,7 +38,7 @@ function ArticleList({
           { day: "numeric", month: "long", year: "numeric" }
         );
         return (
-          <article key={article.slug} className="panel group relative flex flex-col fade-in">
+          <article key={article.slug} className="panel group relative flex flex-col">
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2 mb-2">

@@ -814,6 +814,20 @@ h1, h2, .display {
   .proj-card.is-flipped .proj-visual { order: -1; }
 }
 .proj-card:hover { border-color: color-mix(in srgb, var(--c1) 50%, var(--border)); }
+/* Variante empilée (page Projets) : panneau au-dessus, corps en dessous. */
+.proj-card.is-stacked { grid-template-columns: 1fr; min-height: 0; }
+.proj-card.is-stacked .proj-visual { order: -1; min-height: 9.5rem; }
+.proj-card.is-stacked .proj-num { font-size: clamp(4rem, 3rem + 3vw, 6rem); }
+.proj-card.is-stacked .proj-title { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); }
+.proj-featured {
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
+  z-index: 2;
+  border-color: color-mix(in srgb, var(--c1) 60%, transparent);
+  background: color-mix(in srgb, var(--background) 55%, transparent);
+  color: var(--foreground);
+}
 .proj-body {
   display: flex;
   flex-direction: column;
