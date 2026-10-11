@@ -108,11 +108,11 @@ export default async function AboutPage({ params }: Props) {
 
   const anchors = [
     { id: "cv",             label: t.about.anchorCV },
+    { id: "parcours",       label: t.about.anchorParcours },
+    { id: "etudes",         label: t.about.anchorEtudes },
     { id: "competences",    label: t.about.anchorCompetences },
     { id: "certifications", label: t.about.anchorCertifications },
-    { id: "etudes",         label: t.about.anchorEtudes },
     { id: "benevol",        label: t.about.anchorBenevol },
-    { id: "parcours",       label: t.about.anchorParcours },
   ];
 
   return (
@@ -139,7 +139,7 @@ export default async function AboutPage({ params }: Props) {
 
         {/* ── #cv ─────────────────────────────────────────────────── */}
         <section id="cv" className="mb-16 scroll-mt-32">
-          <PageHeader title={profile.name} subtitle={t.about.tagline}>
+          <PageHeader title={profile.name} subtitle={profile.bio[L]}>
             <a href={CV_HREF} download={CV_FILE_NAME} className="btn-pill">
               {t.about.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
             </a>
@@ -150,6 +150,82 @@ export default async function AboutPage({ params }: Props) {
               {t.about.viewLinkedin}
             </a>
           </PageHeader>
+        </section>
+
+        {/* ── #parcours ────────────────────────────────────────────── */}
+        <section id="parcours" className="mb-24 scroll-mt-32 sm:mb-32">
+          <SectionHeading title={t.about.anchorParcours} />
+          <ol className="relative border-l border-border space-y-0">
+            {parcours.map((exp, i) => {
+              const typeLabel = TYPE_LABELS[exp.type]?.[locale] ?? exp.type;
+              const period = formatPeriod(exp, locale, t.experience.present);
+              return (
+                <li key={i} className="fade-in relative pl-8 pb-10 last:pb-0">
+                  <span className="timeline-dot" aria-hidden="true" />
+
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="chip">
+                      {typeLabel}
+                    </span>
+                    <time className="text-xs text-tertiary">{period}</time>
+                  </div>
+
+                  <p className="panel-title">{exp.role[L]}</p>
+                  <p className="text-sm text-secondary mb-3">{exp.company[L]}</p>
+
+                  <p className="text-sm text-secondary leading-relaxed">{exp.description[L]}</p>
+
+                  {exp.technologies.length > 0 && (
+                    <ul className="flex flex-wrap gap-1.5 mt-3">
+                      {exp.technologies.map((tech) => (
+                        <li key={tech}>
+                          <Badge variant="technology" data-tech={tech}>{tech}</Badge>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {exp.skills && (
+                    <ul className="flex flex-wrap gap-1.5 mt-3">
+                      {exp.skills[L].map((skill) => (
+                        <li key={skill} className="chip">{skill}</li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+
+        {/* ── #etudes ─────────────────────────────────────────────── */}
+        <section id="etudes" className="mb-24 scroll-mt-32 sm:mb-32">
+          <SectionHeading title={t.about.anchorEtudes} />
+          <div className="space-y-4">
+            {etudes.map((exp, i) => (
+              <div key={i} className="fade-in panel">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+                  <div>
+                    <p className="panel-title">{exp.role[L]}</p>
+                    <p className="text-sm text-secondary">{exp.company[L]}</p>
+                  </div>
+                  <time className="chip shrink-0 self-start sm:whitespace-nowrap">
+                    {formatPeriod(exp, locale, t.experience.present)}
+                  </time>
+                </div>
+                <p className="text-sm text-secondary leading-relaxed">{exp.description[L]}</p>
+                {(exp.technologies.length > 0 || exp.skills) && (
+                  <ul className="flex flex-wrap gap-1.5 mt-3">
+                    {exp.technologies.map((tech) => (
+                      <li key={tech}><Badge variant="technology" data-tech={tech}>{tech}</Badge></li>
+                    ))}
+                    {exp.skills?.[L].map((skill) => (
+                      <li key={skill} className="chip">{skill}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* ── #competences ────────────────────────────────────────── */}
@@ -235,36 +311,8 @@ export default async function AboutPage({ params }: Props) {
           </div>
         </section>
 
-        {/* ── #etudes ─────────────────────────────────────────────── */}
-        <section id="etudes" className="mb-24 scroll-mt-32 sm:mb-32">
-          <SectionHeading title={t.about.anchorEtudes} />
-          <div className="space-y-4">
-            {etudes.map((exp, i) => (
-              <div key={i} className="fade-in panel">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
-                  <div>
-                    <p className="panel-title">{exp.role[L]}</p>
-                    <p className="text-sm text-secondary">{exp.company}</p>
-                  </div>
-                  <time className="chip shrink-0 self-start sm:whitespace-nowrap">
-                    {formatPeriod(exp, locale, t.experience.present)}
-                  </time>
-                </div>
-                <p className="text-sm text-secondary leading-relaxed">{exp.description[L]}</p>
-                {exp.technologies.length > 0 && (
-                  <ul className="flex flex-wrap gap-1.5 mt-3">
-                    {exp.technologies.map((tech) => (
-                      <li key={tech}><Badge variant="technology" data-tech={tech}>{tech}</Badge></li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* ── #benevol ────────────────────────────────────────────── */}
-        <section id="benevol" className="mb-24 scroll-mt-32 sm:mb-32">
+        <section id="benevol" className="scroll-mt-32">
           <SectionHeading title={t.about.anchorBenevol} />
           <div className="space-y-4">
             {benevol.map((entry, i) => (
@@ -286,57 +334,6 @@ export default async function AboutPage({ params }: Props) {
               </div>
             ))}
           </div>
-        </section>
-
-        {/* ── #parcours ────────────────────────────────────────────── */}
-        <section id="parcours" className="scroll-mt-32">
-          <SectionHeading title={t.about.anchorParcours} />
-          <ol className="relative border-l border-border space-y-0">
-            {parcours.map((exp, i) => {
-              const typeLabel = TYPE_LABELS[exp.type]?.[locale] ?? exp.type;
-              const period = formatPeriod(exp, locale, t.experience.present);
-              return (
-                <li key={i} className="fade-in relative pl-8 pb-10 last:pb-0">
-                  <span className="timeline-dot" aria-hidden="true" />
-
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="chip">
-                      {typeLabel}
-                    </span>
-                    <time className="text-xs text-tertiary">{period}</time>
-                  </div>
-
-                  <p className="panel-title">{exp.role[L]}</p>
-                  <p className="text-sm text-secondary mb-3">{exp.company}</p>
-
-                  <details className="group">
-                    <summary className="list-none cursor-pointer text-xs text-tertiary hover:text-accent transition-colors duration-150 flex items-center gap-1">
-                      <span className="group-open:hidden">{locale === "fr" ? "Voir plus" : "Show more"} ↓</span>
-                      <span className="hidden group-open:inline">{locale === "fr" ? "Voir moins" : "Show less"} ↑</span>
-                    </summary>
-                    <p className="text-sm text-secondary leading-relaxed mt-2">{exp.description[L]}</p>
-                  </details>
-
-                  {exp.technologies.length > 0 && (
-                    <ul className="flex flex-wrap gap-1.5 mt-3">
-                      {exp.technologies.map((tech) => (
-                        <li key={tech}>
-                          <Badge variant="technology" data-tech={tech}>{tech}</Badge>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {exp.skills && (
-                    <ul className="flex flex-wrap gap-1.5 mt-3">
-                      {exp.skills[L].map((skill) => (
-                        <li key={skill} className="chip">{skill}</li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
         </section>
 
       </div>

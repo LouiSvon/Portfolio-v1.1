@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
-import { StarRating } from "@/components/ui/star-rating";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -146,8 +145,6 @@ export function ContactForm({ locale }: { locale: Locale }) {
         )}
       </div>
 
-      {/* Star rating */}
-      <StarRating name="note_site" label={t.contact.ratingLabel} />
 
       {state === "error" && (
         <p className="text-sm text-accent-warm">{t.contact.errorMessage}</p>

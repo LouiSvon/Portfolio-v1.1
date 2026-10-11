@@ -147,7 +147,6 @@ const en: Translations = {
     formMessage: "Message",
     formMessageHint: "50 characters minimum",
     formSource: "How did you find this site? (optional)",
-    ratingLabel: "Did you like the site?",
     subjectOptions: {
       placeholder: "Choose a subject",
       internship: "Internship or work-study offer",

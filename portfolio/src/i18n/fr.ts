@@ -139,7 +139,6 @@ export interface Translations {
     formMessage: string;
     formMessageHint: string;
     formSource: string;
-    ratingLabel: string;
     subjectOptions: {
       placeholder: string;
       internship: string;
@@ -291,7 +290,7 @@ const fr: Translations = {
     openCV: "Ouvrir",
     noCV: "Le CV sera disponible prochainement. Consultez mon LinkedIn en attendant.",
     viewLinkedin: "LinkedIn →",
-    viewCertificate: "Voir le diplôme →",
+    viewCertificate: "Voir le certificat →",
     inProgress: "En cours",
     expires: "Expire",
     fetching: "Chargement des langages GitHub…",
@@ -328,7 +327,6 @@ const fr: Translations = {
     formMessage: "Message",
     formMessageHint: "50 caractères minimum",
     formSource: "Comment avez-vous trouvé ce site ? (optionnel)",
-    ratingLabel: "Avez-vous aimé le site ?",
     subjectOptions: {
       placeholder: "Choisissez un sujet",
       internship: "Offre de stage ou d'alternance",

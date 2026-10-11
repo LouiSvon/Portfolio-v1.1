@@ -15,7 +15,7 @@ export interface Profile {
 }
 
 export interface Experience {
-  company: string;
+  company: Record<Locale, string>;
   role: Record<Locale, string>;
   startDate: string;
   endDate: string | null;
