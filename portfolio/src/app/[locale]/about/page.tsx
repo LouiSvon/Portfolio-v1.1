@@ -281,7 +281,7 @@ export default async function AboutPage({ params }: Props) {
                     {entry.periode[L]}
                   </time>
                 </div>
-                <p className="text-xs text-tertiary mb-2">{entry.domaine}</p>
+                <p className="text-xs text-tertiary mb-2">{entry.domaine[L]}</p>
                 <p className="text-sm text-secondary leading-relaxed">{entry.description[L]}</p>
               </div>
             ))}
@@ -323,6 +323,13 @@ export default async function AboutPage({ params }: Props) {
                         <li key={tech}>
                           <Badge variant="technology" data-tech={tech}>{tech}</Badge>
                         </li>
+                      ))}
+                    </ul>
+                  )}
+                  {exp.skills && (
+                    <ul className="flex flex-wrap gap-1.5 mt-3">
+                      {exp.skills[L].map((skill) => (
+                        <li key={skill} className="chip">{skill}</li>
                       ))}
                     </ul>
                   )}

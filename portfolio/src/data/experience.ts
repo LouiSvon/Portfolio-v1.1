@@ -34,7 +34,11 @@ export const experiences: Experience[] = [
       fr: "Gestion d'un magasin avec forte autonomie dans un environnement isolé, parfois seul responsable. Responsabilité directe, gestion opérationnelle d'un point de vente, relation client dans un cadre exigeant.",
       en: "Store management with strong autonomy in an isolated environment, often the sole person in charge. Direct responsibility, operational management of a retail point of sale, customer relations in a demanding context.",
     },
-    technologies: ["Gestion des stocks", "Mise en rayon", "Relation client"],
+    technologies: [],
+    skills: {
+      fr: ["Gestion des stocks", "Mise en rayon", "Relation client"],
+      en: ["Inventory management", "Shelf stocking", "Customer relations"],
+    },
     type: "professional",
   },
   {

@@ -21,6 +21,8 @@ export interface Experience {
   endDate: string | null;
   description: Record<Locale, string>;
   technologies: string[];
+  // Compétences non techniques, traduites (emplois hors informatique).
+  skills?: Record<Locale, string[]>;
   type: "professional" | "personal" | "volunteering" | "education";
 }
 
@@ -94,7 +96,7 @@ export interface Benevol {
   titre: Record<Locale, string>;
   structure: string;
   periode: Record<Locale, string>;
-  domaine: string;
+  domaine: Record<Locale, string>;
   description: Record<Locale, string>;
 }
 
