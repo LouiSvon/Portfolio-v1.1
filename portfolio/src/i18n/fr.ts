@@ -21,9 +21,6 @@ export interface Translations {
       cv: string;
     };
   };
-  manifeste: {
-    text: string;
-  };
   home: {
     available: string;
     inBriefTitle: string;
@@ -202,9 +199,6 @@ const fr: Translations = {
       contact: "Me contacter",
       cv: "Télécharger mon CV (PDF)",
     },
-  },
-  manifeste: {
-    text: "Ce site rassemble ce que je construis et ce que j'apprends.",
   },
   home: {
     available: "Stage dès avril 2027 · Alternance 2027-2028",

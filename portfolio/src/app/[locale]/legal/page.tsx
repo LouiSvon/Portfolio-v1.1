@@ -29,7 +29,7 @@ export default async function LegalPage({ params }: Props) {
     <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
       <PageHeader
         title={t.legal.title}
-        subtitle={`${t.legal.lastUpdated} : ${formatFullDate(LEGAL_LAST_UPDATED, locale)}`}
+        subtitle={`${t.legal.lastUpdated}${locale === "fr" ? " : " : ": "}${formatFullDate(LEGAL_LAST_UPDATED, locale)}`}
       />
 
       <div className="prose prose-page">

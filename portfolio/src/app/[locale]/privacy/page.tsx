@@ -28,7 +28,7 @@ export default async function PrivacyPage({ params }: Props) {
     <div className="max-w-6xl mx-auto px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
       <PageHeader
         title={t.privacy.title}
-        subtitle={`${t.privacy.lastUpdated} : ${formatFullDate(LEGAL_LAST_UPDATED, locale)}`}
+        subtitle={`${t.privacy.lastUpdated}${locale === "fr" ? " : " : ": "}${formatFullDate(LEGAL_LAST_UPDATED, locale)}`}
       />
 
       <div className="prose prose-page">

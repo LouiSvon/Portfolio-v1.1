@@ -23,9 +23,6 @@ const en: Translations = {
       cv: "Download my resume (PDF)",
     },
   },
-  manifeste: {
-    text: "This site brings together what I build and what I learn.",
-  },
   home: {
     available: "Internship from April 2027 · Work-study 2027-2028",
     inBriefTitle: "In brief",

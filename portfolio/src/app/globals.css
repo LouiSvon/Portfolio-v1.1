@@ -1065,6 +1065,9 @@ h1, h2, .display {
   scroll-margin-top: 6rem;
 }
 .prose-page { max-width: 46rem; }
+/* Lignes de 45 à 75 caractères environ. */
+.prose p,
+.prose li { max-width: 68ch; }
 
 .prose h3 {
   color: var(--foreground);

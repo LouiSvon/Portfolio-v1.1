@@ -61,16 +61,21 @@ export function MobileNavigation({
           className="absolute inset-x-3 top-16 rounded-3xl border border-border bg-[var(--surface)] px-3 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
         >
           <div className="mx-auto flex max-w-2xl flex-col gap-1">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="rounded-2xl px-4 py-3 font-[family-name:var(--font-archivo)] text-2xl font-bold tracking-[-0.03em] text-primary transition-colors duration-150 hover:bg-accent-soft hover:text-accent"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) => {
+              const path = link.href.split("#")[0];
+              const active = !link.href.includes("#") && (pathname === path || pathname === `${path}/`);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className="rounded-2xl px-4 py-3 font-[family-name:var(--font-archivo)] text-2xl font-bold tracking-[-0.03em] text-primary transition-colors duration-150 hover:bg-accent-soft hover:text-accent aria-[current=page]:bg-accent-soft aria-[current=page]:text-accent"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             <div className="mt-2 border-t border-border px-3 pt-3">
               <LanguageSwitch locale={locale} />
             </div>
