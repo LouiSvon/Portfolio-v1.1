@@ -14,13 +14,13 @@ function FrContent() {
         technique qui consiste à demander au modèle de décomposer son
         raisonnement étape par étape avant de donner la réponse finale. L&apos;effet
         est frappant sur les tâches complexes : les erreurs diminuent
-        significativement parce que le modèle &quot;réfléchit à voix haute&quot; au lieu
+        significativement parce que le modèle «&nbsp;réfléchit à voix haute&nbsp;» au lieu
         de court-circuiter vers une réponse intuitive.
       </p>
       <p>
-        <strong>Comment l&apos;activer</strong> : ajoutez simplement &quot;Raisonne
-        étape par étape avant de répondre.&quot; ou &quot;Pensons à cela
-        méthodiquement : ...&quot; à votre prompt.
+        <strong>Comment l&apos;activer</strong> : ajoutez simplement «&nbsp;Raisonne
+        étape par étape avant de répondre.&nbsp;» ou «&nbsp;Pensons à cela
+        méthodiquement : ...&nbsp;» à votre prompt.
       </p>
       <p>
         <strong>Cas d&apos;usage idéaux</strong> : résolution de problèmes logiques,
@@ -35,7 +35,7 @@ function FrContent() {
 
       <h2 id="few-shot-learning">Few-shot learning</h2>
       <p>
-        Le <strong>few-shot learning</strong> consiste à fournir quelques
+        Le <strong>few-shot learning</strong>{" "}consiste à fournir quelques
         exemples d&apos;entrée/sortie dans le prompt pour montrer au modèle
         exactement ce qu&apos;on attend. C&apos;est l&apos;une des techniques les plus
         efficaces pour contrôler le format de sortie.
@@ -45,10 +45,10 @@ function FrContent() {
       </p>
       <p>
         Classifie le sentiment des phrases suivantes :<br />
-        &quot;Ce produit est excellent.&quot; → Positif<br />
-        &quot;Je suis très déçu.&quot; → Négatif<br />
-        &quot;C&apos;est correct, ni bien ni mal.&quot; → Neutre<br />
-        &quot;Jamais vu quelque chose d&apos;aussi efficace !&quot; → ?
+        «&nbsp;Ce produit est excellent.&nbsp;» → Positif<br />
+        «&nbsp;Je suis très déçu.&nbsp;» → Négatif<br />
+        «&nbsp;C&apos;est correct, ni bien ni mal.&nbsp;» → Neutre<br />
+        «&nbsp;Jamais vu quelque chose d&apos;aussi efficace !&nbsp;» → ?
       </p>
       <p>
         Le modèle comprend immédiatement le format attendu — une seule étiquette
@@ -68,7 +68,7 @@ function FrContent() {
         traiter les réponses du modèle programmatiquement.
       </p>
       <p>
-        Sans mode JSON, même en demandant &quot;Réponds en JSON&quot;, le modèle peut
+        Sans mode JSON, même en demandant «&nbsp;Réponds en JSON&nbsp;», le modèle peut
         ajouter du texte avant ou après, ou utiliser des guillemets différents.
         Avec le mode JSON activé via l&apos;API, la sortie est toujours valide.
       </p>
@@ -79,9 +79,9 @@ function FrContent() {
         modèle ne peut dévier.
       </p>
       <p>
-        <strong>Exemple de prompt pour JSON</strong> : &quot;Extrais les informations
+        <strong>Exemple de prompt pour JSON</strong> : «&nbsp;Extrais les informations
         suivantes du texte et retourne-les en JSON avec les clés : name, email,
-        company, role. Texte : [votre texte]&quot;.
+        company, role. Texte : [votre texte]&nbsp;».
       </p>
 
       <h2 id="combiner-les-techniques">Combiner les techniques</h2>
@@ -90,10 +90,10 @@ function FrContent() {
         expert peut utiliser simultanément :
       </p>
       <p>
-        - Un <strong>rôle</strong> (&quot;Tu es un analyste financier senior.&quot;)<br />
+        - Un <strong>rôle</strong> («&nbsp;Tu es un analyste financier senior.&nbsp;»)<br />
         - Du <strong>contexte</strong> (les données à analyser)<br />
         - Des <strong>exemples</strong> (2-3 analyses similaires)<br />
-        - Une instruction <strong>chain-of-thought</strong> (&quot;Raisonne étape par étape&quot;)<br />
+        - Une instruction <strong>chain-of-thought</strong> («&nbsp;Raisonne étape par étape&nbsp;»)<br />
         - Une <strong>contrainte de format</strong> (tableau markdown ou JSON)
       </p>
       <p>
@@ -114,7 +114,7 @@ function EnContent() {
     <div className="prose">
       <h2 id="chain-of-thought">Chain-of-thought prompting</h2>
       <p>
-        <strong>Chain-of-thought</strong> is a technique that involves asking
+        <strong>Chain-of-thought</strong>{" "}is a technique that involves asking
         the model to break down its reasoning step by step before giving the
         final answer. The effect is striking on complex tasks: errors decrease
         significantly because the model &quot;thinks out loud&quot; instead of
@@ -137,7 +137,7 @@ function EnContent() {
 
       <h2 id="few-shot-learning">Few-shot learning</h2>
       <p>
-        <strong>Few-shot learning</strong> involves providing a few
+        <strong>Few-shot learning</strong>{" "}involves providing a few
         input/output examples in the prompt to show the model exactly what you
         expect. It&apos;s one of the most effective techniques for controlling output
         format.
