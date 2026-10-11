@@ -52,8 +52,8 @@ export default async function ContactPage({ params }: Props) {
   const availableText = isAvailable
     ? t.contact.availabilityText
     : locale === "fr"
-      ? "Actuellement en mission, réponse sous 48h"
-      : "Currently busy, I'll reply within 48h";
+      ? "Indisponible pour le moment, réponse sous 48h"
+      : "Currently unavailable, I'll reply within 48h";
 
   return (
     <div className="mx-auto max-w-6xl px-[clamp(1rem,4vw,3rem)] pb-24 sm:pb-32">
