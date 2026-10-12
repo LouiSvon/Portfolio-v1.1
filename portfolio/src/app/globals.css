@@ -1085,10 +1085,14 @@ h1, h2, .display {
   transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
 .skill-chip:hover { color: var(--foreground); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+/* Logo : le fichier n'est demandé qu'à l'approche du domaine (.visible, posé par FadeObserver),
+   pour ne pas encombrer le chargement du haut de page. */
 .skill-chip-logo {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+}
+.skill-row.visible .skill-chip-logo {
   background: currentColor;
   -webkit-mask-image: var(--logo);
   mask-image: var(--logo);
