@@ -71,6 +71,8 @@ export interface Translations {
     title: string;
     studies: string;
     domains: string;
+    // Domaines mis en avant dans Formation (même ordre et même nombre en FR et en EN).
+    domainList: string[];
     certifications: string;
     viewCertificate: string;
     inProgress: string;
@@ -221,6 +223,7 @@ const fr: Translations = {
     title: "Formation",
     studies: "Études",
     domains: "Domaines de compétence",
+    domainList: ["IA", "Blockchain", "Prompt engineering"],
     certifications: "Certifications",
     viewCertificate: "Voir le certificat →",
     inProgress: "En cours",

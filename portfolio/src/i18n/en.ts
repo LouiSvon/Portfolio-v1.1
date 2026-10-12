@@ -70,6 +70,7 @@ const en: Translations = {
     title: "Education",
     studies: "Studies",
     domains: "Fields of expertise",
+    domainList: ["AI", "Blockchain", "Prompt engineering"],
     certifications: "Certifications",
     viewCertificate: "View certificate →",
     inProgress: "In progress",
