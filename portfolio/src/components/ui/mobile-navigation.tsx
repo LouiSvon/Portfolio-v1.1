@@ -24,19 +24,19 @@ export function MobileNavigation({
   locale,
   menuLabel,
 }: MobileNavigationProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  // Le menu retient la page où il a été ouvert : changer de page le referme sans effet.
   const pathname = usePathname();
+  const [openedOn, setOpenedOn] = useState<string | null>(null);
+  const isOpen = openedOn === pathname;
+  const setIsOpen = (next: boolean | ((current: boolean) => boolean)) =>
+    setOpenedOn((typeof next === "function" ? next(isOpen) : next) ? pathname : null);
   const menuId = useId();
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (!isOpen) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setIsOpen(false);
+      if (event.key === "Escape") setOpenedOn(null);
     }
 
     window.addEventListener("keydown", handleKeyDown);

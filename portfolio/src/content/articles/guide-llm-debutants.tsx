@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Locale } from "@/types";
 
 export default function GuideContent({ locale }: { locale: Locale }) {
@@ -95,7 +96,7 @@ function FrContent() {
       </p>
       <p>
         L&apos;article suivant sur le{" "}
-        <a href="/fr/blog/prompt-engineering-avance">prompt engineering avancé</a>{" "}
+        <Link href="/fr/blog/prompt-engineering-avance">prompt engineering avancé</Link>{" "}
         va plus loin avec des techniques comme le chain-of-thought et le
         few-shot learning.
       </p>
@@ -190,9 +191,9 @@ function EnContent() {
       </p>
       <p>
         The next article on{" "}
-        <a href="/en/blog/prompt-engineering-avance">
+        <Link href="/en/blog/prompt-engineering-avance">
           advanced prompt engineering
-        </a>{" "}
+        </Link>{" "}
         goes further with techniques like chain-of-thought and few-shot
         learning.
       </p>

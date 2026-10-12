@@ -28,7 +28,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isValidLocale(locale)) return {};
   const article = getArticleBySlug(slug);
   if (!article) return {};
-  const t = getTranslations(locale);
   return {
     title: article.title[locale],
     description: article.summary[locale],
