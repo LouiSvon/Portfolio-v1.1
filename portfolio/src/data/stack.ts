@@ -1,42 +1,4 @@
-// Bande de l'accueil (stack, puis outils d'IA), orientée IA : des plus connus aux outils d'ingénieur IA confirmé.
-// Liste demandée par Louis le 11/10/2026.
-export const stack: string[] = [
-  "Python",
-  "PyTorch",
-  "TensorFlow",
-  "scikit-learn",
-  "NumPy",
-  "Pandas",
-  "Jupyter",
-  "CUDA",
-  "FastAPI",
-  "Docker",
-  "Kubernetes",
-  "PostgreSQL",
-  "TypeScript",
-  "Git",
-];
-
-export const aiTools: string[] = [
-  "OpenAI API",
-  "Claude API",
-  "Hugging Face",
-  "LangChain",
-  "LangGraph",
-  "LlamaIndex",
-  "Ollama",
-  "vLLM",
-  "MLflow",
-  "Weights & Biases",
-  "Pinecone",
-  "MCP",
-  "Claude Code",
-  "Cursor",
-  "Codex",
-  "Antigravity",
-];
-
-// Compétences de la page À propos : mêmes outils que la bande de l'accueil, classés.
+// Compétences, classées par domaine.
 // logo : chemin d'un SVG monochrome dans public/logos (Simple Icons CC0, Lobe Icons MIT) ; absent = initiale.
 export type SkillItem = { name: string; logo?: string };
 export type SkillGroup = { title: { fr: string; en: string }; items: SkillItem[] };

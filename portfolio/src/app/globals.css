@@ -500,96 +500,8 @@ h1, h2, .display {
 @keyframes rise { to { transform: translateY(0); } }
 @keyframes soft-in { to { opacity: 1; transform: translateY(0); } }
 
-/* ── Bandeau de technologies : boucle automatique ──────── */
-.marquee {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-}
-/* Le défilement démarre une fois les copies ajoutées par le navigateur (sinon la boucle sauterait). */
-.marquee-track[data-ready] { animation: marquee 150s linear infinite; }
-.marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 180s; }
-.marquee-list { display: flex; flex-shrink: 0; }
-.marquee.accent .marquee-list li { color: color-mix(in srgb, var(--accent) 85%, transparent); }
-.marquee.accent .marquee-list li::after { background: var(--foreground); opacity: 0.35; }
-.marquee-list li {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: clamp(0.85rem, 0.75rem + 0.35vw, 1.05rem);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  color: color-mix(in srgb, var(--foreground) 55%, transparent);
-  white-space: nowrap;
-}
-.marquee-list li::after {
-  content: '';
-  width: 3px;
-  height: 3px;
-  margin: 0 clamp(0.9rem, 2vw, 1.5rem);
-  border-radius: 50%;
-  background: var(--accent);
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
 /* ── Manifeste : la promesse en très grand ──────────────── */
 .brief-text { max-width: 32rem; color: var(--secondary); }
-
-/* ── « En ce moment » : lignes d'état ──────────────────── */
-.now-row {
-  display: grid;
-  gap: 0.6rem;
-  padding: 1.6rem 0;
-  border-top: 1px solid var(--border);
-}
-@media (min-width: 768px) {
-  .now-row { grid-template-columns: 11rem 1fr auto; align-items: center; gap: 2rem; }
-}
-.now-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.now-dot {
-  position: relative;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-}
-.now-dot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: ping-dot 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-.now-text {
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: clamp(1.2rem, 0.9rem + 1.2vw, 1.75rem);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-  color: var(--foreground);
-  transition: color var(--dur-fast) var(--ease-out), transform var(--dur-nudge) var(--ease-out);
-}
-.now-arrow {
-  display: none;
-  font-size: 1.4rem;
-  color: var(--secondary);
-  transition: transform var(--dur-nudge) var(--ease-out), color var(--dur-fast) var(--ease-out);
-}
-@media (min-width: 768px) { .now-arrow { display: block; } }
-.now-row.is-link:hover .now-text { color: var(--accent); transform: translateX(6px); }
-.now-row.is-link:hover .now-arrow { color: var(--accent); transform: translateX(4px); }
 
 /* ── Titres de section ─────────────────────────────────── */
 .section-head {
@@ -872,16 +784,10 @@ h1, h2, .display {
   .availability-dot,
   .availability-dot::after,
   .hero-glow,
-  .now-dot::after,
   .proj-visual::before,
-  .proj-visual::after,
-  .marquee-track,
-  .marquee-track[data-ready] { animation: none; }
+  .proj-visual::after { animation: none; }
   .reveal-line > span,
   .reveal-soft { animation: none; transform: none; opacity: 1; }
-  .marquee-list[aria-hidden="true"] { display: none; }
-  .marquee { -webkit-mask-image: none; mask-image: none; padding-inline: clamp(1rem, 4vw, 3rem); }
-  .marquee-track, .marquee-list { flex-wrap: wrap; width: auto; row-gap: 0.5rem; }
 }
 
 /* Article prose styles */
@@ -1004,6 +910,116 @@ h1, h2, .display {
   margin: 2rem 0;
 }
 
+/* ── Décors de section ─────────────────────────────────── */
+/* Chaque section pose un SectionBackdrop : lueurs, dessin au trait, image d'ambiance facultative.
+   Calque isolé derrière le contenu, fondu en haut et en bas pour se fondre dans les sections voisines. */
+.has-backdrop { position: relative; isolation: isolate; overflow: clip; }
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  color: var(--foreground);
+  --c1: var(--accent);
+  --c2: #8b7dff;
+  -webkit-mask-image: linear-gradient(transparent, #000 16%, #000 84%, transparent);
+  mask-image: linear-gradient(transparent, #000 16%, #000 84%, transparent);
+}
+.backdrop[data-tone='violet'] { --c1: #8b7dff; --c2: var(--accent); }
+.backdrop[data-tone='warm'] { --c1: var(--accent-warm); --c2: #ff7a45; }
+.backdrop[data-tone='mix'] { --c1: var(--accent); --c2: var(--accent-warm); }
+.backdrop-glow {
+  position: absolute;
+  width: min(60rem, 120vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.2;
+}
+.backdrop-glow-a { left: -20%; top: -10%; background: radial-gradient(closest-side, var(--c1), transparent); }
+.backdrop-glow-b { right: -25%; bottom: -15%; background: radial-gradient(closest-side, var(--c2), transparent); opacity: 0.16; }
+.backdrop-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+}
+.backdrop-art .backdrop-fill { fill: currentColor; stroke: none; }
+.backdrop-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+  mix-blend-mode: screen;
+}
+/* Les orbites tournent très lentement autour de leur centre. */
+.backdrop-spin { transform-origin: 720px 450px; animation: backdrop-spin 240s linear infinite; }
+@keyframes backdrop-spin { to { transform: rotate(360deg); } }
+/* Parallaxe : le dessin et l'image dérivent un peu plus lentement que la page. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .backdrop-drift { animation: backdrop-drift linear both; animation-timeline: view(); }
+  }
+}
+@keyframes backdrop-drift {
+  from { transform: translateY(-5%); }
+  to { transform: translateY(5%); }
+}
+@media (prefers-reduced-motion: reduce) { .backdrop-spin { animation: none; } }
+
+/* ── Blog : rangée qui traverse l'écran ───────────────── */
+.blog-viewport { overflow: clip; padding-block: 0.5rem 1rem; }
+.blog-rail {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+  width: max-content;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+  margin-inline: max(0px, calc((100vw - 72rem) / 2));
+  will-change: transform;
+}
+.blog-item { width: min(40rem, 82vw); }
+.blog-visual {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 85% 10%, hsl(var(--h) 90% 62% / 0.38), transparent 60%),
+    radial-gradient(90% 80% at 10% 100%, hsl(calc(var(--h) + 60) 85% 55% / 0.3), transparent 65%),
+    var(--surface);
+}
+.blog-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 50%, var(--surface));
+  pointer-events: none;
+}
+.blog-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.blog-num {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 0.5rem;
+  z-index: 1;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--foreground) 30%, transparent);
+}
+.panel:hover .proj-cta .arrow { transform: translateX(4px); }
+/* Petits écrans et animations réduites : rangée glissable à la main, accrochage sur chaque carte. */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .blog-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .blog-viewport::-webkit-scrollbar { display: none; }
+  .blog-rail { transform: none !important; margin-inline: 0; }
+  .blog-item { scroll-snap-align: center; }
+}
+
 /* ── Page unique : sections plein écran ───────────────── */
 /* Chaque section tient au moins un écran (svh : barre d'adresse mobile comprise) ;
    les sections longues (projets, parcours) s'allongent sans être coupées. */
@@ -1108,9 +1124,6 @@ h1, h2, .display {
 .cert-list { display: grid; gap: 0.75rem; }
 @media (min-width: 640px) { .cert-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .cert-card { display: flex; flex-direction: column; gap: 0.6rem; }
-
-/* Articles : les cartes se partagent la largeur, quel que soit leur nombre. */
-.article-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 
 /* Emplacement de média : image posée sur le panneau, ou cadre signalé en développement. */
 .media-slot { display: block; width: 100%; height: auto; }

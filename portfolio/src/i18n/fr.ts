@@ -8,6 +8,7 @@ export interface Translations {
     home: string;
     sections: string;
     skills: string;
+    blog: string;
     projects: string;
     journey: string;
     education: string;
@@ -31,8 +32,6 @@ export interface Translations {
   };
   skills: {
     title: string;
-    stackLabel: string;
-    toolsLabel: string;
   };
   projects: {
     title: string;
@@ -85,10 +84,10 @@ export interface Translations {
     publishedOn: string;
     comingSoon: string;
   };
-  now: {
+  blog: {
     title: string;
-    // link : projet phare (lien), articles (cartes sous la ligne) ou contact (ancre).
-    items: { label: string; text: string; link?: "project" | "articles" | "contact" }[];
+    subtitle: string;
+    read: string;
   };
   contact: {
     title: string;
@@ -155,6 +154,7 @@ const fr: Translations = {
     home: "Accueil",
     sections: "Sections de la page",
     skills: "Compétences",
+    blog: "Blog",
     projects: "Projets",
     journey: "Parcours",
     education: "Formation",
@@ -173,13 +173,11 @@ const fr: Translations = {
     },
   },
   brief: {
-    introLead: "Je conçois des applications web et des outils d'IA.",
+    introLead: "Je transforme des idées en applications web et en outils d'IA qui servent vraiment.",
     introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
   },
   skills: {
     title: "Compétences",
-    stackLabel: "Stack",
-    toolsLabel: "Outils IA",
   },
   projects: {
     title: "Projets phares",
@@ -232,14 +230,10 @@ const fr: Translations = {
     publishedOn: "Publié le",
     comingSoon: "Contenu bientôt disponible.",
   },
-  now: {
-    title: "En ce moment",
-    items: [
-      { label: "Construit", text: "La carte de membre numérique du GDG Marseille.", link: "project" },
-      { label: "Explore", text: "Les LLM en local, avec Ollama, Hugging Face et DeepSeek." },
-      { label: "Écrit", text: "Des articles pour comprendre les LLM.", link: "articles" },
-      { label: "Cherche", text: "Un stage dès avril 2027, puis une alternance 2027-2028.", link: "contact" },
-    ],
+  blog: {
+    title: "Blog",
+    subtitle: "Ce que j'apprends sur les LLM, écrit pour être compris.",
+    read: "Lire",
   },
   contact: {
     title: "Un stage à proposer ?",

@@ -9,7 +9,7 @@ import { SkillsSection } from "@/components/sections/skills";
 import { ProjectsSection } from "@/components/sections/projects";
 import { JourneySection } from "@/components/sections/journey";
 import { EducationSection } from "@/components/sections/education";
-import { NowSection } from "@/components/sections/now";
+import { BlogSection } from "@/components/sections/blog";
 import { ContactSection } from "@/components/sections/contact";
 
 // Les dépôts GitHub sont relus au plus une fois par heure.
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // Page unique, dans l'ordre du récit : qui je suis, d'où je viens, ce que je fais,
-// ce que j'ai construit, ce qui m'occupe, comment me joindre.
+// ce que j'ai construit, ce que j'écris, comment me joindre.
 export default async function HomePage({ params }: Props) {
   const { locale: localeParam } = await params;
   const locale = isValidLocale(localeParam) ? localeParam : defaultLocale;
@@ -72,7 +72,7 @@ export default async function HomePage({ params }: Props) {
       <EducationSection locale={locale} />
       <SkillsSection locale={locale} />
       <ProjectsSection locale={locale} repos={repos} />
-      <NowSection locale={locale} />
+      <BlogSection locale={locale} />
       <ContactSection locale={locale} />
     </>
   );

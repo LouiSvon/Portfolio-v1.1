@@ -9,7 +9,7 @@ export const SECTION_IDS = [
   "formation",
   "competences",
   "projets",
-  "maintenant",
+  "articles",
   "contact",
 ] as const;
 
@@ -21,6 +21,7 @@ const NAV: { id: SectionId; key: keyof Translations["nav"] }[] = [
   { id: "formation", key: "education" },
   { id: "competences", key: "skills" },
   { id: "projets", key: "projects" },
+  { id: "articles", key: "blog" },
   { id: "contact", key: "contact" },
 ];
 

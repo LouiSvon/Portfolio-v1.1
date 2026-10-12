@@ -1,10 +1,9 @@
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
-import { aiTools, skillGroups, stack } from "@/data/stack";
-import { Marquee } from "@/components/ui/marquee";
+import { skillGroups } from "@/data/stack";
 import { SectionHeading } from "@/components/ui/section-heading";
 
-// Ce que je fais : les deux bandeaux font le pont depuis la formation, puis la liste des domaines
+// Ce que je fais : la liste des domaines
 // reste épinglée pendant qu'un trait bleu souligne chaque domaine à son tour (desktop). Le texte
 // reste toujours lisible en entier : seul le trait, décoratif, bouge. Petits écrans, écran bas
 // ou animations réduites : liste qui défile normalement, en apparitions simples.
@@ -14,11 +13,6 @@ export function SkillsSection({ locale }: { locale: Locale }) {
 
   return (
     <section id="competences" aria-labelledby="competences-titre">
-      <div className="flex flex-col gap-2 border-y border-border py-4">
-        <Marquee items={stack} label={t.skills.stackLabel} />
-        <Marquee items={aiTools} label={t.skills.toolsLabel} reverse accent />
-      </div>
-
       <div className="pin-track is-wide-only" style={{ "--track": "190svh" } as React.CSSProperties}>
         <div className="pin-stage">
           <div className="shell py-[clamp(5rem,12vh,8rem)]">

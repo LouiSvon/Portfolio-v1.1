@@ -9,6 +9,7 @@ const en: Translations = {
     home: "Home",
     sections: "Page sections",
     skills: "Skills",
+    blog: "Blog",
     projects: "Projects",
     journey: "Background",
     education: "Education",
@@ -27,13 +28,11 @@ const en: Translations = {
     },
   },
   brief: {
-    introLead: "I build web applications and AI tools.",
+    introLead: "I turn ideas into web apps and AI tools that people actually use.",
     introText: "Student at Epitech Marseille, looking for a 3-month internship starting April 2027, then a work-study contract for 2027-2028.",
   },
   skills: {
     title: "Skills",
-    stackLabel: "Stack",
-    toolsLabel: "AI tools",
   },
   projects: {
     title: "Featured projects",
@@ -86,14 +85,10 @@ const en: Translations = {
     publishedOn: "Published on",
     comingSoon: "Content coming soon.",
   },
-  now: {
-    title: "Right now",
-    items: [
-      { label: "Building", text: "The digital membership card of GDG Marseille.", link: "project" },
-      { label: "Exploring", text: "Local LLMs, with Ollama, Hugging Face and DeepSeek." },
-      { label: "Writing", text: "Articles to understand LLMs.", link: "articles" },
-      { label: "Looking for", text: "An internship from April 2027, then a work-study 2027-2028.", link: "contact" },
-    ],
+  blog: {
+    title: "Blog",
+    subtitle: "What I learn about LLMs, written to be understood.",
+    read: "Read",
   },
   contact: {
     title: "An internship to offer?",
