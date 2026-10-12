@@ -41,4 +41,8 @@ Dev : `npm run dev -- --webpack` (Turbopack servait un CSS périmé après plusi
 Décisions mobile : Parcours en frise sous 1024 px (Mac illisible) ; Formation dans le flux sous 1024 px ;
 Blog en rangée sous 768 px ; Accroche, Compétences et Contact épinglés partout (sauf écran bas < 600 px ou
 animations réduites). Contact : seule la phase titre est épinglée (clavier virtuel mobile sur le formulaire).
-Reste : relecture, export Netlify, rapport.
+Relecture faite (4 défauts, 0 bloquant), corrigés : mots clés de l'accroche doublés dans le texte (calque en
+::after), étape périmée après un saut (recalage à l'entrée à l'écran), titre du Parcours sur l'écran du Mac en
+repli et cartes superposées avant hydratation, marge du blog épinglé jamais appliquée. Débordement des scènes
+mesuré à 360x600, 768x600, 1024x700, 1440x900 : 0 px partout (témoin positif détecté). Export Netlify fait.
+Reste : push, rapport. Non vérifié : Safari / WebKit, appareils réels, « réduire les animations ».
