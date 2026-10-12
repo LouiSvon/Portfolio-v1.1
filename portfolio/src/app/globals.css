@@ -511,6 +511,10 @@ h1, h2, .display {
   gap: 1.5rem;
   margin-bottom: 3rem;
 }
+/* Petit écran : l'action (boutons) passe sous le titre au lieu de le recouvrir. */
+@media (max-width: 767px) {
+  .section-head { flex-direction: column; align-items: flex-start; }
+}
 .section-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -1304,6 +1308,8 @@ h1, h2, .display {
   .orbit-stage { position: sticky; top: 0; }
 }
 .orbit-grid { display: grid; gap: 2.5rem; align-items: center; }
+/* Sans cela, la rangée de pastilles élargit la grille au-delà de l'écran. */
+.orbit-grid > * { min-width: 0; }
 @media (min-width: 1024px) { .orbit-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 4rem; } }
 .orbit-grid .section-head { margin-bottom: 1.5rem; }
 
