@@ -92,6 +92,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={`${geistSans.variable} ${geistMono.variable} ${archivo.variable} ${doto.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col">
+        <div className="page-bg" aria-hidden="true" />
         <a href="#main" className="skip-link">
           {getTranslations(locale as Locale).nav.skip}
         </a>

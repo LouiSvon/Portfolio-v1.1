@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 import { profile } from "@/data/profile";
-import { SectionBackdrop } from "@/components/ui/section-backdrop";
 
 // Manifeste : la promesse en une phrase, épinglée pendant qu'elle s'allume mot à mot au défilement.
 // Le texte entier reste dans la page, dans l'ordre de lecture ; seule son opacité varie (plancher --dim :
@@ -17,8 +16,7 @@ export function ManifestoSection({ locale }: { locale: Locale }) {
 
   return (
     <section id="manifeste" className="pin-track" aria-labelledby="manifeste-titre">
-      <div className="pin-stage has-backdrop">
-        <SectionBackdrop name="manifeste" motif="constellation" tone="blue" />
+      <div className="pin-stage">
         <div className="shell py-[clamp(5rem,12vh,8rem)]">
           <h2 id="manifeste-titre" className="manifesto fade-in">
             {words.map((word, i) => (

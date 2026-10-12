@@ -21,13 +21,11 @@ export function SkillOrbit({
   title,
   groups,
   countLabel,
-  backdrop,
 }: {
   id: string;
   title: string;
   groups: OrbitGroup[];
   countLabel: string;
-  backdrop: React.ReactNode;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -61,8 +59,7 @@ export function SkillOrbit({
   return (
     <section id={id} className="orbit-track" aria-labelledby={`${id}-titre`}>
       <div ref={trackRef} className="orbit-pin">
-        <div ref={stageRef} className="orbit-stage has-backdrop">
-          {backdrop}
+        <div ref={stageRef} className="orbit-stage">
           <div className="shell orbit-grid">
             <div>
               <SectionHeading id={`${id}-titre`} title={title} />

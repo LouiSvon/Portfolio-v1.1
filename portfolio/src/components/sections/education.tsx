@@ -5,7 +5,6 @@ import { experiences } from "@/data/experience";
 import { certificationsBySector } from "@/data/certifications";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { SectionBackdrop } from "@/components/ui/section-backdrop";
 import { TiltCard } from "@/components/ui/tilt-card";
 
 function GoogleLogo() {
@@ -48,8 +47,7 @@ export function EducationSection({ locale }: { locale: Locale }) {
   const cvHref = `/${profile.cvFile}`;
 
   return (
-    <section id="formation" className="screen has-backdrop" aria-labelledby="formation-titre">
-      <SectionBackdrop name="formation" motif="blueprint" tone="blue" />
+    <section id="formation" className="screen" aria-labelledby="formation-titre">
       <div className="shell">
         <SectionHeading
           id="formation-titre"

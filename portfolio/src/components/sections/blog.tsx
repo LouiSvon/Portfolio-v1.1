@@ -4,7 +4,6 @@ import { getTranslations, formatFullDate } from "@/lib/i18n";
 import { articles } from "@/data/articles";
 import { sceneImage } from "@/lib/scenes";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { SectionBackdrop } from "@/components/ui/section-backdrop";
 import { BlogRail } from "@/components/ui/blog-rail";
 import { MediaSlot } from "@/components/ui/media-slot";
 
@@ -22,8 +21,7 @@ export function BlogSection({ locale }: { locale: Locale }) {
   const sorted = [...articles].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <section id="articles" className="screen has-backdrop" aria-labelledby="articles-titre">
-      <SectionBackdrop name="blog" motif="waves" tone="warm" />
+    <section id="articles" className="screen" aria-labelledby="articles-titre">
       <div className="shell">
         <SectionHeading id="articles-titre" title={t.blog.title} subtitle={t.blog.subtitle} />
       </div>

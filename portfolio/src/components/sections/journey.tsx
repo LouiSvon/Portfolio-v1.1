@@ -8,7 +8,6 @@ import { sceneImage } from "@/lib/scenes";
 import { Timeline, type TimelineItem } from "@/components/ui/timeline";
 import { JourneyMac } from "@/components/ui/journey-mac";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { SectionBackdrop } from "@/components/ui/section-backdrop";
 
 // D'où je viens. Grand écran : un Mac qui s'ouvre au défilement, dont l'écran raconte le chemin (JourneyMac).
 // Ailleurs (petit écran, écran bas, animations réduites) : la frise, titre épinglé pendant qu'elle se remplit.
@@ -66,14 +65,11 @@ export function JourneySection({ locale }: { locale: Locale }) {
           subtitle={t.journey.subtitle}
           items={items}
           walker={walker}
-          wallpaper={sceneImage("parcours-ecran")}
           host={`${new URL(siteUrl).host}/#parcours`}
-          backdrop={<SectionBackdrop name="parcours" motif="topo" tone="mix" />}
         />
       </div>
 
-      <div className="journey-lite has-backdrop screen">
-        <SectionBackdrop name="parcours" motif="topo" tone="mix" />
+      <div className="journey-lite screen">
         <div className="shell split">
           <div className="split-aside">
             <SectionHeading id="parcours-titre-lite" title={t.journey.title} subtitle={t.journey.subtitle} />

@@ -36,17 +36,13 @@ export function JourneyMac({
   subtitle,
   items,
   walker,
-  wallpaper,
   host,
-  backdrop,
 }: {
   title: string;
   subtitle: string;
   items: TimelineItem[];
   walker: Walker;
-  wallpaper?: string;
   host: string;
-  backdrop: React.ReactNode;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -84,9 +80,7 @@ export function JourneyMac({
 
   return (
     <div ref={trackRef} className="journey-track">
-      <div ref={stageRef} className="journey-stage has-backdrop">
-        {backdrop}
-
+      <div ref={stageRef} className="journey-stage">
         <motion.div className="journey-head" style={{ opacity: headOpacity, y: headY }}>
           <h2 id="parcours-titre" className="section-title">{title}</h2>
           <p className="section-subtitle">{subtitle}</p>
@@ -94,7 +88,7 @@ export function JourneyMac({
 
         <motion.div className="mac" style={{ scale, rotateX: tilt, y: lift }}>
           <motion.span className="mac-bezel" style={{ opacity: chrome }} aria-hidden="true" />
-          <div className="mac-screen" style={wallpaper ? ({ "--wallpaper": `url(${wallpaper})` } as React.CSSProperties) : undefined}>
+          <div className="mac-screen">
             <div className="mac-bar" aria-hidden="true">
               <span className="mac-dots"><i /><i /><i /></span>
               <span className="mac-url">{host}</span>
