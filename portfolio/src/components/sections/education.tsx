@@ -5,6 +5,8 @@ import { experiences } from "@/data/experience";
 import { certificationsBySector } from "@/data/certifications";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
+import { TiltCard } from "@/components/ui/tilt-card";
 
 function GoogleLogo() {
   return (
@@ -37,62 +39,67 @@ function NotionLogo() {
 
 const LOGOS = { bitcoin: <BitcoinLogo />, google: <GoogleLogo />, notion: <NotionLogo /> };
 
-// Formation : études et certifications vérifiables, le CV toujours à portée (colonne épinglée).
+// Formation : l'école en grand, puis les certifications comme des cartes de crédentiel qui s'inclinent
+// vers le pointeur. Le CV reste à portée, en haut à droite du titre.
 export function EducationSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
   const studies = experiences.filter((e) => e.type === "education");
+  const certs = certificationsBySector.flatMap((sector) => sector.certifs.map((cert) => ({ sector, cert })));
   const cvHref = `/${profile.cvFile}`;
 
   return (
-    <section id="formation" className="screen" aria-labelledby="formation-titre">
-      <div className="shell split">
-        <div className="split-aside">
-          <SectionHeading id="formation-titre" title={t.education.title} />
-          <div className="fade-in flex flex-wrap gap-3">
-            <a href={cvHref} download={profile.cvFile} className="btn-pill">
-              {t.education.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
-            </a>
-            <a href={cvHref} target="_blank" rel="noopener noreferrer" className="btn-ghost">
-              {t.education.openCV} <span className="arrow" aria-hidden="true">&rarr;</span>
-            </a>
-            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost">
-              {t.education.linkedin}
-            </a>
-          </div>
-        </div>
+    <section id="formation" className="screen has-backdrop" aria-labelledby="formation-titre">
+      <SectionBackdrop name="formation" motif="blueprint" tone="blue" />
+      <div className="shell">
+        <SectionHeading
+          id="formation-titre"
+          title={t.education.title}
+          action={
+            <div className="flex flex-wrap gap-3">
+              <a href={cvHref} download={profile.cvFile} className="btn-pill">
+                {t.education.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
+              </a>
+              <a href={cvHref} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                {t.education.openCV} <span className="arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                {t.education.linkedin}
+              </a>
+            </div>
+          }
+        />
 
-        <div className="flex flex-col gap-14">
+        <div className="flex flex-col gap-16">
           <div>
             <h3 className="eyebrow mb-4">{t.education.studies}</h3>
             <div className="space-y-4">
               {studies.map((exp) => (
-                <article key={exp.startDate} className="fade-in panel">
-                  <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                      <h4 className="panel-title">{exp.role[locale]}</h4>
-                      <p className="text-sm text-secondary">
-                        {exp.companyUrl ? (
-                          <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:text-accent hover:underline">
-                            {exp.company[locale]} <span aria-hidden="true">&#8599;</span>
-                          </a>
-                        ) : (
-                          exp.company[locale]
-                        )}
-                      </p>
-                    </div>
-                    <time className="chip shrink-0 self-start sm:whitespace-nowrap">
+                <article key={exp.startDate} className="fade-in study-card">
+                  <div className="study-main">
+                    <time className="chip self-start">
                       {formatDate(exp.startDate, locale)} — {exp.endDate ? formatDate(exp.endDate, locale) : t.journey.present}
                     </time>
+                    <h4 className="study-school">
+                      {exp.companyUrl ? (
+                        <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-8 hover:text-accent hover:underline">
+                          {exp.company[locale]} <span aria-hidden="true" className="text-secondary">&#8599;</span>
+                        </a>
+                      ) : (
+                        exp.company[locale]
+                      )}
+                    </h4>
+                    <p className="text-lg font-medium text-primary">{exp.role[locale]}</p>
+                    <p className="max-w-xl text-sm leading-relaxed text-secondary sm:text-base">{exp.description[locale]}</p>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {exp.technologies.map((tech) => (
+                        <li key={tech}><Badge variant="technology" data-tech={tech}>{tech}</Badge></li>
+                      ))}
+                      {exp.skills?.[locale].map((skill) => (
+                        <li key={skill} className="chip">{skill}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <p className="text-sm leading-relaxed text-secondary">{exp.description[locale]}</p>
-                  <ul className="mt-3 flex flex-wrap gap-1.5">
-                    {exp.technologies.map((tech) => (
-                      <li key={tech}><Badge variant="technology" data-tech={tech}>{tech}</Badge></li>
-                    ))}
-                    {exp.skills?.[locale].map((skill) => (
-                      <li key={skill} className="chip">{skill}</li>
-                    ))}
-                  </ul>
+                  <span className="study-year" aria-hidden="true">{exp.startDate.slice(0, 4)}</span>
                 </article>
               ))}
             </div>
@@ -100,44 +107,46 @@ export function EducationSection({ locale }: { locale: Locale }) {
 
           <div>
             <h3 className="eyebrow mb-4">{t.education.certifications}</h3>
-            <ul className="cert-list">
-              {certificationsBySector.flatMap((sector) =>
-                sector.certifs.map((cert) => {
-                  const logo = cert.logo ?? sector.logo;
-                  const pending = cert.statut === "en_cours";
-                  return (
-                    <li key={cert.titre.en} className={`fade-in panel cert-card${pending ? " border-dashed" : ""}`}>
-                      <span className="eyebrow">{sector.secteur[locale]}</span>
-                      <h4 className="panel-title flex items-center gap-1.5">
-                        {logo && <span className="shrink-0">{LOGOS[logo]}</span>}
-                        {cert.titre[locale]}
-                      </h4>
-                      <p className="text-xs text-secondary">
-                        {cert.organisme}
-                        {pending ? ` · ${t.education.inProgress}` : cert.date ? ` · ${cert.date}` : ""}
-                        {cert.expiration && ` · ${t.education.expires} ${cert.expiration}`}
-                      </p>
-                      {cert.competences.length > 0 && (
-                        <ul className="flex flex-wrap gap-1.5">
-                          {cert.competences.map((c) => (
-                            <li key={c}><Badge>{c}</Badge></li>
-                          ))}
-                        </ul>
-                      )}
-                      {cert.lien && (
-                        <a
-                          href={cert.lien}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-auto pt-1 text-sm font-medium text-accent underline-offset-4 hover:underline"
-                        >
-                          {t.education.viewCertificate}
-                        </a>
-                      )}
-                    </li>
-                  );
-                }),
-              )}
+            <ul className="cred-grid">
+              {certs.map(({ sector, cert }, i) => {
+                const logo = cert.logo ?? sector.logo;
+                const pending = cert.statut === "en_cours";
+                return (
+                  <li key={cert.titre.en} className="fade-in" style={{ "--i": i } as React.CSSProperties}>
+                    <TiltCard className={`cred-card${pending ? " is-pending" : ""}`}>
+                      <span className="cred-logo" aria-hidden="true">{logo ? LOGOS[logo] : null}</span>
+                      <div className="cred-body">
+                        <span className="eyebrow">{sector.secteur[locale]}</span>
+                        <h4 className="cred-title">{cert.titre[locale]}</h4>
+                        <p className="text-xs text-secondary">
+                          {cert.organisme}
+                          {pending ? ` · ${t.education.inProgress}` : cert.date ? ` · ${cert.date}` : ""}
+                          {cert.expiration && ` · ${t.education.expires} ${cert.expiration}`}
+                        </p>
+                      </div>
+                      <div className="cred-foot">
+                        {cert.competences.length > 0 && (
+                          <ul className="flex flex-wrap gap-1.5">
+                            {cert.competences.map((c) => (
+                              <li key={c}><Badge>{c}</Badge></li>
+                            ))}
+                          </ul>
+                        )}
+                        {cert.lien && (
+                          <a
+                            href={cert.lien}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="cred-link after:absolute after:inset-0"
+                          >
+                            {t.education.viewCertificate}
+                          </a>
+                        )}
+                      </div>
+                    </TiltCard>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
