@@ -28,7 +28,7 @@ function LinkedInIcon() {
   );
 }
 
-// Contact : l'appel final. Disponibilité, canaux directs et formulaire, sans quitter la page.
+// Contact : l'appel final. Le titre grandit en arrivant ; disponibilité, canaux directs et formulaire.
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
   const isAvailable = profile.available !== false;
@@ -36,7 +36,7 @@ export function ContactSection({ locale }: { locale: Locale }) {
   return (
     <section id="contact" className="screen" aria-labelledby="contact-titre">
       <div className="shell">
-        <h2 id="contact-titre" className="cta-xl fade-in text-primary">{t.contact.title}</h2>
+        <h2 id="contact-titre" className="cta-xl scale-in text-primary">{t.contact.title}</h2>
         <p className="section-subtitle fade-in !mt-0 mb-12">{t.contact.subtitle}</p>
         <div className="contact-layout">
           <div className="fade-in">

@@ -4,12 +4,11 @@ import { defaultLocale, isValidLocale, getTranslations, locales } from "@/lib/i1
 import { fetchGitHubRepos } from "@/lib/github";
 import { profile } from "@/data/profile";
 import { HeroSection } from "@/components/sections/hero";
-import { BriefSection } from "@/components/sections/brief";
+import { ManifestoSection } from "@/components/sections/manifesto";
 import { SkillsSection } from "@/components/sections/skills";
 import { ProjectsSection } from "@/components/sections/projects";
 import { JourneySection } from "@/components/sections/journey";
 import { EducationSection } from "@/components/sections/education";
-import { ArticlesSection } from "@/components/sections/articles";
 import { NowSection } from "@/components/sections/now";
 import { ContactSection } from "@/components/sections/contact";
 
@@ -43,7 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Page unique : qui je suis, ce que je fais, d'où je viens, comment me joindre.
+// Page unique, dans l'ordre du récit : qui je suis, d'où je viens, ce que je fais,
+// ce que j'ai construit, ce qui m'occupe, comment me joindre.
 export default async function HomePage({ params }: Props) {
   const { locale: localeParam } = await params;
   const locale = isValidLocale(localeParam) ? localeParam : defaultLocale;
@@ -67,12 +67,11 @@ export default async function HomePage({ params }: Props) {
         }}
       />
       <HeroSection locale={locale} />
-      <BriefSection locale={locale} />
-      <SkillsSection locale={locale} />
-      <ProjectsSection locale={locale} repos={repos} />
+      <ManifestoSection locale={locale} />
       <JourneySection locale={locale} />
       <EducationSection locale={locale} />
-      <ArticlesSection locale={locale} />
+      <SkillsSection locale={locale} />
+      <ProjectsSection locale={locale} repos={repos} />
       <NowSection locale={locale} />
       <ContactSection locale={locale} />
     </>

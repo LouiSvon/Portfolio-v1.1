@@ -2,11 +2,13 @@ import type { Locale, Project } from "@/types";
 import { getTranslations, formatFullDate } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { highlights } from "@/data/highlights";
-import { ProjectScene, type Scene } from "@/components/ui/project-scene";
+import type { Scene } from "@/components/ui/project-scene";
+import { ProjectStack } from "@/components/ui/project-stack";
 import { OtherProjects } from "@/components/ui/other-projects";
+import { toFilterItems } from "@/lib/project-scenes";
 import { SectionHeading } from "@/components/ui/section-heading";
 
-// Projets phares en scènes qui se dévoilent au défilement, puis le reste des dépôts sur demande.
+// Ce que j'ai construit : les projets phares en cartes empilées, puis le reste des dépôts sur demande.
 // `repos` vient de l'API GitHub : vide si elle ne répond pas, les projets phares restent affichés.
 export function ProjectsSection({ locale, repos }: { locale: Locale; repos: Project[] }) {
   const t = getTranslations(locale);
@@ -35,12 +37,8 @@ export function ProjectsSection({ locale, repos }: { locale: Locale; repos: Proj
     <section id="projets" className="screen" aria-labelledby="projets-titre">
       <div className="shell">
         <SectionHeading id="projets-titre" title={t.projects.title} />
-        <div className="showcase flex flex-col gap-[clamp(4rem,10vh,8rem)]">
-          {scenes.map((scene, i) => (
-            <ProjectScene key={scene.key} scene={scene} index={i} labels={labels} />
-          ))}
-        </div>
-        {others.length > 0 && <OtherProjects projects={others} locale={locale} />}
+        <ProjectStack scenes={scenes} labels={labels} />
+        {others.length > 0 && <OtherProjects items={toFilterItems(others, locale)} locale={locale} />}
       </div>
     </section>
   );

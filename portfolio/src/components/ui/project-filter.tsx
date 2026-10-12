@@ -2,42 +2,20 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import type { Project, Locale } from "@/types";
-import { getTranslations, formatFullDate } from "@/lib/i18n";
+import { getTranslations } from "@/lib/i18n";
 import { ProjectScene, type Scene } from "@/components/ui/project-scene";
 
 type SortKey = "recent" | "oldest" | "az";
 
-// Couleurs des panneaux des dépôts (les projets phares gardent les leurs).
-const PANEL_COLORS: [string, string][] = [
-  ["#4f8cff", "#9b6bff"],
-  ["#2ee6a6", "#00b3ff"],
-  ["#ff6b35", "#ff3d7f"],
-  ["#8b7dff", "#4dd0ff"],
-  ["#ffb36b", "#ff6b9a"],
-  ["#3ddc84", "#4d8dff"],
-];
-
-function toScene(project: Project, index: number, locale: Locale): Scene {
-  return {
-    key: project.name,
-    title: project.name,
-    tagline: project.customDescription?.[locale] ?? project.description ?? undefined,
-    kind: project.language ?? undefined,
-    chips: [project.language, ...project.topics].filter(Boolean).slice(0, 4) as string[],
-    href: project.url,
-    colors: PANEL_COLORS[index % PANEL_COLORS.length],
-    featured: project.featured,
-    stars: project.stars,
-    updated: formatFullDate(project.updatedAt, locale),
-    demo: project.demo ?? undefined,
-  };
-}
+// Ce que la liste reçoit : la scène déjà mise en forme côté serveur (langue de la page),
+// plus les seuls champs qui servent au filtre et au tri. Rien d'autre ne transite vers le navigateur.
+export type FilterItem = Pick<Project, "name" | "language" | "featured" | "updatedAt"> & { scene: Scene };
 
 export function ProjectFilter({
-  projects,
+  items: projects,
   locale,
 }: {
-  projects: Project[];
+  items: FilterItem[];
   locale: Locale;
 }) {
   const t = getTranslations(locale);
@@ -123,7 +101,7 @@ export function ProjectFilter({
             onClick={() => setPanelOpen((v) => !v)}
             aria-expanded={panelOpen}
             aria-label={t.projects.filters}
-            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-border text-secondary transition-colors duration-150 hover:border-accent hover:text-accent"
+            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-border text-secondary transition-colors duration-(--dur-fast) hover:border-accent hover:text-accent"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <circle cx="3" cy="8" r="1.5" fill="currentColor"/>
@@ -192,7 +170,7 @@ export function ProjectFilter({
                       <button
                         key={lang}
                         onClick={() => toggleFilter(lang)}
-                        className={`chip transition-colors duration-150 ${
+                        className={`chip transition-colors duration-(--dur-fast) ${
                           selected.has(lang)
                             ? "border-accent text-accent bg-accent-soft"
                             : "border-border text-secondary hover:border-accent hover:text-accent"
@@ -223,7 +201,9 @@ export function ProjectFilter({
       {filtered.length > 0 ? (
         <div className="showcase flex flex-col gap-[clamp(4rem,10vh,8rem)]">
           {filtered.map((project, i) => (
-            <ProjectScene key={project.name} scene={toScene(project, i, locale)} index={i} labels={labels} />
+            <div key={project.name} className="fade-in">
+              <ProjectScene scene={project.scene} index={i} labels={labels} />
+            </div>
           ))}
         </div>
       ) : (

@@ -11,7 +11,6 @@ export interface Translations {
     projects: string;
     journey: string;
     education: string;
-    articles: string;
     contact: string;
     skip: string;
     menu: string;
@@ -27,11 +26,8 @@ export interface Translations {
     };
   };
   brief: {
-    title: string;
     introLead: string;
     introText: string;
-    // {n} est remplacé par le nombre de certifications obtenues ; anchor = section qui détaille le fait.
-    facts: { category: string; value: string; label: string; anchor: string }[];
   };
   skills: {
     title: string;
@@ -79,8 +75,6 @@ export interface Translations {
     linkedin: string;
   };
   articles: {
-    title: string;
-    subtitle: string;
     readingTime: string;
     noArticles: string;
     backToArticles: string;
@@ -93,7 +87,7 @@ export interface Translations {
   };
   now: {
     title: string;
-    // link : cible facultative de la ligne (projet phare, articles ou contact).
+    // link : projet phare (lien), articles (cartes sous la ligne) ou contact (ancre).
     items: { label: string; text: string; link?: "project" | "articles" | "contact" }[];
   };
   contact: {
@@ -142,6 +136,10 @@ export interface Translations {
     title: string;
     back: string;
   };
+  error: {
+    title: string;
+    retry: string;
+  };
   language: {
     switch: string;
     label: string;
@@ -160,7 +158,6 @@ const fr: Translations = {
     projects: "Projets",
     journey: "Parcours",
     education: "Formation",
-    articles: "Articles",
     contact: "Contact",
     skip: "Aller au contenu",
     menu: "Menu",
@@ -176,15 +173,8 @@ const fr: Translations = {
     },
   },
   brief: {
-    title: "En bref",
     introLead: "Je conçois des applications web et des outils d'IA.",
     introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
-    facts: [
-      { category: "Formation", value: "2e année", label: "Bachelor informatique à Epitech Marseille", anchor: "formation" },
-      { category: "Engagement", value: "GDG Marseille", label: "Développeur bénévole depuis avril 2026", anchor: "parcours" },
-      { category: "Certifications", value: "{n} obtenues", label: "Vérifiables en ligne", anchor: "formation" },
-      { category: "International", value: "Erasmus", label: "À Dublin, en équipe multiculturelle", anchor: "parcours" },
-    ],
   },
   skills: {
     title: "Compétences",
@@ -232,8 +222,6 @@ const fr: Translations = {
     linkedin: "LinkedIn →",
   },
   articles: {
-    title: "Articles",
-    subtitle: "Articles sur le développement web et l'IA.",
     readingTime: "min de lecture",
     noArticles: "Aucun article pour l'instant.",
     backToArticles: "Retour aux articles",
@@ -298,6 +286,10 @@ const fr: Translations = {
   notFound: {
     title: "Page introuvable",
     back: "Retour à l'accueil",
+  },
+  error: {
+    title: "Une erreur est survenue",
+    retry: "Réessayer",
   },
   language: {
     switch: "English",

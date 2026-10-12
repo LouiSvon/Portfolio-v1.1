@@ -19,7 +19,6 @@
   --badge-bg: #1b1b1f;
   --badge-technology-fallback: #aaa69e;
   --language-fallback: #aaa69e;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
@@ -71,7 +70,7 @@ html {
 /* Accent color transitions — applied globally */
 a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   transition-property: color, border-color, background-color;
-  transition-duration: 0.2s;
+  transition-duration: var(--dur-fast);
   transition-timing-function: ease;
 }
 
@@ -103,7 +102,7 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
 
 /* Card hover lift */
 .card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow var(--dur-fast) ease;
 }
 .card:hover {
   transform: translateY(-3px);
@@ -113,8 +112,9 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
 /* Scroll fade-in */
 .fade-in {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transform: translateY(var(--reveal-y));
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
 }
 .fade-in.visible {
   opacity: 1;
@@ -133,7 +133,7 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   padding: 1.25rem;
   box-shadow: 0 20px 50px -12px rgba(0,0,0,0.7);
   z-index: 100;
-  animation: panel-in 0.15s ease;
+  animation: panel-in var(--dur-fast) var(--ease-out);
 }
 @keyframes panel-in {
   from { opacity: 0; transform: translateY(-6px); }
@@ -176,7 +176,7 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   border: 1px solid var(--border);
   border-radius: 1.5rem;
   background: var(--surface);
-  transition: border-color 0.3s ease;
+  transition: border-color var(--dur-fast) ease;
 }
 .panel:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
 .panel-title {
@@ -197,7 +197,7 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   background: var(--surface);
   font-size: 0.95rem;
   color: var(--foreground);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
 }
 .field::placeholder { color: var(--tertiary); }
 .field:hover { border-color: color-mix(in srgb, var(--foreground) 18%, var(--border)); }
@@ -282,6 +282,7 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
 
 @media (prefers-reduced-motion: reduce) {
   .timeline-fill { transform: none !important; }
+  .timeline-dot { transform: none !important; opacity: 1 !important; }
 }
 
 /* Grand chiffre à points (404). */
@@ -359,7 +360,7 @@ h1, h2, .display {
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: -0.01em;
-  transition: transform 0.4s var(--ease-out), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.4s ease;
+  transition: transform var(--dur-nudge) var(--ease-out), background-color var(--dur-fast) ease, border-color var(--dur-fast) ease, color var(--dur-fast) ease, box-shadow 0.4s ease;
 }
 .btn-pill {
   background: var(--accent-strong);
@@ -376,7 +377,7 @@ h1, h2, .display {
 }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 .btn-pill .arrow,
-.btn-ghost .arrow { transition: transform 0.4s var(--ease-out); }
+.btn-ghost .arrow { transition: transform var(--dur-nudge) var(--ease-out); }
 .btn-pill:hover .arrow,
 .btn-ghost:hover .arrow { transform: translateX(3px); }
 
@@ -487,13 +488,13 @@ h1, h2, .display {
 .reveal-line > span {
   display: inline-block;
   transform: translateY(105%);
-  animation: rise 1.1s var(--ease-out) forwards;
+  animation: rise var(--dur-slow) var(--ease-out) forwards;
   animation-delay: var(--d, 0s);
 }
 .reveal-soft {
   opacity: 0;
   transform: translateY(14px);
-  animation: soft-in 0.9s var(--ease-out) forwards;
+  animation: soft-in var(--dur-slow) var(--ease-out) forwards;
   animation-delay: var(--d, 0s);
 }
 @keyframes rise { to { transform: translateY(0); } }
@@ -508,8 +509,9 @@ h1, h2, .display {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 150s linear infinite;
 }
+/* Le défilement démarre une fois les copies ajoutées par le navigateur (sinon la boucle sauterait). */
+.marquee-track[data-ready] { animation: marquee 150s linear infinite; }
 .marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 180s; }
 .marquee-list { display: flex; flex-shrink: 0; }
 .marquee.accent .marquee-list li { color: color-mix(in srgb, var(--accent) 85%, transparent); }
@@ -537,50 +539,8 @@ h1, h2, .display {
   to   { transform: translateX(-50%); }
 }
 
-/* ── « En bref » : présentation épinglée + faits cliquables vers leur section ── */
-.brief-lead {
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
-  color: var(--foreground);
-  text-wrap: balance;
-}
+/* ── Manifeste : la promesse en très grand ──────────────── */
 .brief-text { max-width: 32rem; color: var(--secondary); }
-.fact-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-height: 10rem;
-  padding: clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
-  border: 1px solid var(--border);
-  border-radius: 1.5rem;
-  background: var(--surface);
-  transition-property: opacity, transform, border-color;
-}
-.fact-card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
-.fact-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: auto;
-  padding-bottom: 1.25rem;
-}
-.fact-arrow {
-  color: var(--tertiary);
-  transition: transform 0.4s var(--ease-out), color 0.2s ease;
-}
-.fact-card:hover .fact-arrow { color: var(--accent); transform: translateX(3px); }
-.fact-value {
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: clamp(1.3rem, 1rem + 1.1vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  color: var(--foreground);
-}
-.fact-label { font-size: 0.875rem; line-height: 1.4; color: var(--secondary); }
 
 /* ── « En ce moment » : lignes d'état ──────────────────── */
 .now-row {
@@ -619,13 +579,13 @@ h1, h2, .display {
   line-height: 1.2;
   letter-spacing: -0.03em;
   color: var(--foreground);
-  transition: color 0.25s ease, transform 0.5s var(--ease-out);
+  transition: color var(--dur-fast) ease, transform var(--dur-nudge) var(--ease-out);
 }
 .now-arrow {
   display: none;
   font-size: 1.4rem;
   color: var(--secondary);
-  transition: transform 0.4s var(--ease-out), color 0.25s ease;
+  transition: transform var(--dur-nudge) var(--ease-out), color var(--dur-fast) ease;
 }
 @media (min-width: 768px) { .now-arrow { display: block; } }
 .now-row.is-link:hover .now-text { color: var(--accent); transform: translateX(6px); }
@@ -674,7 +634,7 @@ h1, h2, .display {
   border: 1px solid var(--border);
   border-radius: 1.75rem;
   background: var(--surface);
-  transition: border-color 0.4s ease, transform 0.5s var(--ease-out);
+  transition: border-color 0.4s ease, transform var(--dur-nudge) var(--ease-out);
 }
 @media (min-width: 768px) {
   .proj-card { grid-template-columns: 1.15fr 1fr; min-height: 19rem; }
@@ -683,7 +643,6 @@ h1, h2, .display {
 }
 .proj-card:hover { border-color: color-mix(in srgb, var(--c1) 50%, var(--border)); }
 /* Page Projets : scènes plein écran qui se dévoilent au défilement. */
-.showcase-card { transform-origin: 50% 80%; will-change: transform, opacity; }
 @media (min-width: 768px) {
   .showcase-card { min-height: min(34rem, 70vh); }
   .showcase-card .proj-body { justify-content: center; gap: 1.25rem; padding: clamp(2rem, 1rem + 3vw, 3.5rem); }
@@ -702,20 +661,14 @@ h1, h2, .display {
   background: radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--c2) 55%, transparent), transparent 60%);
 }
 @media (prefers-reduced-motion: reduce) {
-  .showcase-card,
-  .showcase-card .proj-visual,
   .showcase-card .proj-num,
+  .showcase-card .proj-glow,
   .showcase-anim {
     opacity: 1 !important;
     transform: none !important;
-    clip-path: none !important;
+    scale: none !important;
   }
 }
-/* Variante empilée (page Projets) : panneau au-dessus, corps en dessous. */
-.proj-card.is-stacked { grid-template-columns: 1fr; min-height: 0; }
-.proj-card.is-stacked .proj-visual { order: -1; min-height: 9.5rem; }
-.proj-card.is-stacked .proj-num { font-size: clamp(4rem, 3rem + 3vw, 6rem); }
-.proj-card.is-stacked .proj-title { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); }
 .proj-featured {
   position: absolute;
   right: 1.25rem;
@@ -756,7 +709,7 @@ h1, h2, .display {
   font-weight: 500;
   color: var(--foreground);
 }
-.proj-cta .arrow { transition: transform 0.4s var(--ease-out); }
+.proj-cta .arrow { transition: transform var(--dur-nudge) var(--ease-out); }
 .proj-card:hover .proj-cta .arrow { transform: translateX(4px); }
 .proj-card:hover .proj-cta { color: var(--c1); }
 
@@ -846,7 +799,7 @@ h1, h2, .display {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--secondary);
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
 }
 .nav-link:hover { color: var(--foreground); }
 .nav-link[aria-current] {
@@ -893,7 +846,7 @@ h1, h2, .display {
   font-size: 0.85rem;
   color: var(--secondary);
   text-decoration: none;
-  transition: color 0.15s;
+  transition: color var(--dur-fast);
 }
 .contact-link svg {
   width: 0.95rem;
@@ -922,7 +875,8 @@ h1, h2, .display {
   .now-dot::after,
   .proj-visual::before,
   .proj-visual::after,
-  .marquee-track { animation: none; }
+  .marquee-track,
+  .marquee-track[data-ready] { animation: none; }
   .reveal-line > span,
   .reveal-soft { animation: none; transform: none; opacity: 1; }
   .marquee-list[aria-hidden="true"] { display: none; }
@@ -978,7 +932,7 @@ h1, h2, .display {
   text-underline-offset: 3px;
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
-  transition: text-decoration-color 0.15s;
+  transition: text-decoration-color var(--dur-fast);
 }
 
 .prose a:hover {
@@ -1079,23 +1033,25 @@ h1, h2, .display {
 }
 .split-aside .section-head { margin-bottom: 2rem; }
 
-/* « En bref » : la phrase clé en grand, puis les faits sur une ligne. */
-.brief-statement {
-  display: grid;
-  gap: 1.5rem;
-  align-items: end;
-  margin-bottom: clamp(3rem, 8vh, 5rem);
+.manifesto {
+  max-width: 18ch;
+  font-size: clamp(2.6rem, 1.2rem + 6vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  color: var(--foreground);
 }
-@media (min-width: 1024px) { .brief-statement { grid-template-columns: minmax(0, 1fr) 22rem; gap: 4rem; } }
-.brief-statement .brief-lead { font-size: clamp(2.2rem, 1.2rem + 4vw, 4.75rem); line-height: 1; letter-spacing: -0.05em; }
-.brief-aside { display: flex; flex-direction: column; gap: 1.25rem; }
-.fact-list { display: grid; gap: 0.75rem; }
-@media (min-width: 640px) { .fact-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1024px) { .fact-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.fact-list .fact-card { height: 100%; }
+.manifesto-aside {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 34rem;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
 
 /* Compétences : une ligne par domaine, petites pastilles à logo. */
 .skill-row {
+  position: relative;
   display: grid;
   gap: 0.9rem;
   padding: 1.5rem 0;
@@ -1103,6 +1059,18 @@ h1, h2, .display {
 }
 @media (min-width: 768px) {
   .skill-row { grid-template-columns: 15rem 1fr; align-items: baseline; gap: 2rem; }
+}
+/* Trait d'accent posé sur la bordure du domaine ; tracé au défilement dans la scène épinglée. */
+.skill-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
 }
 .skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .skill-chip {
@@ -1114,7 +1082,7 @@ h1, h2, .display {
   border-radius: 999px;
   font-size: 0.85rem;
   color: var(--secondary);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
 .skill-chip:hover { color: var(--foreground); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
 .skill-chip-logo {
@@ -1122,6 +1090,8 @@ h1, h2, .display {
   height: 14px;
   flex-shrink: 0;
   background: currentColor;
+  -webkit-mask-image: var(--logo);
+  mask-image: var(--logo);
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;
@@ -1160,8 +1130,13 @@ h1, h2, .display {
   color: var(--accent);
 }
 
-/* Héros : au défilement, le fond dérive plus lentement que la page et le texte s'efface.
-   Animations liées au défilement en CSS natif, sans JavaScript ; ignorées sans support. */
+/* ── Mouvement lié au défilement (CSS natif) ─────────────
+   Animations pilotées par la position de défilement (animation-timeline), sans JavaScript et sans
+   toucher au défilement lui-même. Seuls transform et opacity bougent.
+   Repli : navigateur sans support, écran trop bas ou « réduire les animations » : rien n'est épinglé,
+   tout est affiché à son état final (les apparitions .fade-in prennent le relais). */
+
+/* Héros : le fond dérive plus lentement que la page, le texte recule et s'efface. */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     .hero-bg {
@@ -1177,4 +1152,84 @@ h1, h2, .display {
   }
 }
 @keyframes hero-drift { to { transform: translateY(30%); } }
-@keyframes hero-recede { to { opacity: 0; transform: translateY(-8vh) scale(0.96); } }
+@keyframes hero-recede { to { opacity: 0; transform: translateY(-8vh) scale(var(--reveal-scale)); } }
+
+/* Scène épinglée : .pin-track est plus haute que l'écran, .pin-stage reste fixée pendant la traversée,
+   chaque .on-scroll s'allume entre --from et --to de la traversée. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-height: 700px) {
+    .pin-track { height: var(--track, 170svh); view-timeline: --pin block; }
+    .pin-stage {
+      position: sticky;
+      top: 0;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .on-scroll {
+      animation: light-up linear both;
+      animation-timeline: --pin;
+      animation-range: contain var(--from, 0%) contain var(--to, 100%);
+    }
+    .on-scroll-line::before {
+      animation: line-in linear both;
+      animation-timeline: --pin;
+      animation-range: contain var(--from, 0%) contain var(--to, 100%);
+    }
+    /* Mobile : piste plus courte, effet identique mais plus vif. */
+    @media (max-width: 767px) { .pin-track { --track: 130svh; } }
+    /* Scènes trop hautes pour un petit écran : déroulé simple sous 1024 px. */
+    @media (max-width: 1023px) {
+      .pin-track.is-wide-only { height: auto; }
+      .pin-track.is-wide-only .pin-stage { position: static; min-height: 0; }
+      .pin-track.is-wide-only .on-scroll,
+      .pin-track.is-wide-only .on-scroll-line::before { animation: none; }
+    }
+  }
+
+  /* Titre qui grandit en arrivant (contact). */
+  @media (prefers-reduced-motion: no-preference) {
+    .scale-in {
+      animation: scale-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes light-up {
+  from { opacity: var(--dim); transform: translateY(calc(var(--reveal-y) / 2)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes line-in {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes scale-in {
+  from { opacity: var(--dim); transform: scale(var(--reveal-scale)); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Projets : cartes empilées. Chaque carte s'épingle, la suivante glisse par-dessus et la précédente
+   recule (échelle et opacité pilotées par Motion). Sous 1024 px ou écran bas : simple liste. */
+.stack { display: flex; flex-direction: column; gap: clamp(2rem, 6vh, 4rem); }
+.stack-card { position: relative; }
+@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+  .stack-card { position: sticky; top: calc(6rem + var(--i, 0) * 1.25rem); transform-origin: 50% 0; will-change: transform; }
+}
+.stack-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 1.75rem;
+  background: var(--background);
+  opacity: 0;
+  pointer-events: none;
+}
+@media (max-width: 1023px), (max-height: 699px), (prefers-reduced-motion: reduce) {
+  .stack-card { transform: none !important; }
+  .stack-shade { display: none; }
+}
+
+/* Décors des panneaux de projet : ils laissent passer le clic vers le lien étiré de la carte. */
+.proj-dots, .proj-num, .proj-kind, .proj-glow, .media-slot.is-empty { pointer-events: none; }

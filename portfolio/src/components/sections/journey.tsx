@@ -5,8 +5,9 @@ import { benevol } from "@/data/benevol";
 import { Timeline, type TimelineItem } from "@/components/ui/timeline";
 import { SectionHeading } from "@/components/ui/section-heading";
 
-// Parcours : le titre reste épinglé pendant que la frise se remplit au défilement.
-// Bénévolat en tête (en cours), puis les expériences de la plus récente à la plus ancienne.
+// D'où je viens : le titre reste épinglé pendant que la frise se remplit au défilement.
+// Ordre chronologique, de la plus ancienne expérience au bénévolat en cours : l'histoire avance
+// jusqu'au présent, puis la formation prend le relais.
 export function JourneySection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
 
@@ -27,11 +28,7 @@ export function JourneySection({ locale }: { locale: Locale }) {
 
   const work: TimelineItem[] = experiences
     .filter((e) => e.type !== "education")
-    .sort((a, b) => {
-      if (!a.endDate && b.endDate) return -1;
-      if (a.endDate && !b.endDate) return 1;
-      return b.startDate.localeCompare(a.startDate);
-    })
+    .sort((a, b) => a.startDate.localeCompare(b.startDate))
     .map((exp) => ({
       key: `${exp.company.en}-${exp.startDate}`,
       typeLabel: t.journey.types[exp.type as keyof typeof t.journey.types],
@@ -54,7 +51,7 @@ export function JourneySection({ locale }: { locale: Locale }) {
         <div className="split-aside">
           <SectionHeading id="parcours-titre" title={t.journey.title} subtitle={t.journey.subtitle} />
         </div>
-        <Timeline items={[...volunteering, ...work]} />
+        <Timeline items={[...work, ...volunteering]} />
       </div>
     </section>
   );

@@ -12,7 +12,6 @@ const en: Translations = {
     projects: "Projects",
     journey: "Background",
     education: "Education",
-    articles: "Articles",
     contact: "Contact",
     skip: "Skip to content",
     menu: "Menu",
@@ -28,15 +27,8 @@ const en: Translations = {
     },
   },
   brief: {
-    title: "In brief",
     introLead: "I build web applications and AI tools.",
     introText: "Student at Epitech Marseille, looking for a 3-month internship starting April 2027, then a work-study contract for 2027-2028.",
-    facts: [
-      { category: "Education", value: "Second year", label: "Computer science bachelor at Epitech Marseille", anchor: "formation" },
-      { category: "Community", value: "GDG Marseille", label: "Volunteer developer since April 2026", anchor: "parcours" },
-      { category: "Certifications", value: "{n} earned", label: "Verifiable online", anchor: "formation" },
-      { category: "International", value: "Erasmus", label: "In Dublin, in a multicultural team", anchor: "parcours" },
-    ],
   },
   skills: {
     title: "Skills",
@@ -84,8 +76,6 @@ const en: Translations = {
     linkedin: "LinkedIn →",
   },
   articles: {
-    title: "Articles",
-    subtitle: "Articles on web development and AI.",
     readingTime: "min read",
     noArticles: "No articles yet.",
     backToArticles: "Back to articles",
@@ -150,6 +140,10 @@ const en: Translations = {
   notFound: {
     title: "Page not found",
     back: "Back to home",
+  },
+  error: {
+    title: "Something went wrong",
+    retry: "Try again",
   },
   language: {
     switch: "Français",
