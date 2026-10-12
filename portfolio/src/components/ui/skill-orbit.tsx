@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { PinTrack } from "@/components/ui/pin-track";
 import { SectionHeading } from "@/components/ui/section-heading";
 
@@ -39,37 +39,7 @@ export function SkillOrbit({
 
           <div className="orbit pause-offscreen">
             {groups.map((group, g) => (
-              <div key={group.title} className="orbit-set" hidden={g !== active}>
-                <p className="orbit-core">
-                  <b>{group.items.length}</b>
-                  <span>{countLabel}</span>
-                </p>
-                {rings(group.items).map((ring, r) => (
-                  <ul key={r} className={`orbit-ring${r ? " is-outer" : ""}`} aria-label={r ? undefined : group.title}>
-                    {ring.map((item, i) => {
-                      const index = r ? i + rings(group.items)[0].length : i;
-                      return (
-                        <li
-                          key={item.name}
-                          className="orbit-item"
-                          style={{ "--a": `${(360 / ring.length) * i + (r ? 360 / ring.length / 2 : 0)}deg`, "--i": index } as React.CSSProperties}
-                        >
-                          <span className="orbit-upright">
-                            <span className="orbit-tile">
-                              {item.logo ? (
-                                <span className="orbit-logo" style={{ "--logo": `url(${item.logo})` } as React.CSSProperties} aria-hidden="true" />
-                              ) : (
-                                <span aria-hidden="true">{item.name[0]}</span>
-                              )}
-                            </span>
-                            <span className="orbit-name">{item.name}</span>
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                ))}
-              </div>
+              <OrbitSet key={group.title} group={group} shown={g === active} countLabel={countLabel} />
             ))}
           </div>
         </div>
@@ -114,3 +84,40 @@ function DomainTabs({
     </ol>
   );
 }
+
+// Une famille en orbite. Mémoïsée : au changement de famille, seules la sortante et l'entrante sont rendues.
+const OrbitSet = memo(function OrbitSet({ group, shown, countLabel }: { group: OrbitGroup; shown: boolean; countLabel: string }) {
+  return (
+    <div className="orbit-set" hidden={!shown}>
+      <p className="orbit-core">
+        <b>{group.items.length}</b>
+        <span>{countLabel}</span>
+      </p>
+      {rings(group.items).map((ring, r) => (
+        <ul key={r} className={`orbit-ring${r ? " is-outer" : ""}`} aria-label={r ? undefined : group.title}>
+          {ring.map((item, i) => {
+            const index = r ? i + rings(group.items)[0].length : i;
+            return (
+              <li
+                key={item.name}
+                className="orbit-item"
+                style={{ "--a": `${(360 / ring.length) * i + (r ? 360 / ring.length / 2 : 0)}deg`, "--i": index } as React.CSSProperties}
+              >
+                <span className="orbit-upright">
+                  <span className="orbit-tile">
+                    {item.logo ? (
+                      <span className="orbit-logo" style={{ "--logo": `url(${item.logo})` } as React.CSSProperties} aria-hidden="true" />
+                    ) : (
+                      <span aria-hidden="true">{item.name[0]}</span>
+                    )}
+                  </span>
+                  <span className="orbit-name">{item.name}</span>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      ))}
+    </div>
+  );
+});

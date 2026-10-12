@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { PinTrack } from "@/components/ui/pin-track";
 import { HighlightedText } from "@/components/ui/highlighted-text";
@@ -78,67 +79,7 @@ export function JourneyMac({
                 <div className="mac-body">
                   <ol className="mac-cards">
                     {items.map((item, i) => (
-                      <li key={item.key} className="mac-card step" data-step={i} data-on={i === active || undefined}>
-                        <div className="mac-card-main">
-                          <p className="mac-meta">
-                            <span className="mac-type">{item.typeLabel}</span>
-                            <time className="mac-period">{item.period}</time>
-                          </p>
-                          <h3 className="mac-role">{item.role}</h3>
-                          <p className="mac-company">
-                            {item.companyUrl ? (
-                              <a href={item.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
-                                {item.company} <span aria-hidden="true">&#8599;</span>
-                              </a>
-                            ) : (
-                              item.company
-                            )}
-                          </p>
-                          <p className="mac-desc">
-                            <HighlightedText text={item.description} phrases={item.highlights} />
-                          </p>
-                          {item.tags.length > 0 && (
-                            <ul className="mac-tags">
-                              {item.tags.map((tag) =>
-                                tag.tech ? (
-                                  <li key={tag.label} className="badge badge-technology" data-tech={tag.label}>{tag.label}</li>
-                                ) : (
-                                  <li key={tag.label} className="chip">{tag.label}</li>
-                                ),
-                              )}
-                            </ul>
-                          )}
-                          {item.links.length > 0 && (
-                            <div className="mac-links">
-                              {item.links.map((link) => (
-                                <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="btn-ghost !h-9 !px-4 !text-sm">
-                                  {link.label} <span className="arrow" aria-hidden="true">&#8599;</span>
-                                </a>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        <div className="mac-aside">
-                          {item.duration && (
-                            <p className="mac-duration">
-                              {item.duration.map((part) => (
-                                <span key={part.unit}>
-                                  <b>{part.amount}</b> {part.unit}
-                                </span>
-                              ))}
-                            </p>
-                          )}
-                          {item.images.length > 0 && (
-                            <ul className="mac-photos">
-                              {item.images.slice(0, 2).map((img) => (
-                                <li key={img.src}>
-                                  <Image src={img.src} alt={img.alt} width={320} height={200} className="h-full w-full object-cover" />
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      </li>
+                      <MacCard key={item.key} item={item} index={i} on={i === active} />
                     ))}
                   </ol>
 
@@ -154,27 +95,9 @@ export function JourneyMac({
                     </svg>
 
                     <ol className="mac-stops">
-                      {items.map((item, i) => {
-                        const ti = count > 1 ? i / (count - 1) : 0;
-                        return (
-                          <li
-                            key={item.key}
-                            className="mac-stop"
-                            data-passed={i <= active || undefined}
-                            data-current={i === active || undefined}
-                            style={{ left: `${(xAt(ti) / VB_W) * 100}%`, top: `${(yAt(ti) / VB_H) * 100}%` }}
-                          >
-                            <button type="button" onClick={() => goTo(i)} className="mac-stop-btn" aria-current={i === active ? "step" : undefined}>
-                              <span className="mac-stop-dot" />
-                              <span className="mac-stop-label">
-                                <b>{item.company}</b>
-                                <span>{year(item.period)}</span>
-                              </span>
-                              <span className="sr-only">{item.role}</span>
-                            </button>
-                          </li>
-                        );
-                      })}
+                      {items.map((item, i) => (
+                        <MacStop key={item.key} item={item} index={i} count={count} passed={i <= active} current={i === active} goTo={goTo} />
+                      ))}
                     </ol>
 
                     <div className="mac-layer" aria-hidden="true">
@@ -193,3 +116,107 @@ export function JourneyMac({
     </PinTrack>
   );
 }
+
+// Carte d'une expérience. Mémoïsée : à chaque changement d'étape, seules les deux cartes dont l'état change
+// sont rendues à nouveau (le coût se concentre aux frontières, pas à chaque frame).
+const MacCard = memo(function MacCard({ item, index, on }: { item: TimelineItem; index: number; on: boolean }) {
+  return (
+    <li className="mac-card step" data-step={index} data-on={on || undefined}>
+      <div className="mac-card-main">
+        <p className="mac-meta">
+          <span className="mac-type">{item.typeLabel}</span>
+          <time className="mac-period">{item.period}</time>
+        </p>
+        <h3 className="mac-role">{item.role}</h3>
+        <p className="mac-company">
+          {item.companyUrl ? (
+            <a href={item.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
+              {item.company} <span aria-hidden="true">&#8599;</span>
+            </a>
+          ) : (
+            item.company
+          )}
+        </p>
+        <p className="mac-desc">
+          <HighlightedText text={item.description} phrases={item.highlights} />
+        </p>
+        {item.tags.length > 0 && (
+          <ul className="mac-tags">
+            {item.tags.map((tag) =>
+              tag.tech ? (
+                <li key={tag.label} className="badge badge-technology" data-tech={tag.label}>{tag.label}</li>
+              ) : (
+                <li key={tag.label} className="chip">{tag.label}</li>
+              ),
+            )}
+          </ul>
+        )}
+        {item.links.length > 0 && (
+          <div className="mac-links">
+            {item.links.map((link) => (
+              <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="btn-ghost !h-9 !px-4 !text-sm">
+                {link.label} <span className="arrow" aria-hidden="true">&#8599;</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="mac-aside">
+        {item.duration && (
+          <p className="mac-duration">
+            {item.duration.map((part) => (
+              <span key={part.unit}>
+                <b>{part.amount}</b> {part.unit}
+              </span>
+            ))}
+          </p>
+        )}
+        {item.images.length > 0 && (
+          <ul className="mac-photos">
+            {item.images.slice(0, 2).map((img) => (
+              <li key={img.src}>
+                <Image src={img.src} alt={img.alt} width={320} height={200} className="h-full w-full object-cover" />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </li>
+  );
+});
+
+// Repère du chemin : clic = aller à l'étape. Mémoïsé pour la même raison.
+const MacStop = memo(function MacStop({
+  item,
+  index,
+  count,
+  passed,
+  current,
+  goTo,
+}: {
+  item: TimelineItem;
+  index: number;
+  count: number;
+  passed: boolean;
+  current: boolean;
+  goTo: (index: number) => void;
+}) {
+  const ti = count > 1 ? index / (count - 1) : 0;
+  return (
+    <li
+      className="mac-stop"
+      data-passed={passed || undefined}
+      data-current={current || undefined}
+      style={{ left: `${(xAt(ti) / VB_W) * 100}%`, top: `${(yAt(ti) / VB_H) * 100}%` }}
+    >
+      <button type="button" onClick={() => goTo(index)} className="mac-stop-btn" aria-current={current ? "step" : undefined}>
+        <span className="mac-stop-dot" />
+        <span className="mac-stop-label">
+          <b>{item.company}</b>
+          <span>{year(item.period)}</span>
+        </span>
+        <span className="sr-only">{item.role}</span>
+      </button>
+    </li>
+  );
+});
