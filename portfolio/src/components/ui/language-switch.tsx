@@ -4,7 +4,8 @@ import { usePathname, useRouter } from "next/navigation";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 
-// Bascule FR / EN : un seul bouton, la langue courante est en clair, l'autre en retrait.
+// Bascule FR / EN : un seul bouton, la langue courante est en clair, l'autre en retrait. Le nom accessible
+// reprend le texte visible (FR EN) puis précise l'action.
 export function LanguageSwitch({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -21,11 +22,11 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
     <button
       type="button"
       onClick={switchLocale}
-      aria-label={`${t.language.switch} (${t.language.label})`}
       className="lang-switch cursor-pointer"
     >
-      <span aria-hidden="true" data-on={locale === "fr" || undefined}>FR</span>
-      <span aria-hidden="true" data-on={locale === "en" || undefined}>EN</span>
+      <span data-on={locale === "fr" || undefined}>FR</span>
+      <span data-on={locale === "en" || undefined}>EN</span>
+      <span className="sr-only">{t.language.label} : {t.language.switch}</span>
     </button>
   );
 }

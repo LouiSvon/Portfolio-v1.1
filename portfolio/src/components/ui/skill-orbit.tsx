@@ -72,7 +72,7 @@ function DomainTabs({
   }, [active]);
 
   return (
-    <ol ref={listRef} className="orbit-domains" role="group" aria-label={title}>
+    <ol ref={listRef} className="orbit-domains" aria-label={title}>
       {groups.map((group, i) => (
         <li key={group.title}>
           <button type="button" className="orbit-domain" aria-pressed={i === active} onClick={() => goTo(i)}>
