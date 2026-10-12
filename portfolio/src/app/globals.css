@@ -321,7 +321,6 @@ footer a:hover {
 }
 
 
-/* Contact layout */
 .contact-form-panel { max-width: 40rem; }
 .availability {
   display: inline-flex;
@@ -798,6 +797,11 @@ h1, h2, .display {
   flex-shrink: 0;
 }
 .contact-link:hover { color: var(--accent); }
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress { animation: progress-grow linear both; animation-timeline: scroll(root); }
+}
+@keyframes progress-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

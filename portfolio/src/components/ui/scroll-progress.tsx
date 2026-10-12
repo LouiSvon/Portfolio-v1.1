@@ -2,13 +2,14 @@
 
 import { useEffect, useRef } from "react";
 
-// Fine barre d'accent en haut de page qui suit la progression de lecture.
+// Fine barre d'accent en haut de page qui suit la progression de lecture. Navigateurs récents : CSS lié au
+// défilement (scroll(root), aucun JavaScript) ; sinon, repli : écoute du défilement, une écriture par frame.
 export function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const bar = barRef.current;
-    if (!bar) return;
+    if (!bar || CSS.supports("animation-timeline: scroll()")) return;
     let frame = 0;
     const render = () => {
       frame = 0;
