@@ -970,15 +970,12 @@ h1, h2, .display {
     var(--background);
 }
 
-/* ── Blog : rangée qui traverse l'écran ───────────────── */
-.blog-viewport { overflow: clip; padding-block: 0.5rem 1rem; }
-.blog-rail {
-  display: flex;
-  gap: clamp(1rem, 3vw, 2rem);
-  width: max-content;
-  padding-inline: clamp(1rem, 4vw, 3rem);
-  margin-inline: max(0px, calc((100vw - 72rem) / 2));
-}
+/* ── Blog ─────────────────────────────────────────────── */
+.blog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; }
+.blog-dots { display: none; gap: 0.5rem; margin-bottom: 3rem; }
+.blog-dots li { width: 2.5rem; height: 3px; border-radius: 3px; background: var(--border); }
+.blog-dots li::after { content: ''; display: block; height: 100%; border-radius: inherit; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease-out); }
+.blog-dots li[data-on]::after { transform: scaleX(1); }
 .blog-item { width: min(40rem, 82vw); }
 .blog-visual {
   position: relative;
@@ -1011,15 +1008,28 @@ h1, h2, .display {
   -webkit-text-stroke: 1px color-mix(in srgb, var(--foreground) 30%, transparent);
 }
 .panel:hover .proj-cta .arrow { transform: translateX(4px); }
-/* Au clavier, la rangée revient à sa place de départ (sans décalage) pour que la carte qui a le focus soit à l'écran. */
-.blog-rail:has(:focus-visible) { transform: none !important; }
-/* Petits écrans et animations réduites : rangée glissable à la main, accrochage sur chaque carte. */
-@media (max-width: 767px), (prefers-reduced-motion: reduce) {
-  .blog-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-  .blog-viewport::-webkit-scrollbar { display: none; }
-  .blog-rail { transform: none !important; margin-inline: 0; }
-  .blog-item { scroll-snap-align: center; }
+/* Hors épinglage (petit écran, animations réduites) : rangée glissable au doigt, accrochée sur chaque carte. */
+.blog-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-block: 0.5rem 1rem; }
+.blog-viewport::-webkit-scrollbar { display: none; }
+.blog-rail { display: flex; gap: 1rem; width: max-content; padding-inline: clamp(1rem, 4vw, 3rem); }
+.blog-item { scroll-snap-align: center; }
+/* Épinglée : les cartes se superposent au centre ; la courante est là, la suivante attend à droite,
+   la précédente part à gauche (transform et opacité). */
+.pin[data-pinned] .blog-dots { display: flex; }
+.pin[data-pinned] .blog-viewport { overflow: visible; padding: 0; }
+.pin[data-pinned] .blog-rail { display: grid; width: auto; justify-items: center; padding: 0; }
+.pin[data-pinned] .blog-item {
+  grid-area: 1 / 1;
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
 }
+.pin[data-pinned] .blog-item:not([data-on]) { opacity: 0; transform: translateX(28%) scale(var(--reveal-scale)); pointer-events: none; }
+.pin[data-pinned] .blog-item[data-past] { transform: translateX(-28%) scale(var(--reveal-scale)); }
+/* Épinglée : carte horizontale (visuel à gauche, texte à droite) pour tenir dans un écran bas. */
+.pin[data-pinned] .blog-item { width: min(64rem, 88vw); }
+.pin[data-pinned] .blog-item > article { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+.pin[data-pinned] .blog-visual { aspect-ratio: auto; min-height: 100%; }
+.pin[data-pinned] .blog-visual::after { background: linear-gradient(90deg, transparent 55%, var(--surface)); }
+.blog-stage { padding-block: clamp(4.5rem, 10svh, 6.5rem) clamp(1.5rem, 4svh, 2.5rem); }
 
 /* ── Sections épinglées (PinTrack) ─────────────────────
    Piste haute de 100svh + --range, scène collée en haut pendant la traversée. svh : hauteur stable même quand

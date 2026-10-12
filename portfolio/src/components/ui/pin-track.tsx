@@ -52,7 +52,8 @@ export function PinTrack({
   className?: string;
   stageClassName?: string;
   // Fonction (composant client) ou contenu direct (composant serveur) : dans ce second cas, les éléments
-  // marqués data-from="k" s'allument dès l'étape k et ceux marqués data-at="k" à l'étape k seulement.
+  // marqués data-from="k" s'allument dès l'étape k et ceux marqués data-at="k" à l'étape k seulement
+  // (data-past une fois l'étape k dépassée).
   children: ((api: PinApi) => React.ReactNode) | React.ReactNode;
 }) {
   // Refs de rappel gardées en état : goTo peut être transmise au rendu sans lire de ref pendant celui-ci.
@@ -125,6 +126,8 @@ export function PinTrack({
       const from = el.dataset.from;
       const on = from !== undefined ? Number(from) <= active : Number(el.dataset.at) === active;
       el.toggleAttribute("data-on", on);
+      // data-at déjà dépassé : data-past (sens de sortie, ex. vers la gauche).
+      if (from === undefined) el.toggleAttribute("data-past", Number(el.dataset.at) < active);
     });
   }, [stage, active, children]);
 
