@@ -139,7 +139,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           className="field resize-none"
         />
         {messageError ? (
-          <p className="text-xs text-accent-warm">{messageError}</p>
+          <p className="text-xs text-accent-violet">{messageError}</p>
         ) : (
           <p className="text-xs text-tertiary">{t.contact.formMessageHint}</p>
         )}
@@ -147,7 +147,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
 
       {state === "error" && (
-        <p className="text-sm text-accent-warm">{t.contact.errorMessage}</p>
+        <p className="text-sm text-accent-violet">{t.contact.errorMessage}</p>
       )}
 
       <button

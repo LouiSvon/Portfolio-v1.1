@@ -76,7 +76,7 @@ export const highlights: Highlight[] = [
       en: "An AI subscription's usage in the macOS menu bar, with an animated T-Rex.",
     },
     kind: { fr: "App macOS", en: "macOS app" },
-    colors: ["#ff6b35", "#ff3d7f"],
+    colors: ["var(--accent-violet)", "#ff3d7f"],
     stack: ["Swift", "SwiftUI", "AppKit"],
     imageAlt: {
       fr: "Capture d'écran de TokenTrex dans la barre de menu macOS",

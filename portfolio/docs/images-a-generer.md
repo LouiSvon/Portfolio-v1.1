@@ -6,7 +6,7 @@ on dépose le fichier dans `public/scenes/`, il apparaît sans toucher au code. 
 ## Règles communes
 
 - Style : abstrait, sombre, minimal. Fond quasi noir `#08080a`.
-- Palette : bleu `#4d8dff`, violet `#8b7dff`, touche orange chaud `#ffb36b`.
+- Palette : bleu `#4d8dff` et violet `#8b7dff`.
 - Pas de texte, pas de logo, pas de visage.
 - Format : WebP (ou AVIF), poids réduit. Le site est exporté sans optimisation d'images : le poids du fichier est
   le poids servi.

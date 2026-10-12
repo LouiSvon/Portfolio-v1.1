@@ -7,9 +7,9 @@ import type { FilterItem } from "@/components/ui/project-filter";
 const PANEL_COLORS: [string, string][] = [
   ["#4f8cff", "#9b6bff"],
   ["#2ee6a6", "#00b3ff"],
-  ["#ff6b35", "#ff3d7f"],
-  ["#8b7dff", "#4dd0ff"],
-  ["#ffb36b", "#ff6b9a"],
+  ["var(--accent-violet)", "#ff3d7f"],
+  ["var(--accent-violet)", "#4dd0ff"],
+  ["var(--accent-violet)", "#ff6b9a"],
   ["#3ddc84", "#4d8dff"],
 ];
 

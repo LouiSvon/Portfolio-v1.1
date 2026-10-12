@@ -48,7 +48,7 @@
 
 .badge-technology[data-tech="JavaScript"],
 .language-dot[data-language="JavaScript"] {
-  --tech-color: #b7791f;
+  --tech-color: #f1e05a;
   --language-color: #f1e05a;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .language-dot[data-language="Rust"] {
-  --language-color: #dea584;
+  --language-color: var(--accent-violet);
 }
 
 .language-dot[data-language="Go"] {
@@ -79,7 +79,7 @@
 }
 
 .language-dot[data-language="HTML"] {
-  --language-color: #e34c26;
+  --language-color: var(--accent-violet);
 }
 
 .language-dot[data-language="CSS"] {
@@ -111,12 +111,12 @@
 }
 
 .badge-technology[data-tech="Blockchain"] {
-  --tech-color: #f7931a;
+  --tech-color: var(--accent-violet);
 }
 
 .badge-technology[data-tech="Cryptomonnaie"],
 .badge-technology[data-tech="Objectifs personnels"] {
-  --tech-color: #d97706;
+  --tech-color: var(--accent-violet);
 }
 
 .badge-technology[data-tech="Marketing"] {
@@ -167,5 +167,5 @@
 }
 
 .badge-technology[data-tech="Gestion d'équipe"] {
-  --tech-color: #c2410c;
+  --tech-color: var(--accent-violet);
 }

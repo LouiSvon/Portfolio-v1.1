@@ -30,8 +30,8 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
-  --color-accent-warm: var(--accent-warm);
-  --color-accent-warm-soft: var(--accent-warm-soft);
+  --color-accent-violet: var(--accent-violet);
+  --color-accent-violet-soft: var(--accent-violet-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-archivo);
@@ -234,7 +234,7 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   line-height: 1.5;
   color: var(--secondary);
 }
-/* Frise : la ligne se remplit au défilement, les points s'allument. */
+/* Frise : la ligne se remplit au défilement, un point mène le trait. */
 .timeline {
   position: relative;
   display: flex;
@@ -269,14 +269,13 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
 .timeline-item { position: relative; }
 .timeline-dot {
   position: absolute;
-  left: -2.25rem;
-  top: 1.6rem;
-  width: 1.15rem;
-  height: 1.15rem;
+  left: -2.1rem;
+  top: 1.75rem;
+  width: 0.85rem;
+  height: 0.85rem;
   border-radius: 50%;
   background: var(--background);
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 0 4px var(--background), 0 0 16px color-mix(in srgb, var(--accent) 70%, transparent);
+  border: 2px solid color-mix(in srgb, var(--foreground) 30%, transparent);
 }
 .timeline-photos {
   display: grid;
@@ -771,7 +770,7 @@ h1, h2, .display {
   right: 0;
   z-index: 60;
   height: 2px;
-  background: var(--grad);
+  background: var(--accent-violet);
   transform: scaleX(0);
   transform-origin: left;
   pointer-events: none;
@@ -958,7 +957,7 @@ h1, h2, .display {
   pointer-events: none;
   background:
     radial-gradient(70% 55% at 12% 0%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 70%),
-    radial-gradient(60% 50% at 95% 100%, color-mix(in srgb, #8b7dff 7%, transparent), transparent 70%),
+    radial-gradient(60% 50% at 95% 100%, color-mix(in srgb, var(--accent-violet) 7%, transparent), transparent 70%),
     var(--background);
 }
 
@@ -1113,7 +1112,7 @@ h1, h2, .display {
 }
 .mw[data-key] .mw-base { opacity: 0; }
 .mw[data-key='1'] { --kw: var(--accent); }
-.mw[data-key='2'] { --kw: var(--accent-warm); }
+.mw[data-key='2'] { --kw: var(--accent-violet); }
 .pin[data-pinned] .mw,
 .pin[data-pinned] .mw-base,
 .pin[data-pinned] .mw[data-key]::after { transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
@@ -1281,7 +1280,7 @@ h1, h2, .display {
   font-size: 2cqw;
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--accent);
+  color: var(--foreground);
 }
 .mac-desc { max-width: 54cqw; font-size: 1.4cqw; line-height: 1.55; color: var(--secondary); }
 .mac-tags { display: flex; flex-wrap: wrap; gap: 0.5cqw; font-size: 1cqw; }
@@ -1305,7 +1304,6 @@ h1, h2, .display {
   transform-box: fill-box;
   transform-origin: 0 0;
   transform: scaleX(calc((50 + var(--walked) * 900) / 950));
-  transition: transform var(--dur-slow) var(--ease-in-out);
 }
 .mac-stops { position: absolute; inset: 0 0 3.6cqw; }
 .mac-stop { position: absolute; width: 0; height: 0; }
@@ -1347,7 +1345,7 @@ h1, h2, .display {
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid var(--foreground);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-violet) 45%, transparent);
 }
 @keyframes walker-bob { from { translate: 0 0; } to { translate: 0 -0.5cqw; } }
 
@@ -1375,6 +1373,7 @@ h1, h2, .display {
 .orbit-domain-num {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.7rem;
+  font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: 0.12em;
 }
 .orbit-domain-name {
@@ -1437,6 +1436,7 @@ h1, h2, .display {
   text-align: center;
   animation: orbit-in var(--dur-base) var(--ease-out) both;
 }
+/* Chiffre : police, graisse et taille des titres de section ; chiffres alignés sur la ligne de base. */
 .orbit-core b {
   font-family: var(--font-doto), monospace;
   font-size: calc(var(--orbit) * 0.22);
@@ -1528,7 +1528,7 @@ h1, h2, .display {
 .study-card {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
   padding: clamp(1.25rem, 2.5vw, 2rem);
   border: 1px solid var(--border);
   border-radius: 1.5rem;
@@ -1557,9 +1557,8 @@ h1, h2, .display {
   letter-spacing: -0.02em;
   color: var(--tone);
 }
-[data-tone='warm'] { --tone: var(--accent-warm); }
 [data-tone='blue'] { --tone: var(--accent); }
-[data-tone='violet'] { --tone: #a99dff; }
+[data-tone='violet'] { --tone: var(--accent-violet); }
 
 .cred-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
 .cred-card {
@@ -1571,10 +1570,10 @@ h1, h2, .display {
   padding: 1.1rem 1.2rem;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   background:
     radial-gradient(circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%),
-    var(--surface);
+    var(--background);
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform var(--dur-nudge) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
