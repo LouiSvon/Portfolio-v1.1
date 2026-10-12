@@ -12,10 +12,10 @@
   --accent: #4d8dff;
   --accent-strong: #2563eb; /* fond des boutons pleins : texte blanc à 5,2:1 */
   --accent-soft: rgba(77, 141, 255, 0.14);
-  --accent-warm: #ffb36b;
-  --accent-warm-soft: rgba(255, 179, 107, 0.14);
-  /* Orange réservé à la barre de progression (et à la carte TokenTrex). */
-  --grad: linear-gradient(90deg, #4d8dff 0%, #8b7dff 55%, #ff7a45 100%);
+  /* Violet d'accent, voisin de l'indigo, accordé au bleu : 6,2:1 sur le fond. Seule définition du violet. */
+  --accent-violet: #8b7dff;
+  --accent-violet-soft: color-mix(in srgb, var(--accent-violet) 14%, transparent);
+  --cta-size: clamp(2.6rem, 1rem + 7vw, 7rem); /* grand titre d'appel (.cta-xl) et espacements qui en dépendent */
   --badge-bg: #1b1b1f;
   --badge-technology-fallback: #aaa69e;
   --language-fallback: #aaa69e;
@@ -681,11 +681,17 @@ h1, h2, .display {
 .cta-xl {
   font-family: var(--font-archivo), system-ui, sans-serif;
   font-weight: 700;
-  font-size: clamp(2.6rem, 1rem + 7vw, 7rem);
+  font-size: var(--cta-size);
   line-height: 0.95;
   letter-spacing: -0.055em;
   text-wrap: balance;
 }
+/* Texte sous le grand titre d'appel : écart proportionnel à la taille du titre. */
+.cta-sub { margin-top: calc(var(--cta-size) * 0.32); }
+/* Alignement optique du contact : en français, titre et texte commencent par « U », dont l'approche gauche
+   (0,072 em en Archivo gras, 0,077 em en Geist, mesurées) décale l'encre du grand titre vers la droite.
+   On retire l'écart exact, à toute largeur. En anglais (« An » / « An »), l'écart mesuré est de 0,4 px. */
+#contact-titre:lang(fr) { margin-inline-start: calc(-0.0724em + 0.077 * 0.95rem); }
 
 /* ── Navigation flottante ──────────────────────────────── */
 /* Dock de navigation : une pastille de verre, centrée. */

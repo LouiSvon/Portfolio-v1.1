@@ -41,7 +41,7 @@ export function ContactSection({ locale }: { locale: Locale }) {
       <PinTrack steps={2} step={30} tail={15} mode="all">
         <div className="shell">
           <h2 id="contact-titre" className="cta-xl scale-in text-primary">{t.contact.title}</h2>
-          <p className="section-subtitle step !mt-0 mb-10" data-from={0}>{t.contact.subtitle}</p>
+          <p className="section-subtitle cta-sub step mb-10" data-from={0}>{t.contact.subtitle}</p>
           <div className="step" data-from={1} data-step={1}>
             <p className="availability !mt-0">
               <span className={`availability-dot${isAvailable ? "" : " busy"}`} aria-hidden="true" />
