@@ -713,6 +713,7 @@ h1, h2, .display {
 }
 .nav-link {
   position: relative;
+  white-space: nowrap;
   padding: 0.5rem 0.95rem;
   border-radius: 999px;
   font-size: 0.875rem;
@@ -1051,6 +1052,8 @@ h1, h2, .display {
   -webkit-text-stroke: 1px color-mix(in srgb, var(--foreground) 30%, transparent);
 }
 .panel:hover .proj-cta .arrow { transform: translateX(4px); }
+/* Au clavier, la rangée revient en place : la carte qui a le focus est toujours visible. */
+.blog-rail:has(:focus-visible) { transform: none !important; }
 /* Petits écrans et animations réduites : rangée glissable à la main, accrochage sur chaque carte. */
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
   .blog-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
@@ -1254,8 +1257,10 @@ h1, h2, .display {
 .mac-path-rest { stroke: color-mix(in srgb, var(--foreground) 22%, transparent); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .mac-path-done { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 70%, transparent)); }
 .mac-stops { position: absolute; inset: 0 0 3.6cqw; }
+/* Même cadre que le SVG (sans le bas réservé aux libellés) : le marcheur reste sur le tracé. */
+.mac-layer { position: absolute; inset: 0 0 3.6cqw; pointer-events: none; }
 .mac-stop { position: absolute; width: 0; height: 0; }
-.mac-stop-btn { position: absolute; left: -10cqw; top: -1cqw; display: flex; width: 20cqw; flex-direction: column; align-items: center; gap: 0.7cqw; cursor: pointer; }
+.mac-stop-btn { position: absolute; left: -10cqw; top: -0.65cqw; display: flex; width: 20cqw; flex-direction: column; align-items: center; gap: 0.7cqw; cursor: pointer; }
 .mac-stop-dot {
   width: 1.3cqw;
   height: 1.3cqw;
@@ -1610,20 +1615,8 @@ h1, h2, .display {
       animation-timeline: --pin;
       animation-range: contain var(--from, 0%) contain var(--to, 100%);
     }
-    .on-scroll-line::before {
-      animation: line-in linear both;
-      animation-timeline: --pin;
-      animation-range: contain var(--from, 0%) contain var(--to, 100%);
-    }
     /* Mobile : piste plus courte, effet identique mais plus vif. */
     @media (max-width: 767px) { .pin-track { --track: 130svh; } }
-    /* Scènes trop hautes pour un petit écran : déroulé simple sous 1024 px. */
-    @media (max-width: 1023px) {
-      .pin-track.is-wide-only { height: auto; }
-      .pin-track.is-wide-only .pin-stage { position: static; min-height: 0; }
-      .pin-track.is-wide-only .on-scroll,
-      .pin-track.is-wide-only .on-scroll-line::before { animation: none; }
-    }
   }
 
   /* Titre qui grandit en arrivant (contact). */
@@ -1638,10 +1631,6 @@ h1, h2, .display {
 @keyframes light-up {
   from { opacity: var(--dim); transform: translateY(calc(var(--reveal-y) / 2)); }
   to { opacity: 1; transform: none; }
-}
-@keyframes line-in {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
 }
 @keyframes scale-in {
   from { opacity: var(--dim); transform: scale(var(--reveal-scale)); }

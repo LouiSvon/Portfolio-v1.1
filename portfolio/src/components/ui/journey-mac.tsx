@@ -190,9 +190,11 @@ export function JourneyMac({
                   })}
                 </ol>
 
-                <motion.span className={`mac-walker${walker.portrait ? " is-portrait" : ""}`} style={{ left: walkerLeft, top: walkerTop }} aria-hidden="true">
+                <div className="mac-layer">
+                  <motion.span className={`mac-walker${walker.portrait ? " is-portrait" : ""}`} style={{ left: walkerLeft, top: walkerTop }} aria-hidden="true">
                   <Image src={walker.src} alt="" width={96} height={96} className="mac-walker-img" unoptimized={!walker.portrait} />
-                </motion.span>
+                  </motion.span>
+                </div>
               </div>
             </div>
           </div>

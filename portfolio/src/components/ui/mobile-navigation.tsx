@@ -43,7 +43,7 @@ export function MobileNavigation({
   }, [isOpen]);
 
   return (
-    <div className="ml-auto md:hidden">
+    <div className="ml-auto lg:hidden">
       <button
         type="button"
         aria-controls={menuId}

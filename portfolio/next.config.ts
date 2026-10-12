@@ -6,6 +6,8 @@ import oldPages from "./old-pages.json";
 const isStaticExport = process.env.NEXT_OUTPUT_EXPORT === "1";
 
 const nextConfig: NextConfig = {
+  // sceneImage() lit public/scenes au rendu : le dossier doit suivre la page quand elle est recalculée.
+  outputFileTracingIncludes: { "/*": ["./public/scenes/**/*"] },
   // Redirection permanente vers l'ancre. Les articles (/blog/<slug>) restent des pages.
   // L'export statique ne gère pas les redirections : _redirects prend le relais.
   async redirects() {

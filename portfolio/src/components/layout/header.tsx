@@ -15,7 +15,7 @@ export function Header({ locale }: { locale: Locale }) {
   return (
     <HeaderShell>
       <nav aria-label={t.nav.sections} className="mx-auto flex h-16 max-w-6xl items-center justify-center px-[clamp(1rem,4vw,3rem)]">
-        <div className="dock hidden md:flex">
+        <div className="dock hidden lg:flex">
           <SectionNav items={items} locale={locale} homeLabel={t.nav.home} />
           <span className="dock-sep" aria-hidden="true" />
           <LanguageSwitch locale={locale} />
