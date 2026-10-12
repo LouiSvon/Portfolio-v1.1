@@ -33,6 +33,7 @@ const en: Translations = {
   },
   skills: {
     title: "Skills",
+    count: "tools",
   },
   projects: {
     title: "Featured projects",

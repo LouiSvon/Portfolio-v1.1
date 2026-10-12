@@ -32,6 +32,7 @@ export interface Translations {
   };
   skills: {
     title: string;
+    count: string;
   };
   projects: {
     title: string;
@@ -178,6 +179,7 @@ const fr: Translations = {
   },
   skills: {
     title: "Compétences",
+    count: "outils",
   },
   projects: {
     title: "Projets phares",

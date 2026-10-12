@@ -1100,59 +1100,167 @@ h1, h2, .display {
   margin-top: clamp(2.5rem, 6vh, 4rem);
 }
 
-/* Compétences : une ligne par domaine, petites pastilles à logo. */
-.skill-row {
-  position: relative;
+/* Compétences : orbite. Grand écran : piste haute, scène épinglée, la famille change au défilement.
+   Ailleurs : pas d'épinglage, on choisit la famille au toucher. */
+.orbit-track { position: relative; }
+.orbit-stage {
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(5rem, 12vh, 8rem);
+}
+@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+  .orbit-pin { height: 360svh; }
+  .orbit-stage { position: sticky; top: 0; }
+}
+.orbit-grid { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 1024px) { .orbit-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 4rem; } }
+.orbit-grid .section-head { margin-bottom: 1.5rem; }
+
+.orbit-domains { display: flex; flex-direction: column; }
+.orbit-domain {
   display: grid;
-  gap: 0.9rem;
-  padding: 1.5rem 0;
+  grid-template-columns: 2.5rem 1fr auto;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.9rem 0;
   border-top: 1px solid var(--border);
+  text-align: left;
+  color: var(--tertiary);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out), padding var(--dur-nudge) var(--ease-out);
 }
-@media (min-width: 768px) {
-  .skill-row { grid-template-columns: 15rem 1fr; align-items: baseline; gap: 2rem; }
+.orbit-domain-num, .orbit-domain-count {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
 }
-/* Trait d'accent posé sur la bordure du domaine ; tracé au défilement dans la scène épinglée. */
-.skill-row::before {
-  content: '';
+.orbit-domain-name {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(1.15rem, 0.9rem + 1vw, 1.7rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+.orbit-domain:hover { color: var(--secondary); }
+.orbit-domain[aria-pressed='true'] { color: var(--foreground); padding-left: 0.6rem; box-shadow: inset 2px 0 0 var(--accent); }
+.orbit-domain[aria-pressed='true'] .orbit-domain-num { color: var(--accent); }
+/* Petit écran : les familles défilent en une rangée de pastilles. */
+@media (max-width: 1023px) {
+  .orbit-domains { flex-direction: row; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; padding-bottom: 0.25rem; }
+  .orbit-domain {
+    display: inline-flex;
+    gap: 0.5rem;
+    width: auto;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .orbit-domain-num, .orbit-domain-count { display: none; }
+  .orbit-domain-name { font-size: 0.95rem; }
+  .orbit-domain[aria-pressed='true'] { padding-left: 1rem; box-shadow: none; border-color: var(--accent); }
+}
+
+.orbit {
+  --orbit: clamp(19rem, 84vw, 36rem);
+  --tile: clamp(2.75rem, 7vw, 3.5rem);
+  position: relative;
+  width: var(--orbit);
+  height: var(--orbit);
+  max-width: 100%;
+  margin-inline: auto;
+}
+.orbit-halo {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent);
+  animation: breathe 9s ease-in-out infinite;
+}
+.orbit-set { position: absolute; inset: 0; }
+.orbit-core {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 28%;
+  text-align: center;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(1.1rem, 0.8rem + 1.2vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  animation: orbit-in var(--dur-base) var(--ease-out) both;
+}
+/* Anneau : tourne lentement ; chaque outil contre-tourne pour rester droit. */
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  --r: calc(var(--orbit) * 0.27);
+  animation: orbit-spin 90s linear infinite;
+}
+.orbit-ring.is-outer { --r: calc(var(--orbit) * 0.43); animation-duration: 140s; animation-direction: reverse; }
+.orbit-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--a)) translateX(var(--r)) rotate(calc(var(--a) * -1));
+}
+/* Contre-rotation : l'outil reste droit pendant que son anneau tourne (même durée, sens inverse). */
+.orbit-upright {
   position: absolute;
   left: 0;
-  top: -1px;
-  width: 100%;
-  height: 1px;
-  background: var(--accent);
-  transform: scaleX(1);
-  transform-origin: 0 50%;
+  top: 0;
+  width: 0;
+  height: 0;
+  animation: orbit-spin 90s linear infinite reverse;
 }
-.skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.skill-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.35rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: var(--secondary);
-  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+.orbit-ring.is-outer .orbit-upright { animation-duration: 140s; animation-direction: normal; }
+.orbit-tile {
+  position: absolute;
+  left: calc(var(--tile) / -2);
+  top: calc(var(--tile) / -2);
+  display: grid;
+  place-items: center;
+  width: var(--tile);
+  height: var(--tile);
+  border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.7);
+  font-weight: 600;
+  color: var(--foreground);
+  animation: orbit-in var(--dur-base) var(--ease-out) both;
+  animation-delay: calc(var(--i) * 45ms);
+  transition: border-color var(--dur-fast) var(--ease-out);
 }
-.skill-chip:hover { color: var(--foreground); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
-/* Logo : le fichier n'est demandé qu'à l'approche du domaine (.visible, posé par FadeObserver),
-   pour ne pas encombrer le chargement du haut de page. */
-.skill-chip-logo {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-.skill-row.visible .skill-chip-logo {
+.orbit-item:hover .orbit-tile { border-color: var(--accent); }
+.orbit-logo {
+  width: 1.5rem;
+  height: 1.5rem;
   background: currentColor;
-  -webkit-mask-image: var(--logo);
-  mask-image: var(--logo);
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+}
+.orbit-name {
+  position: absolute;
+  left: -3rem;
+  top: calc(var(--tile) / 2 + 0.3rem);
+  width: 6rem;
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  color: var(--secondary);
+  pointer-events: none;
+}
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+@keyframes orbit-in { from { opacity: 0; scale: 0.6; } to { opacity: 1; scale: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring, .orbit-upright, .orbit-tile, .orbit-halo, .orbit-core { animation: none; }
 }
 
 /* Formation : la carte de l'école, puis les certifications en cartes de crédentiel. */
