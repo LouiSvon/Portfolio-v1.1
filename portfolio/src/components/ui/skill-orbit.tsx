@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { PinTrack } from "@/components/ui/pin-track";
 import { SectionHeading } from "@/components/ui/section-heading";
 
@@ -33,16 +34,7 @@ export function SkillOrbit({
         <div className="shell orbit-grid">
           <div>
             <SectionHeading id={`${id}-titre`} title={title} />
-            <ol className="orbit-domains" role="group" aria-label={title}>
-              {groups.map((group, i) => (
-                <li key={group.title}>
-                  <button type="button" className="orbit-domain" aria-pressed={i === active} onClick={() => goTo(i)}>
-                    <span className="orbit-domain-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="orbit-domain-name">{group.title}</span>
-                  </button>
-                </li>
-              ))}
-            </ol>
+            <DomainTabs title={title} groups={groups} active={active} goTo={goTo} />
           </div>
 
           <div className="orbit pause-offscreen">
@@ -83,5 +75,42 @@ export function SkillOrbit({
         </div>
       )}
     </PinTrack>
+  );
+}
+
+// Noms des familles. Petit écran : rangée qui défile d'elle-même jusqu'à la famille courante (horizontalement
+// seulement, sans toucher au défilement de la page).
+function DomainTabs({
+  title,
+  groups,
+  active,
+  goTo,
+}: {
+  title: string;
+  groups: OrbitGroup[];
+  active: number;
+  goTo: (index: number) => void;
+}) {
+  const listRef = useRef<HTMLOListElement>(null);
+
+  useEffect(() => {
+    const list = listRef.current;
+    const tab = list?.children[active] as HTMLElement | undefined;
+    if (!list || !tab || list.scrollWidth <= list.clientWidth) return;
+    const offset = tab.getBoundingClientRect().left - list.getBoundingClientRect().left;
+    list.scrollTo({ left: list.scrollLeft + offset - 16 });
+  }, [active]);
+
+  return (
+    <ol ref={listRef} className="orbit-domains" role="group" aria-label={title}>
+      {groups.map((group, i) => (
+        <li key={group.title}>
+          <button type="button" className="orbit-domain" aria-pressed={i === active} onClick={() => goTo(i)}>
+            <span className="orbit-domain-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <span className="orbit-domain-name">{group.title}</span>
+          </button>
+        </li>
+      ))}
+    </ol>
   );
 }
