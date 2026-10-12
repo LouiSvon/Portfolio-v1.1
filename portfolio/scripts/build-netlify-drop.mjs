@@ -62,7 +62,7 @@ function prepareDropFolder() {
   const rules = ["/ /fr/ 302"];
   for (const locale of ["fr", "en"]) {
     for (const [page, section] of Object.entries(oldPages)) {
-      rules.push(`/${locale}/${page} /${locale}/#${section} 301`, `/${locale}/${page}/ /${locale}/#${section} 301`);
+      rules.push(`/${locale}/${page} /${locale}/#${section} 308`, `/${locale}/${page}/ /${locale}/#${section} 308`);
     }
   }
   fs.writeFileSync(path.join(dropDir, "_redirects"), `${rules.join("\n")}\n`);
