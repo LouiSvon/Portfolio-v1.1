@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
 import type { Locale } from "@/types";
 import { SECTION_IDS, type NavItem } from "@/lib/sections";
 
@@ -62,13 +63,20 @@ export function SectionLink({
   );
 }
 
-// Liens de la pilule de navigation, avec la section courante mise en évidence.
-export function SectionNav({ items, locale }: { items: NavItem[]; locale: Locale }) {
+// Liens du dock de navigation. Une pastille glisse d'un lien à l'autre (layoutId, sans rebond) et marque la
+// section courante. Sur une page intérieure (article, mentions), un lien « Accueil » ouvre la rangée.
+export function SectionNav({ items, locale, homeLabel }: { items: NavItem[]; locale: Locale; homeLabel: string }) {
   const isHome = useIsHome(locale);
   const active = useActiveSection(isHome);
 
   return (
     <>
+      {!isHome && (
+        <Link href={`/${locale}`} className="nav-link">
+          <span aria-hidden="true">&larr; </span>
+          {homeLabel}
+        </Link>
+      )}
       {items.map((item) => (
         <SectionLink
           key={item.id}
@@ -78,7 +86,15 @@ export function SectionNav({ items, locale }: { items: NavItem[]; locale: Locale
           current={active === item.id}
           className="nav-link"
         >
-          {item.label}
+          {active === item.id && (
+            <motion.span
+              layoutId="nav-active"
+              className="nav-active"
+              transition={{ type: "spring", stiffness: 420, damping: 36 }}
+              aria-hidden="true"
+            />
+          )}
+          <span className="relative">{item.label}</span>
         </SectionLink>
       ))}
     </>

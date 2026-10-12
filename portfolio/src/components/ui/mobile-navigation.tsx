@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import type { Locale } from "@/types";
@@ -9,6 +10,7 @@ import { SectionLink, useActiveSection, useIsHome } from "@/components/ui/sectio
 
 type MobileNavigationProps = {
   closeLabel: string;
+  homeLabel: string;
   items: NavItem[];
   locale: Locale;
   menuLabel: string;
@@ -16,6 +18,7 @@ type MobileNavigationProps = {
 
 export function MobileNavigation({
   closeLabel,
+  homeLabel,
   items,
   locale,
   menuLabel,
@@ -40,13 +43,13 @@ export function MobileNavigation({
   }, [isOpen]);
 
   return (
-    <div className="md:hidden">
+    <div className="ml-auto md:hidden">
       <button
         type="button"
         aria-controls={menuId}
         aria-expanded={isOpen}
         onClick={() => setOpenedOn(isOpen ? null : pathname)}
-        className="nav-pill flex h-11 !px-4 text-sm font-medium text-primary"
+        className="dock flex h-11 !px-5 text-sm font-medium text-primary"
       >
         {isOpen ? closeLabel : menuLabel}
       </button>
@@ -57,6 +60,15 @@ export function MobileNavigation({
           className="absolute inset-x-3 top-16 rounded-3xl border border-border bg-[var(--surface)] px-3 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
         >
           <div className="mx-auto flex max-w-2xl flex-col gap-1">
+            {!isHome && (
+              <Link
+                href={`/${locale}`}
+                onClick={() => setOpenedOn(null)}
+                className="rounded-2xl px-4 py-3 text-base text-secondary transition-colors duration-(--dur-fast) hover:bg-accent-soft hover:text-accent"
+              >
+                &larr; {homeLabel}
+              </Link>
+            )}
             {items.map((item) => (
               <SectionLink
                 key={item.id}

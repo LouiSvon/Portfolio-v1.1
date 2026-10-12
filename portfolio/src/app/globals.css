@@ -694,30 +694,65 @@ h1, h2, .display {
 }
 
 /* ── Navigation flottante ──────────────────────────────── */
-.nav-pill {
-  /* display posé par chaque usage (hidden / md:flex). Règle hors calque : le padding se force avec !px-* */
+/* Dock de navigation : une pastille de verre, centrée. */
+.dock {
+  /* display posé par chaque usage (hidden / md:flex) */
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.35rem;
-  border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
+  gap: 0.15rem;
+  padding: 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 color-mix(in srgb, var(--foreground) 7%, transparent);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
 }
 .nav-link {
-  padding: 0.5rem 0.9rem;
+  position: relative;
+  padding: 0.5rem 0.95rem;
   border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--secondary);
-  transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  transition: color var(--dur-fast) var(--ease-out);
 }
 .nav-link:hover { color: var(--foreground); }
-.nav-link[aria-current] {
-  color: var(--background);
+.nav-link[aria-current] { color: var(--background); }
+/* Pastille éclairée sous le lien courant ; elle glisse d'un lien à l'autre. */
+.nav-active {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
   background: var(--foreground);
+  box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 55%, transparent);
 }
+.dock-sep { width: 1px; height: 1.1rem; margin-inline: 0.35rem; background: color-mix(in srgb, var(--foreground) 14%, transparent); }
+.lang-switch {
+  display: inline-flex;
+  gap: 0.15rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 999px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.lang-switch span { color: var(--tertiary); transition: color var(--dur-fast) var(--ease-out); }
+.lang-switch span[data-on] { color: var(--foreground); }
+.lang-switch span + span::before { content: '·'; margin-right: 0.15rem; color: var(--tertiary); }
+.lang-switch:hover span { color: var(--secondary); }
+.lang-switch:hover span[data-on] { color: var(--foreground); }
+
+/* En-tête : collé en haut, il s'efface quand on descend et revient quand on remonte. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out);
+}
+.site-header[data-hidden] { transform: translateY(-110%); opacity: 0; pointer-events: none; }
+/* Menu mobile ouvert : l'en-tête reste visible. */
+.site-header[data-hidden]:has([aria-expanded='true']) { transform: none; opacity: 1; pointer-events: auto; }
 
 /* ── Pied de page : signature ──────────────────────────── */
 .wordmark {
