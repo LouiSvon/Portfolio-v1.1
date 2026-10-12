@@ -27,3 +27,18 @@ Faits et commités sur feature/refonte-visuelle : 1 à 10. QA faite (typecheck, 
 1440 / 800 / 375, page article). Relecture faite, corrections commitées (marcheur aligné, focus blog, dock dès 1024 px,
 CSS mort, theme-toggle.tsx sorti du suivi). À valider : images de public/scenes après revalidation sur Netlify.
 Dev : `npm run dev -- --webpack` (Turbopack servait un CSS périmé après plusieurs modifications).
+
+## Chantier 2 : performance, fond unifié, épinglage (branche feature/perf-scroll-unifie)
+- [x] 1. Diagnostic mesuré (docs/perf-diagnostic.md) : rotation infinie d'un SVG plein écran = repeinture à chaque
+      frame ; JS Motion à chaque frame. Corrigé, mesures avant / après dans le même document.
+- [x] 2. Fond unique et continu (calque fixe 100lvh), décors par section supprimés.
+- [x] 3. Brique commune PinTrack (piste en svh, scène sticky, étapes par IntersectionObserver).
+- [x] 4. Accroche : mot à mot, mots clés colorés (dictionnaire, vérifiés au build).
+- [x] 5. Parcours : feux macOS, écran noir, durées calculées, phrases clés tirées des descriptions.
+- [x] 6. Formation sur un écran (vérifié 1280x720, 1024x768, 1920x1080), domaines en avant.
+- [x] 7. Compétences sans doublon (nombre d'outils au centre).
+- [x] 8. Blog épinglé dès 768 px, un article à la fois ; rangée glissable sur mobile.
+Décisions mobile : Parcours en frise sous 1024 px (Mac illisible) ; Formation dans le flux sous 1024 px ;
+Blog en rangée sous 768 px ; Accroche, Compétences et Contact épinglés partout (sauf écran bas < 600 px ou
+animations réduites). Contact : seule la phase titre est épinglée (clavier virtuel mobile sur le formulaire).
+Reste : relecture, export Netlify, rapport.

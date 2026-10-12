@@ -63,6 +63,33 @@ desktop 616 / 733, tablette 587 / 642, mobile 655 / 561 (plusieurs peintures par
    effets continus en CSS lié au défilement avec repli, plus de Motion à chaque frame.
 3. Retirer les `will-change` permanents.
 
-## Mesures après
+## Mesure intermédiaire (rotation du SVG seule supprimée)
 
-Voir la section « Après » ajoutée en fin de chantier.
+Desktop x4, page entière : repeintures du SVG 616 -> 0 ; événements `Paint` 2845 -> 1792 (349 -> 236 ms).
+
+## Mesures après (mêmes conditions, build de production)
+
+Valeurs par frame dessinée, processus de la page seul ; « JS rAF » exclut le script de mesure lui-même.
+La page est plus longue après (sections épinglées) : d'où plus de frames.
+
+| Gabarit | Frames | JS rAF / frame | Rendu (style à commit) / frame | Peinture / frame | Peintures / frame | Repeintures du SVG | GPU / frame |
+|---|---|---|---|---|---|---|---|
+| Desktop avant | 733 | 2,03 ms | 3,64 ms | 0,48 ms | 3,88 | 616 | 0,75 ms |
+| Desktop après | 821 | 0,65 ms | 2,75 ms | 0,28 ms | 2,02 | 0 | 0,21 ms |
+| Tablette avant | 642 | 2,02 ms | 3,74 ms | 0,48 ms | 4,24 | 587 | 0,34 ms |
+| Tablette après | 754 | 0,46 ms | 2,11 ms | 0,23 ms | 2,28 | 0 | 0,21 ms |
+| Mobile avant | 561 | 1,50 ms | 2,94 ms | 0,31 ms | 2,44 | 655 | 0,25 ms |
+| Mobile après | 675 | 0,59 ms | 2,71 ms | 0,17 ms | 1,02 | 0 | 0,23 ms |
+
+Rendus React aux frontières d'étape (desktop x4) : 1255 ms sur 102 rendus avant mémoïsation, 182 ms après.
+Tâches de plus de 16 ms pendant le défilement : 1 à 2 par trace, dont le démarrage du profileur de l'outil
+(présent avant et après) ; la seule tâche du site est un rendu de 20 ms à x4 (environ 5 ms réels) au changement
+d'une étape, sur mobile.
+
+Chargement (après) : desktop LCP 68 ms, CLS 0 ; mobile x4 « Slow 4G » LCP 728 ms, CLS 0 (inchangés, le LCP
+est le nom dans le héros).
+
+Lighthouse (accessibilité, bonnes pratiques, SEO ; la performance est exclue par l'outil) : 100 / 100 / 100 en
+desktop et en mobile, 0 échec (2 échecs d'accessibilité trouvés en cours de route et corrigés).
+
+Fichiers de traces : `/private/tmp/claude-501/perf/` (non versionnés, volumineux).
