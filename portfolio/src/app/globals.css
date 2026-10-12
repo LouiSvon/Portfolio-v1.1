@@ -1100,6 +1100,195 @@ h1, h2, .display {
   margin-top: clamp(2.5rem, 6vh, 4rem);
 }
 
+/* Parcours : un Mac qui s'ouvre au défilement (grand écran), la frise ailleurs. */
+.journey-mac-only { display: none; }
+@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+  .journey-mac-only { display: block; }
+  .journey-lite { display: none; }
+}
+.journey-track { position: relative; height: 480svh; }
+.journey-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  height: 100svh;
+  place-items: center;
+  overflow: clip;
+  perspective: 1800px;
+}
+.journey-head {
+  position: absolute;
+  top: clamp(4.5rem, 12svh, 7rem);
+  left: 0;
+  right: 0;
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+}
+.journey-head .section-subtitle { margin-inline: auto; }
+
+.mac {
+  --w: min(96vw, 160svh);
+  position: relative;
+  width: var(--w);
+  transform-origin: 50% 60%;
+  will-change: transform;
+}
+.mac-screen {
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  background:
+    var(--wallpaper, none) center / cover,
+    radial-gradient(90% 70% at 15% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
+    radial-gradient(70% 60% at 100% 100%, color-mix(in srgb, #8b7dff 20%, transparent), transparent 60%),
+    #0b0b0f;
+  box-shadow: 0 40px 120px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+/* Cadre noir du Mac, avec la caméra : disparaît quand l'écran remplit la scène. */
+.mac-bezel {
+  position: absolute;
+  inset: -0.9rem -0.9rem -0.9rem;
+  border-radius: 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+  background: #050507;
+  box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.9);
+}
+.mac-bezel::after {
+  content: '';
+  position: absolute;
+  top: 0.32rem;
+  left: 50%;
+  width: 0.35rem;
+  height: 0.35rem;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: #1b1b22;
+}
+.mac-screen { z-index: 1; }
+.mac-base {
+  position: absolute;
+  left: -9%;
+  right: -9%;
+  top: 100%;
+  height: 0.9rem;
+  margin-top: 0.9rem;
+  border-radius: 0 0 1.2rem 1.2rem;
+  background: linear-gradient(#2a2a31, #101014);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8);
+}
+.mac-base::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 14%;
+  height: 0.35rem;
+  translate: -50% 0;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background: #0a0a0d;
+}
+
+/* Contenu de l'écran : tailles en cqw, pour que tout garde les mêmes proportions à toute largeur. */
+.mac-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3.1cqw;
+  padding-inline: 1.4cqw;
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.9cqw;
+  color: var(--tertiary);
+}
+.mac-dots { display: flex; gap: 0.5cqw; }
+.mac-dots i { width: 0.8cqw; height: 0.8cqw; border-radius: 50%; background: color-mix(in srgb, var(--foreground) 22%, transparent); }
+.mac-url { padding: 0.35cqw 2cqw; border-radius: 999px; background: color-mix(in srgb, var(--background) 60%, transparent); }
+.mac-body {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: calc(100% - 3.1cqw);
+  padding: 2.6cqw 3.4cqw 2cqw;
+}
+.mac-cards { position: relative; display: grid; min-height: 0; }
+.mac-card {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
+  gap: 3cqw;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(1.4cqw);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), visibility 0s var(--dur-base);
+}
+.mac-card[data-active] { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.mac-card-main { display: flex; flex-direction: column; gap: 1.1cqw; min-width: 0; }
+.mac-meta { display: flex; align-items: center; gap: 1cqw; font-size: 1cqw; color: var(--tertiary); }
+.mac-meta .chip { font-size: 0.95cqw; }
+.mac-role {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 4.4cqw;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+.mac-company { font-size: 1.7cqw; font-weight: 500; color: var(--secondary); }
+.mac-desc { max-width: 52cqw; font-size: 1.3cqw; line-height: 1.55; color: var(--secondary); }
+.mac-tags { display: flex; flex-wrap: wrap; gap: 0.5cqw; font-size: 1cqw; }
+.mac-links { display: flex; flex-wrap: wrap; gap: 0.8cqw; }
+.mac-photos { display: grid; gap: 1cqw; width: 22cqw; align-self: center; }
+.mac-photos li { aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1cqw; border: 1px solid var(--border); }
+
+.mac-path { position: relative; margin-top: 1cqw; padding-bottom: 3.6cqw; }
+.mac-path-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.mac-path-rest { stroke: color-mix(in srgb, var(--foreground) 22%, transparent); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.mac-path-done { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 70%, transparent)); }
+.mac-stops { position: absolute; inset: 0 0 3.6cqw; }
+.mac-stop { position: absolute; width: 0; height: 0; }
+.mac-stop-btn { position: absolute; left: -10cqw; top: -1cqw; display: flex; width: 20cqw; flex-direction: column; align-items: center; gap: 0.7cqw; cursor: pointer; }
+.mac-stop-dot {
+  width: 1.3cqw;
+  height: 1.3cqw;
+  border: 2px solid color-mix(in srgb, var(--foreground) 35%, transparent);
+  border-radius: 50%;
+  background: var(--background);
+  transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-nudge) var(--ease-out);
+}
+.mac-stop[data-passed] .mac-stop-dot { border-color: var(--accent); background: var(--accent); }
+.mac-stop[data-current] .mac-stop-dot { transform: scale(1.5); }
+.mac-stop-label { display: flex; flex-direction: column; align-items: center; margin-top: 1.7cqw; font-size: 0.95cqw; line-height: 1.25; color: var(--tertiary); text-align: center; }
+.mac-stop-label b { font-weight: 600; color: var(--secondary); }
+.mac-stop[data-current] .mac-stop-label b { color: var(--foreground); }
+.mac-walker {
+  position: absolute;
+  z-index: 2;
+  width: 0;
+  height: 0;
+}
+.mac-walker-img {
+  position: absolute;
+  left: -2.1cqw;
+  top: -5.2cqw;
+  width: 4.2cqw;
+  height: 4.2cqw;
+  max-width: none;
+  object-fit: contain;
+  animation: walker-bob 0.8s ease-in-out infinite alternate;
+}
+.mac-walker.is-portrait .mac-walker-img {
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--foreground);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 45%, transparent), 0 10px 30px -6px rgba(0, 0, 0, 0.8);
+}
+@keyframes walker-bob { from { translate: 0 0; } to { translate: 0 -0.5cqw; } }
+
 /* Compétences : orbite. Grand écran : piste haute, scène épinglée, la famille change au défilement.
    Ailleurs : pas d'épinglage, on choisit la famille au toucher. */
 .orbit-track { position: relative; }

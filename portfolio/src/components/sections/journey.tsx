@@ -2,12 +2,18 @@ import type { Locale } from "@/types";
 import { getTranslations, formatDate } from "@/lib/i18n";
 import { experiences } from "@/data/experience";
 import { benevol } from "@/data/benevol";
+import { profile } from "@/data/profile";
+import { siteUrl } from "@/lib/site";
+import { sceneImage } from "@/lib/scenes";
 import { Timeline, type TimelineItem } from "@/components/ui/timeline";
+import { JourneyMac } from "@/components/ui/journey-mac";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 
-// D'où je viens : le titre reste épinglé pendant que la frise se remplit au défilement.
-// Ordre chronologique, de la plus ancienne expérience au bénévolat en cours : l'histoire avance
-// jusqu'au présent, puis la formation prend le relais.
+// D'où je viens. Grand écran : un Mac qui s'ouvre au défilement, dont l'écran raconte le chemin (JourneyMac).
+// Ailleurs (petit écran, écran bas, animations réduites) : la frise, titre épinglé pendant qu'elle se remplit.
+// Les deux sont dans la page ; le CSS (.journey-mac-only, .journey-lite) n'en affiche qu'une.
+// Ordre chronologique, de la plus ancienne expérience au bénévolat en cours : l'histoire avance jusqu'au présent.
 export function JourneySection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
 
@@ -45,13 +51,35 @@ export function JourneySection({ locale }: { locale: Locale }) {
       images: (exp.images ?? []).map((img) => ({ src: img.src, alt: img.alt[locale] })),
     }));
 
+  const items = [...work, ...volunteering];
+  // Un personnage dessiné (public/scenes/parcours-marcheur.png) remplace le portrait s'il existe.
+  const walkerImage = sceneImage("parcours-marcheur");
+  const walker = walkerImage
+    ? { src: walkerImage, portrait: false, alt: profile.name }
+    : { src: "/portrait.jpg", portrait: true, alt: profile.name };
+
   return (
-    <section id="parcours" className="screen" aria-labelledby="parcours-titre">
-      <div className="shell split">
-        <div className="split-aside">
-          <SectionHeading id="parcours-titre" title={t.journey.title} subtitle={t.journey.subtitle} />
+    <section id="parcours" className="journey" aria-labelledby="parcours-titre">
+      <div className="journey-mac-only">
+        <JourneyMac
+          title={t.journey.title}
+          subtitle={t.journey.subtitle}
+          items={items}
+          walker={walker}
+          wallpaper={sceneImage("parcours-ecran")}
+          host={`${new URL(siteUrl).host}/#parcours`}
+          backdrop={<SectionBackdrop name="parcours" motif="topo" tone="mix" />}
+        />
+      </div>
+
+      <div className="journey-lite has-backdrop screen">
+        <SectionBackdrop name="parcours" motif="topo" tone="mix" />
+        <div className="shell split">
+          <div className="split-aside">
+            <SectionHeading id="parcours-titre-lite" title={t.journey.title} subtitle={t.journey.subtitle} />
+          </div>
+          <Timeline items={items} />
         </div>
-        <Timeline items={[...work, ...volunteering]} />
       </div>
     </section>
   );
