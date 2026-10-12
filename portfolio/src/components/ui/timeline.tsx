@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useSpring } from "motion/react";
+import { pop, scrub } from "@/lib/motion";
 
 export type TimelineItem = {
   key: string;
@@ -22,7 +23,7 @@ export type TimelineItem = {
 export function Timeline({ items }: { items: TimelineItem[] }) {
   const ref = useRef<HTMLOListElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 75%", "end 55%"] });
-  const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
+  const fill = useSpring(scrollYProgress, scrub);
 
   return (
     <ol ref={ref} className="timeline">
@@ -41,7 +42,7 @@ export function Timeline({ items }: { items: TimelineItem[] }) {
             aria-hidden="true"
             variants={{
               off: { scale: 0.7, opacity: 0.5 },
-              on: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 18 } },
+              on: { scale: 1, opacity: 1, transition: pop },
             }}
           />
           <article className="panel">

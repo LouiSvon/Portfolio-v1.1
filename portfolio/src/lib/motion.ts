@@ -21,12 +21,16 @@ export const distance = {
   y: 24, // décalage vertical d'une apparition (px)
   scale: 0.96, // échelle de départ ou de recul
   dim: 0.5, // opacité plancher d'un texte qui s'allume au défilement : reste lisible
+  veil: 0.1, // voile maximal d'une carte qui recule : le petit texte garde 4,5:1
 } as const;
 
 export const stagger = 0.06; // décalage entre éléments d'un même groupe (s)
 
 // Lissage des effets liés au défilement (Motion) : ressort amorti, sans rebond.
 export const scrub = { stiffness: 120, damping: 30, mass: 0.4 } as const;
+
+// Allumage d'un point de la frise : léger rebond, seule exception voulue (effet validé par le propriétaire).
+export const pop = { type: "spring", stiffness: 300, damping: 18 } as const;
 
 // Variables CSS correspondantes, posées sur <html> par le layout.
 export const motionCssVars = {

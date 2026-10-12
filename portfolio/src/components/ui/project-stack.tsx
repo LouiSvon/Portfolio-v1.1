@@ -44,7 +44,7 @@ function StackCard({
   const last = index === total - 1;
   const scale = useTransform(progress, range, [1, last ? 1 : distance.scale]);
   // La carte reste opaque (rien ne transparaît d'en dessous) ; un voile l'assombrit en reculant.
-  const shade = useTransform(progress, range, [0, last ? 0 : 1 - distance.dim]);
+  const shade = useTransform(progress, range, [0, last ? 0 : distance.veil]);
 
   return (
     <motion.li className="stack-card" style={{ scale, "--i": index } as never}>
