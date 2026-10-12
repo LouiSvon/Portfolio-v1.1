@@ -1337,20 +1337,7 @@ h1, h2, .display {
 }
 @keyframes walker-bob { from { translate: 0 0; } to { translate: 0 -0.5cqw; } }
 
-/* Compétences : orbite. Grand écran : piste haute, scène épinglée, la famille change au défilement.
-   Ailleurs : pas d'épinglage, on choisit la famille au toucher. */
-.orbit-track { position: relative; }
-.orbit-stage {
-  display: flex;
-  min-height: 100svh;
-  flex-direction: column;
-  justify-content: center;
-  padding-block: clamp(5rem, 12vh, 8rem);
-}
-@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
-  .orbit-pin { height: 360svh; }
-  .orbit-stage { position: sticky; top: 0; }
-}
+/* Compétences : orbite, dans une section épinglée (PinTrack). */
 .orbit-grid { display: grid; gap: 2.5rem; align-items: center; }
 /* Sans cela, la rangée de pastilles élargit la grille au-delà de l'écran. */
 .orbit-grid > * { min-width: 0; }
@@ -1360,7 +1347,7 @@ h1, h2, .display {
 .orbit-domains { display: flex; flex-direction: column; }
 .orbit-domain {
   display: grid;
-  grid-template-columns: 2.5rem 1fr auto;
+  grid-template-columns: 2.5rem 1fr;
   align-items: baseline;
   gap: 0.5rem;
   width: 100%;
@@ -1371,7 +1358,7 @@ h1, h2, .display {
   cursor: pointer;
   transition: color var(--dur-fast) var(--ease-out), padding var(--dur-nudge) var(--ease-out);
 }
-.orbit-domain-num, .orbit-domain-count {
+.orbit-domain-num {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.12em;
@@ -1397,13 +1384,14 @@ h1, h2, .display {
     border-radius: 999px;
     white-space: nowrap;
   }
-  .orbit-domain-num, .orbit-domain-count { display: none; }
+  .orbit-domain-num { display: none; }
   .orbit-domain-name { font-size: 0.95rem; }
   .orbit-domain[aria-pressed='true'] { padding-left: 1rem; box-shadow: none; border-color: var(--accent); }
 }
 
 .orbit {
-  --orbit: clamp(19rem, 84vw, 36rem);
+  /* Plafonnée en hauteur d'écran : l'orbite tient dans la scène épinglée, même sur un téléphone bas. */
+  --orbit: min(clamp(17rem, 84vw, 36rem), 58svh);
   --tile: clamp(2.75rem, 7vw, 3.5rem);
   position: relative;
   width: var(--orbit);
@@ -1411,26 +1399,43 @@ h1, h2, .display {
   max-width: 100%;
   margin-inline: auto;
 }
-.orbit-halo {
+/* Tracés fixes des deux anneaux (peints une fois, ne tournent pas). */
+.orbit::before,
+.orbit::after {
+  content: '';
   position: absolute;
-  inset: 8%;
+  left: 50%;
+  top: 50%;
+  border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
   border-radius: 50%;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent);
+  translate: -50% -50%;
 }
+.orbit::before { width: calc(var(--orbit) * 0.54); height: calc(var(--orbit) * 0.54); }
+.orbit::after { width: calc(var(--orbit) * 0.86); height: calc(var(--orbit) * 0.86); border-style: dashed; }
 .orbit-set { position: absolute; inset: 0; }
 .orbit-core {
   position: absolute;
   inset: 0;
   display: grid;
-  place-items: center;
-  padding: 0 28%;
+  place-content: center;
+  justify-items: center;
+  gap: 0.35rem;
   text-align: center;
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: clamp(1.1rem, 0.8rem + 1.2vw, 1.8rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
   animation: orbit-in var(--dur-base) var(--ease-out) both;
+}
+.orbit-core b {
+  font-family: var(--font-doto), monospace;
+  font-size: calc(var(--orbit) * 0.22);
+  font-weight: 900;
+  line-height: 0.8;
+  color: var(--accent);
+}
+.orbit-core span {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--secondary);
 }
 /* Anneau : tourne lentement ; chaque outil contre-tourne pour rester droit. */
 .orbit-ring {
