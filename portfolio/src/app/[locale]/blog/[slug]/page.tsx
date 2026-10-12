@@ -58,8 +58,8 @@ export default async function ArticlePage({ params }: Props) {
           <PageHeader
             compact
             eyebrow={
-              <Link href={`/${locale}/blog`} className="btn-ghost">
-                <span className="arrow" aria-hidden="true">&larr;</span> {t.blog.backToBlog}
+              <Link href={`/${locale}#articles`} className="btn-ghost">
+                <span className="arrow" aria-hidden="true">&larr;</span> {t.articles.backToArticles}
               </Link>
             }
             title={article.title[locale]}
@@ -67,9 +67,9 @@ export default async function ArticlePage({ params }: Props) {
           />
           <div className="-mt-4 mb-12 flex flex-wrap items-center gap-2">
             <time dateTime={article.date} className="chip">
-              {t.blog.publishedOn} {formattedDate}
+              {t.articles.publishedOn} {formattedDate}
             </time>
-            <span className="chip">{article.readingTime} {t.blog.readingTime}</span>
+            <span className="chip">{article.readingTime} {t.articles.readingTime}</span>
             {article.tags.map((tag) => (
               <span key={tag} className="chip">{tag}</span>
             ))}
@@ -79,7 +79,7 @@ export default async function ArticlePage({ params }: Props) {
           {article.toc && article.toc.length > 0 && (
             <details className="panel mb-8 !p-0 lg:hidden">
               <summary className="eyebrow cursor-pointer px-5 py-4">
-                {t.blog.tableOfContents}
+                {t.articles.tableOfContents}
               </summary>
               <ol className="px-5 pb-5 space-y-2">
                 {article.toc.map((entry) => (
@@ -98,23 +98,23 @@ export default async function ArticlePage({ params }: Props) {
             {ArticleContent ? (
               <ArticleContent locale={locale} />
             ) : (
-              <p className="text-sm text-secondary">{locale === "fr" ? "Contenu bientôt disponible." : "Content coming soon."}</p>
+              <p className="text-sm text-secondary">{t.articles.comingSoon}</p>
             )}
           </div>
 
           {/* Partage */}
           <div className="flex items-center gap-3 py-4 border-t border-border border-b mb-10">
-            <span className="text-xs text-tertiary">{locale === "fr" ? "Partager :" : "Share:"}</span>
-            <CopyLink label={t.blog.shareLink} copiedLabel={t.blog.linkCopied} />
+            <span className="text-xs text-tertiary">{t.articles.share}</span>
+            <CopyLink label={t.articles.shareLink} copiedLabel={t.articles.linkCopied} />
           </div>
         </article>
 
         {/* TOC sidebar sticky — desktop uniquement */}
         {article.toc && article.toc.length > 0 && (
           <aside className="hidden lg:block w-52 shrink-0">
-            <nav aria-label={t.blog.tableOfContents} className="sticky top-24">
+            <nav aria-label={t.articles.tableOfContents} className="sticky top-24">
               <p className="eyebrow mb-4">
-                {t.blog.tableOfContents}
+                {t.articles.tableOfContents}
               </p>
               <ol className="space-y-2">
                 {article.toc.map((entry) => (

@@ -1,14 +1,13 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import type { Project, Locale } from "@/types";
 import { getTranslations, formatFullDate } from "@/lib/i18n";
-import { highlights } from "@/data/highlights";
+import { ProjectScene, type Scene } from "@/components/ui/project-scene";
 
 type SortKey = "recent" | "oldest" | "az";
 
-// Couleurs des panneaux pour les projets sans couleur propre (les projets phares gardent la leur).
+// Couleurs des panneaux des dépôts (les projets phares gardent les leurs).
 const PANEL_COLORS: [string, string][] = [
   ["#4f8cff", "#9b6bff"],
   ["#2ee6a6", "#00b3ff"],
@@ -18,132 +17,20 @@ const PANEL_COLORS: [string, string][] = [
   ["#3ddc84", "#4d8dff"],
 ];
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
-// Une scène par projet : la carte se dévoile au fil du défilement (liée à la molette, Motion).
-// Le panneau s'ouvre comme un rideau, le numéro dérive, le titre arrive mot à mot, puis les technos.
-// « Réduire les animations » : le CSS .showcase neutralise tous ces effets (contenu visible et fixe).
-function ProjectScene({
-  project,
-  index,
-  locale,
-}: {
-  project: Project;
-  index: number;
-  locale: Locale;
-}) {
-  const t = getTranslations(locale);
-  const ref = useRef<HTMLElement>(null);
-  const highlight = highlights.find((h) => h.repo === project.name);
-  const title = highlight?.title[locale] ?? project.name;
-  const description =
-    highlight?.tagline[locale] ?? project.customDescription?.[locale] ?? project.description;
-  const kind = highlight?.kind[locale] ?? project.language;
-  const [c1, c2] = highlight?.colors ?? PANEL_COLORS[index % PANEL_COLORS.length];
-  const chips = (highlight?.stack ?? [project.language, ...project.topics].filter(Boolean).slice(0, 4)) as string[];
-
-  // Entrée : du bas de l'écran jusqu'au centre. Parallaxe : sur toute la traversée.
-  const { scrollYProgress: enter } = useScroll({ target: ref, offset: ["start end", "center center"] });
-  const { scrollYProgress: pass } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const progress = useSpring(enter, { stiffness: 140, damping: 30, mass: 0.4 });
-  const y = useTransform(progress, [0, 1], [90, 0]);
-  const scale = useTransform(progress, [0, 1], [0.9, 1]);
-  const opacity = useTransform(progress, [0, 0.55], [0, 1]);
-  const curtain = useTransform(
-    progress,
-    [0, 1],
-    ["inset(22% 14% 22% 14% round 2.5rem)", "inset(0% 0% 0% 0% round 0rem)"],
-  );
-  const glow = useTransform(progress, [0, 1], [1.35, 1]);
-  const numberY = useTransform(pass, [0, 1], [80, -80]);
-
-  const words = title.split(" ");
-
-  return (
-    <motion.article
-      ref={ref}
-      className={`proj-card showcase-card${index % 2 ? " is-flipped" : ""}`}
-      style={{ "--c1": c1, "--c2": c2, y, scale, opacity } as never}
-    >
-      <motion.div className="proj-visual" style={{ clipPath: curtain }}>
-        <motion.span className="proj-glow" style={{ scale: glow }} aria-hidden="true" />
-        <span className="proj-dots" aria-hidden="true" />
-        {kind && <span className="eyebrow proj-kind">{kind}</span>}
-        {project.featured && <span className="chip proj-featured">{t.projects.featured}</span>}
-        <motion.span className="proj-num" style={{ y: numberY }} aria-hidden="true">
-          {String(index + 1).padStart(2, "0")}
-        </motion.span>
-      </motion.div>
-
-      <motion.div
-        className="proj-body"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ staggerChildren: 0.06 }}
-      >
-        <h2 className="proj-title showcase-title">
-          {/* Lien étiré : toute la carte mène au dépôt. */}
-          <a href={project.url} target="_blank" rel="noopener noreferrer" className="after:absolute after:inset-0">
-            {words.map((word, w) => (
-              <span key={w} className="inline-block overflow-hidden pb-[0.08em] align-top">
-                <motion.span
-                  className="showcase-anim inline-block"
-                  variants={{ hidden: { y: "105%" }, show: { y: 0, transition: { duration: 0.8, ease } } }}
-                >
-                  {word}
-                  {w < words.length - 1 ? "\u00a0" : ""}
-                </motion.span>
-              </span>
-            ))}
-          </a>
-        </h2>
-        {description && (
-          <motion.p
-            className="proj-tagline showcase-anim"
-            variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}
-          >
-            {description}
-          </motion.p>
-        )}
-        {chips.length > 0 && (
-          <ul className="proj-chips">
-            {chips.map((chip) => (
-              <motion.li
-                key={chip}
-                className="proj-chip showcase-anim"
-                variants={{ hidden: { opacity: 0, y: 10, scale: 0.9 }, show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease } } }}
-              >
-                {chip}
-              </motion.li>
-            ))}
-          </ul>
-        )}
-        <motion.div
-          className="showcase-anim flex flex-wrap items-center justify-between gap-3"
-          variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.6 } } }}
-        >
-          <span className="proj-cta">
-            {locale === "fr" ? "Voir le code" : "View code"} <span className="arrow" aria-hidden="true">&rarr;</span>
-          </span>
-          <span className="flex items-center gap-3 text-xs text-tertiary">
-            {project.stars > 0 && <span>★ {project.stars}</span>}
-            <span>{formatFullDate(project.updatedAt, locale)}</span>
-            {project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative z-10 text-secondary hover:text-accent"
-              >
-                Demo &rarr;
-              </a>
-            )}
-          </span>
-        </motion.div>
-      </motion.div>
-    </motion.article>
-  );
+function toScene(project: Project, index: number, locale: Locale): Scene {
+  return {
+    key: project.name,
+    title: project.name,
+    tagline: project.customDescription?.[locale] ?? project.description ?? undefined,
+    kind: project.language ?? undefined,
+    chips: [project.language, ...project.topics].filter(Boolean).slice(0, 4) as string[],
+    href: project.url,
+    colors: PANEL_COLORS[index % PANEL_COLORS.length],
+    featured: project.featured,
+    stars: project.stars,
+    updated: formatFullDate(project.updatedAt, locale),
+    demo: project.demo ?? undefined,
+  };
 }
 
 export function ProjectFilter({
@@ -215,11 +102,10 @@ export function ProjectFilter({
     });
   }, [projects, selected, sort]);
 
+  const labels = { viewCode: t.projects.viewCode, featured: t.projects.featured, demo: t.projects.demo };
   const isFiltered = selected.size > 0 || sort !== "recent";
   const shown = filtered.length;
   const total = projects.length;
-
-  const isFr = locale === "fr";
 
   return (
     <div>
@@ -236,7 +122,7 @@ export function ProjectFilter({
             ref={btnRef}
             onClick={() => setPanelOpen((v) => !v)}
             aria-expanded={panelOpen}
-            aria-label={isFr ? "Filtres et tri" : "Filters and sort"}
+            aria-label={t.projects.filters}
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-border text-secondary transition-colors duration-150 hover:border-accent hover:text-accent"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -257,13 +143,13 @@ export function ProjectFilter({
             <div
               ref={panelRef}
               role="dialog"
-              aria-label={isFr ? "Réglages des projets" : "Project settings"}
+              aria-label={t.projects.settings}
               className="settings-panel"
             >
               {/* Sort */}
               <div className="mb-5">
                 <p className="eyebrow mb-3">
-                  {isFr ? "Trier par" : "Sort by"}
+                  {t.projects.sortBy}
                 </p>
                 <div className="space-y-1.5">
                   {(["recent", "oldest", "az"] as SortKey[]).map((key) => (
@@ -277,9 +163,7 @@ export function ProjectFilter({
                         className="accent-[var(--accent)]"
                       />
                       <span className="text-sm text-secondary">
-                        {key === "recent" ? (isFr ? "Plus récent" : "Most recent") :
-                         key === "oldest" ? (isFr ? "Plus ancien" : "Oldest first") :
-                         "A → Z"}
+                        {key === "recent" ? t.projects.sortRecent : key === "oldest" ? t.projects.sortOldest : t.projects.sortAZ}
                       </span>
                     </label>
                   ))}
@@ -289,7 +173,7 @@ export function ProjectFilter({
               {/* Filter: featured */}
               <div className="mb-4">
                 <p className="eyebrow mb-3">
-                  {isFr ? "Filtrer" : "Filter"}
+                  {t.projects.filter}
                 </p>
                 <label className="flex items-center gap-2 cursor-pointer mb-2">
                   <input
@@ -339,7 +223,7 @@ export function ProjectFilter({
       {filtered.length > 0 ? (
         <div className="showcase flex flex-col gap-[clamp(4rem,10vh,8rem)]">
           {filtered.map((project, i) => (
-            <ProjectScene key={project.name} project={project} index={i} locale={locale} />
+            <ProjectScene key={project.name} scene={toScene(project, i, locale)} index={i} labels={labels} />
           ))}
         </div>
       ) : (

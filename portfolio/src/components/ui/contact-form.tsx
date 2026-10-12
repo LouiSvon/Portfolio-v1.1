@@ -64,7 +64,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           onClick={() => setState("idle")}
           className="self-start text-xs text-tertiary hover:text-accent transition-colors duration-150"
         >
-          ← {locale === "fr" ? "Nouveau message" : "Send another"}
+          ← {t.contact.newMessage}
         </button>
       </div>
     );

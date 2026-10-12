@@ -11,6 +11,9 @@ export interface Highlight {
   // Couleurs propres au projet (lueur de la carte).
   colors: [string, string];
   stack: string[];
+  // Capture d'écran à déposer dans public/projets/ (voir media) ; texte alternatif prévu d'avance.
+  image?: string;
+  imageAlt: Record<Locale, string>;
 }
 
 export const highlights: Highlight[] = [
@@ -31,6 +34,10 @@ export const highlights: Highlight[] = [
     kind: { fr: "Web · Association", en: "Web · Association" },
     colors: ["#4f8cff", "#9b6bff"],
     stack: ["Next.js", "TypeScript", "Supabase", "Vitest"],
+    imageAlt: {
+      fr: "Capture d'écran de la carte de membre GDG Marseille",
+      en: "Screenshot of the GDG Marseille membership card",
+    },
   },
   {
     repo: "jobaggregator",
@@ -49,6 +56,10 @@ export const highlights: Highlight[] = [
     kind: { fr: "Web · Projet Epitech", en: "Web · Epitech project" },
     colors: ["#2ee6a6", "#00b3ff"],
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
+    imageAlt: {
+      fr: "Capture d'écran de l'agrégateur d'offres d'emploi",
+      en: "Screenshot of the job offer aggregator",
+    },
   },
   {
     repo: "TokenTrex",
@@ -67,5 +78,9 @@ export const highlights: Highlight[] = [
     kind: { fr: "App macOS", en: "macOS app" },
     colors: ["#ff6b35", "#ff3d7f"],
     stack: ["Swift", "SwiftUI", "AppKit"],
+    imageAlt: {
+      fr: "Capture d'écran de TokenTrex dans la barre de menu macOS",
+      en: "Screenshot of TokenTrex in the macOS menu bar",
+    },
   },
 ];

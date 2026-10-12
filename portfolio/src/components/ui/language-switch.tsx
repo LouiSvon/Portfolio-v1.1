@@ -13,7 +13,7 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
     const newLocale = locale === "fr" ? "en" : "fr";
     const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
     document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
-    router.push(newPath);
+    router.push(newPath + window.location.hash);
   }
 
   return (

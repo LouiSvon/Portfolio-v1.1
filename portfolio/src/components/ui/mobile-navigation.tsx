@@ -1,26 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import type { Locale } from "@/types";
+import type { NavItem } from "@/lib/sections";
 import { LanguageSwitch } from "@/components/ui/language-switch";
-
-type NavigationLink = {
-  href: string;
-  label: string;
-};
+import { SectionLink, useActiveSection, useIsHome } from "@/components/ui/section-nav";
 
 type MobileNavigationProps = {
   closeLabel: string;
-  links: NavigationLink[];
+  items: NavItem[];
   locale: Locale;
   menuLabel: string;
 };
 
 export function MobileNavigation({
   closeLabel,
-  links,
+  items,
   locale,
   menuLabel,
 }: MobileNavigationProps) {
@@ -28,9 +24,9 @@ export function MobileNavigation({
   const pathname = usePathname();
   const [openedOn, setOpenedOn] = useState<string | null>(null);
   const isOpen = openedOn === pathname;
-  const setIsOpen = (next: boolean | ((current: boolean) => boolean)) =>
-    setOpenedOn((typeof next === "function" ? next(isOpen) : next) ? pathname : null);
   const menuId = useId();
+  const isHome = useIsHome(locale);
+  const active = useActiveSection(isHome);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -49,7 +45,7 @@ export function MobileNavigation({
         type="button"
         aria-controls={menuId}
         aria-expanded={isOpen}
-        onClick={() => setIsOpen((current) => !current)}
+        onClick={() => setOpenedOn(isOpen ? null : pathname)}
         className="nav-pill flex h-11 !px-4 text-sm font-medium text-primary"
       >
         {isOpen ? closeLabel : menuLabel}
@@ -61,21 +57,19 @@ export function MobileNavigation({
           className="absolute inset-x-3 top-16 rounded-3xl border border-border bg-[var(--surface)] px-3 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
         >
           <div className="mx-auto flex max-w-2xl flex-col gap-1">
-            {links.map((link) => {
-              const path = link.href.split("#")[0];
-              const active = !link.href.includes("#") && (pathname === path || pathname === `${path}/`);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  aria-current={active ? "page" : undefined}
-                  className="rounded-2xl px-4 py-3 font-[family-name:var(--font-archivo)] text-2xl font-bold tracking-[-0.03em] text-primary transition-colors duration-150 hover:bg-accent-soft hover:text-accent aria-[current=page]:bg-accent-soft aria-[current=page]:text-accent"
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+            {items.map((item) => (
+              <SectionLink
+                key={item.id}
+                id={item.id}
+                locale={locale}
+                isHome={isHome}
+                current={active === item.id}
+                onClick={() => setOpenedOn(null)}
+                className="rounded-2xl px-4 py-3 font-[family-name:var(--font-archivo)] text-2xl font-bold tracking-[-0.03em] text-primary transition-colors duration-150 hover:bg-accent-soft hover:text-accent aria-[current=true]:bg-accent-soft aria-[current=true]:text-accent"
+              >
+                {item.label}
+              </SectionLink>
+            ))}
             <div className="mt-2 border-t border-border px-3 pt-3">
               <LanguageSwitch locale={locale} />
             </div>

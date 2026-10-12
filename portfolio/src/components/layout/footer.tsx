@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 import { profile } from "@/data/profile";
+import { navItems } from "@/lib/sections";
 
 function MailIcon() {
   return (
@@ -30,13 +31,7 @@ const year = new Date().getFullYear();
 export function Footer({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
 
-  const navLinks = [
-    { href: `/${locale}`, label: t.nav.home },
-    { href: `/${locale}/projects`, label: t.nav.projects },
-    { href: `/${locale}/blog`, label: t.nav.blog },
-    { href: `/${locale}/about`, label: t.nav.about },
-    { href: `/${locale}/contact`, label: t.nav.contact },
-  ];
+  const navLinks = navItems(t).map((item) => ({ href: `/${locale}#${item.id}`, label: item.label }));
 
   const legalLinks = [
     { href: `/${locale}/legal`, label: t.footer.mentionsLegales },

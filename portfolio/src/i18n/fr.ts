@@ -1,146 +1,111 @@
+// Textes du site, rangés comme la page unique : une entrée par section, dans l'ordre du récit.
+// en.ts suit ce type : les deux langues ont donc toujours les mêmes clés.
 export interface Translations {
+  meta: {
+    description: string;
+  };
   nav: {
     home: string;
+    sections: string;
+    skills: string;
     projects: string;
-    blog: string;
-    about: string;
+    journey: string;
+    education: string;
+    articles: string;
     contact: string;
-    cv: string;
     skip: string;
     menu: string;
     close: string;
   };
   hero: {
-    greeting: string;
     role: string;
-    tagline: string;
+    available: string;
+    portraitAlt: string;
     cta: {
-      projects: string;
-      about: string;
-      contact: string;
       cv: string;
+      contact: string;
     };
   };
-  home: {
-    available: string;
-    inBriefTitle: string;
-    // {n} est remplacé par le nombre de certifications obtenues.
-    // « En bref » : une présentation, puis des faits classés. {n} = certifications obtenues ;
-    // anchor = section de la page À propos qui détaille le fait.
+  brief: {
+    title: string;
     introLead: string;
     introText: string;
-    introLink: string;
+    // {n} est remplacé par le nombre de certifications obtenues ; anchor = section qui détaille le fait.
     facts: { category: string; value: string; label: string; anchor: string }[];
-    featuredTitle: string;
+  };
+  skills: {
+    title: string;
     stackLabel: string;
     toolsLabel: string;
-    nowTitle: string;
-    // link : cible facultative de la ligne (projet phare, blog ou contact).
-    now: { label: string; text: string; link?: "project" | "blog" | "contact" }[];
-    viewAll: string;
-    viewCode: string;
-    portraitAlt: string;
-    ctaTitle: string;
-    ctaEmail: string;
-    ctaForm: string;
   };
   projects: {
     title: string;
-    subtitle: string;
+    viewCode: string;
+    demo: string;
     featured: string;
-    allProjects: string;
-    viewOnGithub: string;
-    viewDemo: string;
-    stars: string;
-    forks: string;
-    updatedOn: string;
+    showOthers: string;
+    hideOthers: string;
     noProjects: string;
-    errorLoading: string;
-    filterAll: string;
-    filterFeatured: string;
-    sortRecent: string;
-    sortAZ: string;
-    sortType: string;
     counter: string;
-    counterFiltered: string;
+    filters: string;
+    settings: string;
+    sortBy: string;
+    sortRecent: string;
+    sortOldest: string;
+    sortAZ: string;
+    filter: string;
+    filterFeatured: string;
     resetFilters: string;
   };
-  blog: {
+  journey: {
+    title: string;
+    subtitle: string;
+    present: string;
+    types: {
+      professional: string;
+      personal: string;
+      volunteering: string;
+    };
+  };
+  education: {
+    title: string;
+    studies: string;
+    certifications: string;
+    viewCertificate: string;
+    inProgress: string;
+    expires: string;
+    downloadCV: string;
+    openCV: string;
+    linkedin: string;
+  };
+  articles: {
     title: string;
     subtitle: string;
     readingTime: string;
     noArticles: string;
-    noResults: string;
-    backToBlog: string;
+    backToArticles: string;
     tableOfContents: string;
+    share: string;
     shareLink: string;
     linkCopied: string;
-    filterAll: string;
-    tags: string;
     publishedOn: string;
-    searchPlaceholder: string;
+    comingSoon: string;
   };
-  about: {
+  now: {
     title: string;
-    subtitle: string;
-    tagline: string;
-    anchorCV: string;
-    anchorCompetences: string;
-    anchorParcours: string;
-    anchorCertifications: string;
-    anchorEtudes: string;
-    anchorBenevol: string;
-    anchorIntro: string;
-    skillsTitle: string;
-    skillsFrontend: string;
-    skillsBackend: string;
-    skillsTools: string;
-    downloadCV: string;
-    openCV: string;
-    noCV: string;
-    viewLinkedin: string;
-    viewCertificate: string;
-    // Chiffres clés sous l'en-tête.
-    statYear: string;
-    statCerts: string;
-    statExp: string;
-    statLangs: string;
-    inProgress: string;
-    expires: string;
-    fetching: string;
-  };
-  experience: {
-    title: string;
-    subtitle: string;
-    professional: string;
-    personal: string;
-    education: string;
-    present: string;
-    technologies: string;
-  };
-  cv: {
-    title: string;
-    subtitle: string;
-    download: string;
-    open: string;
-    noFile: string;
-    viewLinkedin: string;
+    // link : cible facultative de la ligne (projet phare, articles ou contact).
+    items: { label: string; text: string; link?: "project" | "articles" | "contact" }[];
   };
   contact: {
     title: string;
     subtitle: string;
-    intro: string;
-    email: string;
-    availability: string;
     availabilityText: string;
-    channels: string;
-    or: string;
+    unavailableText: string;
     formName: string;
     formEmail: string;
     formSubject: string;
     formMessage: string;
     formMessageHint: string;
-    formSource: string;
     subjectOptions: {
       placeholder: string;
       internship: string;
@@ -151,16 +116,14 @@ export interface Translations {
     };
     submit: string;
     submitting: string;
-    successTitle: string;
     successMessage: string;
+    newMessage: string;
     errorMessage: string;
     formNotice: string;
     privacyLink: string;
   };
   footer: {
-    builtWith: string;
     navigationTitle: string;
-    legalTitle: string;
     aboutTitle: string;
     aboutText: string;
     mentionsLegales: string;
@@ -175,6 +138,10 @@ export interface Translations {
     title: string;
     lastUpdated: string;
   };
+  notFound: {
+    title: string;
+    back: string;
+  };
   language: {
     switch: string;
     label: string;
@@ -182,154 +149,120 @@ export interface Translations {
 }
 
 const fr: Translations = {
+  meta: {
+    description:
+      "Étudiant en 2e année de bachelor informatique à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+  },
   nav: {
     home: "Accueil",
+    sections: "Sections de la page",
+    skills: "Compétences",
     projects: "Projets",
-    blog: "Blog",
-    about: "À propos",
+    journey: "Parcours",
+    education: "Formation",
+    articles: "Articles",
     contact: "Contact",
-    cv: "CV",
     skip: "Aller au contenu",
     menu: "Menu",
     close: "Fermer",
   },
   hero: {
-    greeting: "Louis Savon",
     role: "Étudiant en informatique, spécialité IA",
-    tagline:
-      "2e année de bachelor à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    available: "Stage dès avril 2027 · Alternance 2027-2028",
+    portraitAlt: "Portrait de",
     cta: {
-      projects: "Voir les projets",
-      about: "Mon parcours",
-      contact: "Me contacter",
       cv: "Télécharger mon CV (PDF)",
+      contact: "Me contacter",
     },
   },
-  home: {
-    available: "Stage dès avril 2027 · Alternance 2027-2028",
-    inBriefTitle: "En bref",
+  brief: {
+    title: "En bref",
     introLead: "Je conçois des applications web et des outils d'IA.",
     introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
-    introLink: "En savoir plus",
     facts: [
-      { category: "Formation", value: "2e année", label: "Bachelor informatique à Epitech Marseille", anchor: "etudes" },
-      { category: "Engagement", value: "GDG Marseille", label: "Développeur bénévole depuis avril 2026", anchor: "benevol" },
-      { category: "Certifications", value: "{n} obtenues", label: "Vérifiables en ligne", anchor: "certifications" },
+      { category: "Formation", value: "2e année", label: "Bachelor informatique à Epitech Marseille", anchor: "formation" },
+      { category: "Engagement", value: "GDG Marseille", label: "Développeur bénévole depuis avril 2026", anchor: "parcours" },
+      { category: "Certifications", value: "{n} obtenues", label: "Vérifiables en ligne", anchor: "formation" },
       { category: "International", value: "Erasmus", label: "À Dublin, en équipe multiculturelle", anchor: "parcours" },
     ],
-    featuredTitle: "Projets phares",
+  },
+  skills: {
+    title: "Compétences",
     stackLabel: "Stack",
     toolsLabel: "Outils IA",
-    nowTitle: "En ce moment",
-    now: [
-      { label: "Construit", text: "La carte de membre numérique du GDG Marseille.", link: "project" },
-      { label: "Explore", text: "Les LLM en local, avec Ollama, Hugging Face et DeepSeek." },
-      { label: "Écrit", text: "Des articles pour comprendre les LLM.", link: "blog" },
-      { label: "Cherche", text: "Un stage dès avril 2027, puis une alternance 2027-2028.", link: "contact" },
-    ],
-    viewAll: "Tous les projets",
-    viewCode: "Voir le code",
-    portraitAlt: "Portrait",
-    ctaTitle: "Un stage à proposer ?",
-    ctaEmail: "Écrire un email",
-    ctaForm: "Formulaire",
   },
   projects: {
-    title: "Projets",
-    subtitle: "Sélection de projets récents et contributions open-source.",
+    title: "Projets phares",
+    viewCode: "Voir le code",
+    demo: "Démo",
     featured: "Mis en avant",
-    allProjects: "Tous les projets",
-    viewOnGithub: "Voir sur GitHub",
-    viewDemo: "Voir la démo",
-    stars: "stars",
-    forks: "forks",
-    updatedOn: "Mis à jour le",
+    showOthers: "Voir tous les projets",
+    hideOthers: "Réduire la liste",
     noProjects: "Les projets arrivent bientôt.",
-    errorLoading: "Impossible de charger les projets.",
-    filterAll: "Tous",
-    filterFeatured: "Mis en avant",
-    sortRecent: "Plus récent",
-    sortAZ: "A–Z",
-    sortType: "Par type",
     counter: "projet",
-    counterFiltered: "affiché",
+    filters: "Filtres et tri",
+    settings: "Réglages des projets",
+    sortBy: "Trier par",
+    sortRecent: "Plus récent",
+    sortOldest: "Plus ancien",
+    sortAZ: "A → Z",
+    filter: "Filtrer",
+    filterFeatured: "Mis en avant",
     resetFilters: "Réinitialiser",
   },
-  blog: {
-    title: "Blog",
+  journey: {
+    title: "Parcours",
+    subtitle: "Études, expériences personnelles, bénévolat et parcours professionnel.",
+    present: "Aujourd'hui",
+    types: {
+      professional: "Professionnel",
+      personal: "Personnel",
+      volunteering: "Bénévolat",
+    },
+  },
+  education: {
+    title: "Formation",
+    studies: "Études",
+    certifications: "Certifications",
+    viewCertificate: "Voir le certificat →",
+    inProgress: "En cours",
+    expires: "Expire",
+    downloadCV: "Télécharger le CV (PDF)",
+    openCV: "Ouvrir",
+    linkedin: "LinkedIn →",
+  },
+  articles: {
+    title: "Articles",
     subtitle: "Articles sur le développement web et l'IA.",
     readingTime: "min de lecture",
     noArticles: "Aucun article pour l'instant.",
-    noResults: "Aucun résultat pour cette recherche.",
-    backToBlog: "Retour au blog",
+    backToArticles: "Retour aux articles",
     tableOfContents: "Sommaire",
+    share: "Partager :",
     shareLink: "Copier le lien",
     linkCopied: "Lien copié !",
-    filterAll: "Tous",
-    tags: "Tags",
     publishedOn: "Publié le",
-    searchPlaceholder: "Rechercher…",
+    comingSoon: "Contenu bientôt disponible.",
   },
-  about: {
-    title: "À propos",
-    subtitle: "Étudiant en informatique à Epitech Marseille.",
-    tagline: "Étudiant en informatique, Epitech Marseille. Recherche un stage puis une alternance.",
-    anchorCV: "CV",
-    anchorCompetences: "Compétences",
-    anchorParcours: "Parcours",
-    anchorCertifications: "Certifications",
-    anchorEtudes: "Études",
-    anchorBenevol: "Bénévolat",
-    anchorIntro: "Intro",
-    skillsTitle: "Compétences",
-    skillsFrontend: "Frontend",
-    skillsBackend: "Backend",
-    skillsTools: "Outils",
-    downloadCV: "Télécharger le CV (PDF)",
-    openCV: "Ouvrir",
-    noCV: "Le CV sera disponible prochainement. Consultez mon LinkedIn en attendant.",
-    viewLinkedin: "LinkedIn →",
-    viewCertificate: "Voir le certificat →",
-    statYear: "année à Epitech Marseille",
-    statCerts: "certifications vérifiables",
-    statExp: "expériences, en France et à l'étranger",
-    statLangs: "langues de travail, français et anglais",
-    inProgress: "En cours",
-    expires: "Expire",
-    fetching: "Chargement des langages GitHub…",
-  },
-  experience: {
-    title: "Parcours",
-    subtitle: "Études, expériences personnelles, bénévolat et parcours professionnel.",
-    professional: "Expériences professionnelles",
-    personal: "Expériences personnelles / bénévolat",
-    education: "Études",
-    present: "Aujourd'hui",
-    technologies: "Technologies",
-  },
-  cv: {
-    title: "Curriculum Vitae",
-    subtitle: "Mon parcours en détail.",
-    download: "Télécharger le CV (PDF)",
-    open: "Ouvrir le CV",
-    noFile: "Le fichier CV sera bientôt disponible.",
-    viewLinkedin: "Voir mon profil LinkedIn",
+  now: {
+    title: "En ce moment",
+    items: [
+      { label: "Construit", text: "La carte de membre numérique du GDG Marseille.", link: "project" },
+      { label: "Explore", text: "Les LLM en local, avec Ollama, Hugging Face et DeepSeek." },
+      { label: "Écrit", text: "Des articles pour comprendre les LLM.", link: "articles" },
+      { label: "Cherche", text: "Un stage dès avril 2027, puis une alternance 2027-2028.", link: "contact" },
+    ],
   },
   contact: {
-    title: "Contact",
+    title: "Un stage à proposer ?",
     subtitle: "Une offre de stage ou d'alternance, une question : écrivez-moi.",
-    intro: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
-    email: "Envoyer un email",
-    availability: "Disponibilité",
     availabilityText: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
-    channels: "Me retrouver",
-    or: "ou",
+    unavailableText: "Indisponible pour le moment, réponse sous 48h",
     formName: "Prénom",
     formEmail: "Email",
     formSubject: "Sujet",
     formMessage: "Message",
     formMessageHint: "50 caractères minimum",
-    formSource: "Comment avez-vous trouvé ce site ? (optionnel)",
     subjectOptions: {
       placeholder: "Choisissez un sujet",
       internship: "Offre de stage ou d'alternance",
@@ -340,16 +273,14 @@ const fr: Translations = {
     },
     submit: "Envoyer le message",
     submitting: "Envoi en cours…",
-    successTitle: "Message envoyé !",
     successMessage: "Merci pour votre message. Je vous répondrai rapidement.",
+    newMessage: "Nouveau message",
     errorMessage: "Une erreur est survenue. Réessayez ou contactez-moi par email.",
     formNotice: "Vos informations servent uniquement à répondre à votre demande. Le message transite par Formspree. Vous pouvez demander l'accès ou la suppression de vos données par email.",
     privacyLink: "Politique de confidentialité",
   },
   footer: {
-    builtWith: "Construit avec Next.js et TypeScript.",
     navigationTitle: "Navigation",
-    legalTitle: "Légal",
     aboutTitle: "À propos",
     aboutText: "Étudiant en informatique à Epitech Marseille. Applications web et outils d'IA.",
     mentionsLegales: "Mentions légales",
@@ -363,6 +294,10 @@ const fr: Translations = {
   privacy: {
     title: "Politique de confidentialité",
     lastUpdated: "Dernière mise à jour",
+  },
+  notFound: {
+    title: "Page introuvable",
+    back: "Retour à l'accueil",
   },
   language: {
     switch: "English",
