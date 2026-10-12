@@ -91,6 +91,15 @@ export function PinTrack({
     if (!track || !("IntersectionObserver" in window)) return;
     const sensors = track.querySelectorAll<HTMLElement>(":scope > .pin-sensor");
     const crossing = new Set<number>();
+    // Aucun capteur sur la ligne alors qu'ils pavent la piste : la ligne est avant ou après la piste. La scène
+    // montre alors la première ou la dernière étape (sinon, après un saut, elle garderait une étape périmée).
+    const settle = () => {
+      if (crossing.size || !window.matchMedia(QUERIES[mode]).matches) return;
+      const rect = track.getBoundingClientRect();
+      const line = (window.innerHeight * LINE) / 100;
+      if (rect.bottom <= line) setActive(count - 1);
+      else if (rect.top >= line) setActive(0);
+    };
     // Plusieurs capteurs peuvent changer dans un même rappel (défilement rapide, arrivée par une ancre) :
     // on garde l'ensemble de ceux qui croisent la ligne et on retient le plus avancé.
     const io = new IntersectionObserver(
@@ -101,15 +110,19 @@ export function PinTrack({
           else crossing.delete(index);
         }
         if (crossing.size) setActive(Math.max(...crossing));
+        else settle();
       },
       { rootMargin: `-${LINE}% 0px -${99 - LINE}% 0px` },
     );
     sensors.forEach((sensor) => io.observe(sensor));
 
-    // Scène hors écran : ses animations décoratives se mettent en pause (CSS, [data-offscreen]).
+    // Scène hors écran : ses animations décoratives se mettent en pause (CSS, [data-offscreen]). Retour à
+    // l'écran sans capteur traversé (saut par-dessus la piste) : l'étape est recalée avant d'être vue.
     const visibility = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) track.removeAttribute("data-offscreen");
-      else track.setAttribute("data-offscreen", "");
+      if (entry.isIntersecting) {
+        track.removeAttribute("data-offscreen");
+        settle();
+      } else track.setAttribute("data-offscreen", "");
     });
     visibility.observe(track);
 
@@ -117,7 +130,7 @@ export function PinTrack({
       io.disconnect();
       visibility.disconnect();
     };
-  }, [track, count]);
+  }, [track, count, mode]);
 
   // Contenu direct : l'allumage des éléments marqués se fait ici, une fois par changement d'étape.
   useEffect(() => {
