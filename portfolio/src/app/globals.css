@@ -59,8 +59,13 @@ html {
 }
 
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-padding-top: 5rem;
+}
+
+/* Défilement fluide natif vers les ancres. Next le coupe pendant les navigations (data-scroll-behavior). */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 /* Accent color transitions — applied globally */
