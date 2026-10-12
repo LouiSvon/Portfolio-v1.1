@@ -26,13 +26,13 @@ export function ManifestoPin({
           <h2 id="manifeste-titre" className="manifesto">
             {words.map((word, i) => (
               <Fragment key={i}>
-                <span className="mw" data-on={i <= active || undefined} data-key={word.key || undefined}>
+                <span
+                  className="mw"
+                  data-on={i <= active || undefined}
+                  data-key={word.key || undefined}
+                  data-text={word.key ? word.text : undefined}
+                >
                   <span className="mw-base">{word.text}</span>
-                  {word.key ? (
-                    <span className="mw-key" aria-hidden="true">
-                      {word.text}
-                    </span>
-                  ) : null}
                 </span>
                 {i < words.length - 1 ? " " : ""}
               </Fragment>

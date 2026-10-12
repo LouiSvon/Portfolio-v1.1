@@ -1099,20 +1099,28 @@ h1, h2, .display {
   letter-spacing: -0.055em;
   color: var(--foreground);
 }
-/* Mots de l'accroche. Hors épinglage : tout est allumé, mots clés en couleur. Le calque coloré (.mw-key)
-   recouvre le mot blanc : passer de l'un à l'autre ne change que des opacités. */
+/* Mots de l'accroche. Hors épinglage : tout est allumé, mots clés en couleur. Le calque coloré (::after,
+   généré : il ne double pas le texte de la page) recouvre le mot blanc : passer de l'un à l'autre ne change
+   que des opacités. « / "" » : texte de remplacement vide, le calque n'est pas lu par les lecteurs d'écran. */
 .mw { position: relative; display: inline-block; }
-.mw-key { position: absolute; left: 0; top: 0; color: var(--kw); }
+.mw[data-key]::after {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--kw);
+}
 .mw[data-key] .mw-base { opacity: 0; }
 .mw[data-key='1'] { --kw: var(--accent); }
 .mw[data-key='2'] { --kw: var(--accent-warm); }
 .pin[data-pinned] .mw,
 .pin[data-pinned] .mw-base,
-.pin[data-pinned] .mw-key { transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+.pin[data-pinned] .mw[data-key]::after { transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
 /* Éteint : blanc atténué (contraste d'au moins 3:1 pour le grand texte, mot clé compris), légèrement bas. */
 .pin[data-pinned] .mw:not([data-on]) { opacity: var(--dim); transform: translateY(0.12em); }
 .pin[data-pinned] .mw[data-key]:not([data-on]) .mw-base { opacity: 1; }
-.pin[data-pinned] .mw[data-key]:not([data-on]) .mw-key { opacity: 0; }
+.pin[data-pinned] .mw[data-key]:not([data-on])::after { opacity: 0; }
 .manifesto-aside {
   display: flex;
   align-items: center;
