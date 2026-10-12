@@ -1012,6 +1012,45 @@ h1, h2, .display {
   .blog-item { scroll-snap-align: center; }
 }
 
+/* ── Sections épinglées (PinTrack) ─────────────────────
+   Piste haute de 100svh + --range, scène collée en haut pendant la traversée. svh : hauteur stable même quand
+   la barre d'adresse mobile apparaît ou disparaît (pas de saut). Ancêtres : overflow visible ou clip seulement
+   (clip ne crée pas de conteneur de défilement et ne casse pas sticky). Conditions identiques à QUERIES dans
+   pin-track.tsx. Hors de ces conditions : section dans le flux, tout le contenu affiché. */
+.pin { position: relative; }
+.pin-sensor { display: none; position: absolute; left: 0; width: 1px; pointer-events: none; }
+.pin-stage {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(5rem, 12vh, 8rem);
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) {
+  .pin-all { height: calc(100svh + var(--range)); }
+  .pin-all > .pin-stage { position: sticky; top: 0; height: 100svh; min-height: 0; overflow: clip; }
+  .pin-all > .pin-sensor { display: block; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) and (min-height: 600px) {
+  .pin-md { height: calc(100svh + var(--range)); }
+  .pin-md > .pin-stage { position: sticky; top: 0; height: 100svh; min-height: 0; overflow: clip; }
+  .pin-md > .pin-sensor { display: block; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 700px) {
+  .pin-wide { height: calc(100svh + var(--range)); }
+  .pin-wide > .pin-stage { position: sticky; top: 0; height: 100svh; min-height: 0; overflow: clip; }
+  .pin-wide > .pin-sensor { display: block; }
+}
+/* Étapes : vocabulaire commun. Une étape s'allume (opacité, léger glissement) quand la piste l'atteint. */
+.pin[data-pinned] .step {
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.pin[data-pinned] .step:not([data-on]) { opacity: 0; transform: translateY(var(--reveal-y)); pointer-events: none; }
+/* Scène hors écran : animations décoratives en pause. */
+.pin[data-offscreen] .pause-offscreen,
+.pin[data-offscreen] .pause-offscreen * { animation-play-state: paused; }
+
 /* ── Page unique : sections plein écran ───────────────── */
 /* Chaque section tient au moins un écran (svh : barre d'adresse mobile comprise) ;
    les sections longues (projets, parcours) s'allongent sans être coupées. */
@@ -1049,6 +1088,20 @@ h1, h2, .display {
   letter-spacing: -0.055em;
   color: var(--foreground);
 }
+/* Mots de l'accroche. Hors épinglage : tout est allumé, mots clés en couleur. Le calque coloré (.mw-key)
+   recouvre le mot blanc : passer de l'un à l'autre ne change que des opacités. */
+.mw { position: relative; display: inline-block; }
+.mw-key { position: absolute; left: 0; top: 0; color: var(--kw); }
+.mw[data-key] .mw-base { opacity: 0; }
+.mw[data-key='1'] { --kw: var(--accent); }
+.mw[data-key='2'] { --kw: var(--accent-warm); }
+.pin[data-pinned] .mw,
+.pin[data-pinned] .mw-base,
+.pin[data-pinned] .mw-key { transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+/* Éteint : blanc atténué (contraste d'au moins 3:1 pour le grand texte, mot clé compris), légèrement bas. */
+.pin[data-pinned] .mw:not([data-on]) { opacity: var(--dim); transform: translateY(0.12em); }
+.pin[data-pinned] .mw[data-key]:not([data-on]) .mw-base { opacity: 1; }
+.pin[data-pinned] .mw[data-key]:not([data-on]) .mw-key { opacity: 0; }
 .manifesto-aside {
   display: flex;
   align-items: center;
@@ -1544,29 +1597,8 @@ h1, h2, .display {
 @keyframes hero-drift { to { transform: translateY(30%); } }
 @keyframes hero-recede { to { opacity: 0; transform: translateY(-8vh) scale(var(--reveal-scale)); } }
 
-/* Scène épinglée : .pin-track est plus haute que l'écran, .pin-stage reste fixée pendant la traversée,
-   chaque .on-scroll s'allume entre --from et --to de la traversée. */
+/* Titre qui grandit en arrivant (contact). Repli sans support : titre affiché tel quel. */
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) and (min-height: 700px) {
-    .pin-track { height: var(--track, 170svh); view-timeline: --pin block; }
-    .pin-stage {
-      position: sticky;
-      top: 0;
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .on-scroll {
-      animation: light-up linear both;
-      animation-timeline: --pin;
-      animation-range: contain var(--from, 0%) contain var(--to, 100%);
-    }
-    /* Mobile : piste plus courte, effet identique mais plus vif. */
-    @media (max-width: 767px) { .pin-track { --track: 130svh; } }
-  }
-
-  /* Titre qui grandit en arrivant (contact). */
   @media (prefers-reduced-motion: no-preference) {
     .scale-in {
       animation: scale-in linear both;
@@ -1574,10 +1606,6 @@ h1, h2, .display {
       animation-range: entry 10% cover 40%;
     }
   }
-}
-@keyframes light-up {
-  from { opacity: var(--dim); transform: translateY(calc(var(--reveal-y) / 2)); }
-  to { opacity: 1; transform: none; }
 }
 @keyframes scale-in {
   from { opacity: var(--dim); transform: scale(var(--reveal-scale)); }

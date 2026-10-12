@@ -29,6 +29,7 @@ const en: Translations = {
   },
   brief: {
     introLead: "I turn ideas into web apps and AI tools that people actually use.",
+    introKeywords: ["web apps", "AI tools"],
     introText: "Student at Epitech Marseille, looking for a 3-month internship starting April 2027, then a work-study contract for 2027-2028.",
   },
   skills: {

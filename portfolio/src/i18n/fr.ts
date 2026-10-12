@@ -28,6 +28,8 @@ export interface Translations {
   };
   brief: {
     introLead: string;
+    // Groupes de mots de introLead mis en couleur à l'allumage (sous-chaînes exactes, vérifiées au build).
+    introKeywords: string[];
     introText: string;
   };
   skills: {
@@ -175,6 +177,7 @@ const fr: Translations = {
   },
   brief: {
     introLead: "Je transforme des idées en applications web et en outils d'IA qui servent vraiment.",
+    introKeywords: ["applications web", "outils d'IA"],
     introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
   },
   skills: {

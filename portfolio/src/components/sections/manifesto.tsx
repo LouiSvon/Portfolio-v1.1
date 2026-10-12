@@ -1,47 +1,33 @@
-import Image from "next/image";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 import { profile } from "@/data/profile";
+import { ManifestoPin, type ManifestoWord } from "@/components/ui/manifesto-pin";
 
-// Manifeste : la promesse en une phrase, épinglée pendant qu'elle s'allume mot à mot au défilement.
-// Le texte entier reste dans la page, dans l'ordre de lecture ; seule son opacité varie (plancher --dim :
-// le grand texte garde un contraste d'au moins 3:1). La présentation, en petit texte, n'est jamais atténuée.
-// La dernière ligne (Epitech, stage) ouvre le parcours.
-// Repli (sans support, écran bas, animations réduites) : phrase affichée d'un bloc, en apparition simple.
+// Découpe la phrase en mots et marque ceux qui appartiennent à un mot clé (1 = premier, 2 = second).
+// Un mot clé absent de la phrase fait échouer le build : texte et mise en valeur restent cohérents.
+function splitWords(sentence: string, keywords: string[]): ManifestoWord[] {
+  const spans = keywords.map((keyword, k) => {
+    const start = sentence.indexOf(keyword);
+    if (start < 0) throw new Error(`Mot clé introuvable dans brief.introLead : « ${keyword} »`);
+    return { start, end: start + keyword.length, key: (k + 1) as 1 | 2 };
+  });
+  let cursor = 0;
+  return sentence.split(" ").map((text) => {
+    const start = sentence.indexOf(text, cursor);
+    cursor = start + text.length;
+    const span = spans.find((s) => start < s.end && cursor > s.start);
+    return { text, key: span ? span.key : 0 };
+  });
+}
+
+// Manifeste : la promesse en une phrase, juste après le héros. La présentation, en petit texte, la suit.
 export function ManifestoSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
-  const words = t.brief.introLead.split(" ");
-  // Les mots s'allument sur les 80 premiers % de la traversée.
-  const step = 80 / words.length;
-
   return (
-    <section id="manifeste" className="pin-track" aria-labelledby="manifeste-titre">
-      <div className="pin-stage">
-        <div className="shell py-[clamp(5rem,12vh,8rem)]">
-          <h2 id="manifeste-titre" className="manifesto fade-in">
-            {words.map((word, i) => (
-              <span
-                key={i}
-                className="on-scroll inline-block"
-                style={{ "--from": `${i * step}%`, "--to": `${(i + 1) * step}%` } as React.CSSProperties}
-              >
-                {word}
-                {i < words.length - 1 ? " " : ""}
-              </span>
-            ))}
-          </h2>
-          <div className="manifesto-aside fade-in">
-            <Image
-              src="/portrait.jpg"
-              alt={`${t.hero.portraitAlt} ${profile.name}`}
-              width={64}
-              height={64}
-              className="h-16 w-16 shrink-0 rounded-full object-cover"
-            />
-            <p className="brief-text">{t.brief.introText}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <ManifestoPin
+      words={splitWords(t.brief.introLead, t.brief.introKeywords)}
+      intro={t.brief.introText}
+      portraitAlt={`${t.hero.portraitAlt} ${profile.name}`}
+    />
   );
 }
