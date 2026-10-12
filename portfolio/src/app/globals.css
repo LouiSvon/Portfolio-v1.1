@@ -1021,7 +1021,7 @@ h1, h2, .display {
 .pin[data-pinned] .blog-item > article { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
 .pin[data-pinned] .blog-visual { aspect-ratio: auto; min-height: 100%; }
 .pin[data-pinned] .blog-visual::after { background: linear-gradient(90deg, transparent 55%, var(--surface)); }
-.blog-stage { padding-block: clamp(4.5rem, 10svh, 6.5rem) clamp(1.5rem, 4svh, 2.5rem); }
+.pin[data-pinned] > .blog-stage { padding-block: clamp(4.5rem, 10svh, 6.5rem) clamp(1.5rem, 4svh, 2.5rem); }
 
 /* ── Sections épinglées (PinTrack) ─────────────────────
    Piste haute de 100svh + --range, scène collée en haut pendant la traversée. svh : hauteur stable même quand
@@ -1134,6 +1134,8 @@ h1, h2, .display {
 @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 700px) {
   .journey-mac-only { display: block; }
   .journey-lite { display: none; }
+  /* Avant l'hydratation (data-pinned absent) : seule la carte courante, pas les sept superposées. */
+  .mac-card:not([data-on]) { opacity: 0; pointer-events: none; }
 }
 .journey-stage { padding-block: 0; perspective: 1800px; }
 .journey-scene { display: grid; height: 100%; place-items: center; }
@@ -1142,7 +1144,9 @@ h1, h2, .display {
   top: clamp(4.5rem, 12svh, 7rem);
   left: 0;
   right: 0;
-  z-index: 2;
+  /* Sous l'écran du Mac (z-index 1) quand il est déjà ouvert (repli, avant hydratation) ; au-dessus pendant
+     l'ouverture animée (voir @supports plus bas). */
+  z-index: 0;
   text-align: center;
   pointer-events: none;
 }
@@ -1213,7 +1217,7 @@ h1, h2, .display {
   .journey-pin[data-pinned] .mac { animation: mac-open linear both; animation-timeline: --journey; animation-range: contain 0% contain calc(var(--open) * 100%); }
   .journey-pin[data-pinned] .mac-bezel,
   .journey-pin[data-pinned] .mac-base { animation: fade-out linear both; animation-timeline: --journey; animation-range: contain calc(var(--open) * 30%) contain calc(var(--open) * 100%); }
-  .journey-pin[data-pinned] .journey-head { animation: fade-up-out linear both; animation-timeline: --journey; animation-range: contain 0% contain calc(var(--open) * 55%); }
+  .journey-pin[data-pinned] .journey-head { z-index: 2; animation: fade-up-out linear both; animation-timeline: --journey; animation-range: contain 0% contain calc(var(--open) * 55%); }
 }
 @keyframes mac-open {
   from { transform: translateY(7svh) rotateX(26deg) scale(0.5); }
