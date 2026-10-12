@@ -1166,7 +1166,8 @@ h1, h2, .display {
 }
 .journey-stage { padding-block: 0; perspective: 1800px; }
 /* --walked : progression du chemin (0 à 1), seule valeur animée ; marcheur, trait et repères la lisent,
-   donc avancent ensemble, avec le même easing. Enregistrée pour être interpolée. */
+   donc avancent ensemble. Liée au défilement (voir @supports plus bas) : le trait avance au pixel près avec
+   la page, sans palier. Repli : transition d'un repère à l'autre. Enregistrée pour être interpolée. */
 @property --walked { syntax: '<number>'; inherits: true; initial-value: 0; }
 .journey-scene { display: grid; height: 100%; place-items: center; transition: --walked var(--dur-slow) var(--ease-in-out); }
 .journey-head {
@@ -1243,12 +1244,17 @@ h1, h2, .display {
 /* Ouverture liée au défilement : le Mac se redresse et grandit, le titre s'efface, cadre et socle aussi.
    Repli (navigateur sans support, ex. Firefox stable en 2026) : Mac déjà ouvert, titre caché derrière. */
 @supports (animation-timeline: view()) {
-  .journey-pin[data-pinned] { view-timeline: --journey block; }
+  /* Encart nul : sans lui, la timeline retire le scroll-padding de la page (80 px) et la marche serait décalée
+     par rapport aux capteurs de PinTrack (cartes en retard sur le marcheur). */
+  .journey-pin[data-pinned] { view-timeline: --journey block; view-timeline-inset: 0; }
   .journey-pin[data-pinned] .mac { animation: mac-open linear both; animation-timeline: --journey; animation-range: contain 0% contain calc(var(--open) * 100%); }
   .journey-pin[data-pinned] .mac-bezel,
   .journey-pin[data-pinned] .mac-base { animation: fade-out linear both; animation-timeline: --journey; animation-range: contain calc(var(--open) * 30%) contain calc(var(--open) * 100%); }
   .journey-pin[data-pinned] .journey-head { z-index: 2; animation: fade-up-out linear both; animation-timeline: --journey; animation-range: contain 0% contain calc(var(--open) * 55%); }
+  /* La marche couvre la zone des étapes, juste après l'ouverture : linéaire, aucun lissage ajouté. */
+  .journey-pin[data-pinned] .journey-scene { transition: none; animation: walk linear both; animation-timeline: --journey; animation-range: contain calc(var(--walk-from) * 100%) contain calc(var(--walk-to) * 100%); }
 }
+@keyframes walk { from { --walked: 0; } to { --walked: 1; } }
 @keyframes mac-open {
   from { transform: translateY(7svh) rotateX(26deg) scale(0.5); }
   to { transform: none; }
@@ -1533,10 +1539,11 @@ h1, h2, .display {
   transition: border-color var(--dur-fast) var(--ease-out);
 }
 .orbit-item:hover .orbit-tile { border-color: var(--accent); }
+/* Logo dans la couleur de sa marque (--brand, stack.ts) ; sans couleur : blanc du texte. */
 .orbit-logo {
   width: 1.5rem;
   height: 1.5rem;
-  background: currentColor;
+  background: var(--brand, currentColor);
   -webkit-mask: var(--logo) center / contain no-repeat;
   mask: var(--logo) center / contain no-repeat;
 }
@@ -1632,9 +1639,7 @@ h1, h2, .display {
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 1rem;
-  background:
-    radial-gradient(circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%),
-    var(--background);
+  background: var(--background);
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform var(--dur-nudge) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }

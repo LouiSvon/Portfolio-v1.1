@@ -19,19 +19,21 @@ const PATH = Array.from({ length: 121 }, (_, i) => {
   return `${i ? "L" : "M"}${xAt(t).toFixed(1)} ${yAt(t).toFixed(1)}`;
 }).join("");
 
-// Durées de la piste (svh) : ouverture du Mac, puis une étape par expérience, puis un temps de lecture.
-// L'ouverture occupe donc LEAD / (LEAD + n x STEP + TAIL) de la traversée (variable CSS --open).
-const LEAD = 60;
-const STEP = 45;
-const TAIL = 25;
+// Durées de la piste (svh) : ouverture du Mac (courte), puis une étape par expérience, puis un temps de lecture.
+// L'ouverture occupe LEAD / (LEAD + n x STEP + TAIL) de la traversée (variable CSS --open) ; la marche, la
+// zone des étapes (--walk-from à --walk-to).
+const LEAD = 30;
+const STEP = 40;
+const TAIL = 20;
 
 const year = (period: string) => period.match(/\d{4}/)?.[0] ?? "";
 
 export type Walker = { src: string; portrait: boolean; alt: string };
 
 // Parcours, grand écran : un Mac s'ouvre et grandit au défilement jusqu'à remplir l'écran (CSS lié au
-// défilement, repli : Mac déjà ouvert). Dedans, un chemin que le marcheur parcourt d'étape en étape ;
-// l'étape change aux frontières de la piste (PinTrack), le marcheur glisse d'un repère à l'autre (transform).
+// défilement, repli : Mac déjà ouvert). Dedans, un chemin que le marcheur parcourt en continu, au rythme du
+// défilement (CSS lié au défilement, sans JavaScript à chaque frame). Le repère de chaque expérience est au
+// milieu de son étape : la carte change aux frontières (PinTrack), quand le marcheur est entre deux repères.
 // Les sept expériences restent dans la page, dans l'ordre, focalisables. Ailleurs : la frise (.journey-lite).
 export function JourneyMac({
   title,
@@ -47,14 +49,21 @@ export function JourneyMac({
   host: string;
 }) {
   const count = items.length;
-  const open = LEAD / (LEAD + count * STEP + TAIL);
+  const range = LEAD + count * STEP + TAIL;
+  const open = LEAD / range;
 
   return (
     <PinTrack steps={count} lead={LEAD} step={STEP} tail={TAIL} mode="wide" className="journey-pin" stageClassName="journey-stage">
       {({ active, goTo }) => {
-        // Une seule valeur de progression (--walked, animée en CSS) : marcheur, trait et repères la lisent.
-        const t = count > 1 ? active / (count - 1) : 0;
-        const walkerPos = { "--walked": t, "--open": open } as React.CSSProperties;
+        // Une seule valeur de progression (--walked) : marcheur, trait et repères la lisent. Liée au défilement
+        // en CSS ; la valeur écrite ici ne sert qu'en repli (navigateur sans animation-timeline) : le repère
+        // de l'étape courante.
+        const walkerPos = {
+          "--walked": (active + 0.5) / count,
+          "--open": open,
+          "--walk-from": open,
+          "--walk-to": (LEAD + count * STEP) / range,
+        } as React.CSSProperties;
 
         return (
           <div className="journey-scene" style={walkerPos}>
@@ -173,7 +182,8 @@ const MacStop = memo(function MacStop({
   current: boolean;
   goTo: (index: number) => void;
 }) {
-  const ti = count > 1 ? index / (count - 1) : 0;
+  // Milieu de l'étape : le marcheur y passe quand la carte de l'expérience est au centre de sa plage.
+  const ti = (index + 0.5) / count;
   return (
     <li
       className="mac-stop"
