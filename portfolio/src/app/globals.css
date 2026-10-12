@@ -995,9 +995,6 @@ h1, h2, .display {
   opacity: 0.45;
   mix-blend-mode: screen;
 }
-/* Les orbites tournent très lentement autour de leur centre. */
-.backdrop-spin { transform-origin: 720px 450px; animation: backdrop-spin 240s linear infinite; }
-@keyframes backdrop-spin { to { transform: rotate(360deg); } }
 /* Parallaxe : le dessin et l'image dérivent un peu plus lentement que la page. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -1008,7 +1005,6 @@ h1, h2, .display {
   from { transform: translateY(-5%); }
   to { transform: translateY(5%); }
 }
-@media (prefers-reduced-motion: reduce) { .backdrop-spin { animation: none; } }
 
 /* ── Blog : rangée qui traverse l'écran ───────────────── */
 .blog-viewport { overflow: clip; padding-block: 0.5rem 1rem; }
@@ -1018,7 +1014,6 @@ h1, h2, .display {
   width: max-content;
   padding-inline: clamp(1rem, 4vw, 3rem);
   margin-inline: max(0px, calc((100vw - 72rem) / 2));
-  will-change: transform;
 }
 .blog-item { width: min(40rem, 82vw); }
 .blog-visual {
@@ -1139,7 +1134,6 @@ h1, h2, .display {
   position: relative;
   width: var(--w);
   transform-origin: 50% 60%;
-  will-change: transform;
 }
 .mac-screen {
   position: relative;
@@ -1642,7 +1636,7 @@ h1, h2, .display {
 .stack { display: flex; flex-direction: column; gap: clamp(2rem, 6vh, 4rem); }
 .stack-card { position: relative; }
 @media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
-  .stack-card { position: sticky; top: calc(6rem + var(--i, 0) * 1.25rem); transform-origin: 50% 0; will-change: transform; }
+  .stack-card { position: sticky; top: calc(6rem + var(--i, 0) * 1.25rem); transform-origin: 50% 0; }
 }
 .stack-shade {
   position: absolute;

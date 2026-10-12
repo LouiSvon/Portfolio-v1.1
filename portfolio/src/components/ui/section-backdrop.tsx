@@ -75,9 +75,9 @@ const MOTIFS: Record<Motif, React.ReactNode> = {
       <path d="M96 150V96H150M1344 96H1290M1344 804V850H1290M96 804V850H150" strokeWidth="2" />
     </g>
   ),
-  // Orbites inclinées : les compétences gravitent.
+  // Orbites inclinées, fixes : une rotation de <g> SVG n'est pas composée et repeint tout le SVG à chaque frame.
   orbits: (
-    <g className="backdrop-spin">
+    <g>
       {Array.from({ length: 7 }, (_, i) => (
         <ellipse key={i} cx="720" cy="450" rx={150 + i * 105} ry={(150 + i * 105) * 0.4} transform="rotate(-20 720 450)" />
       ))}
