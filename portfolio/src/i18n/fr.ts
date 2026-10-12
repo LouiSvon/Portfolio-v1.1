@@ -59,6 +59,8 @@ export interface Translations {
     title: string;
     subtitle: string;
     present: string;
+    // Durée d'une expérience, calculée depuis ses dates.
+    duration: { month: string; months: string; year: string; years: string };
     types: {
       professional: string;
       personal: string;
@@ -207,6 +209,7 @@ const fr: Translations = {
     title: "Parcours",
     subtitle: "Études, expériences personnelles, bénévolat et parcours professionnel.",
     present: "Aujourd'hui",
+    duration: { month: "mois", months: "mois", year: "an", years: "ans" },
     types: {
       professional: "Professionnel",
       personal: "Personnel",

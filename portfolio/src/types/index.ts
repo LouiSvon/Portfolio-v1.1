@@ -27,6 +27,8 @@ export interface Experience {
   companyUrl?: string;
   links?: { label: Record<Locale, string>; url: string }[];
   images?: { src: string; alt: Record<Locale, string> }[];
+  // Phrases clés mises en valeur : sous-chaînes exactes de la description (vérifiées au build).
+  highlights?: Record<Locale, string[]>;
   type: "professional" | "personal" | "volunteering" | "education";
 }
 
@@ -102,6 +104,8 @@ export interface Benevol {
   periode: Record<Locale, string>;
   domaine: Record<Locale, string>;
   description: Record<Locale, string>;
+  // Phrases clés mises en valeur : sous-chaînes exactes de la description (vérifiées au build).
+  highlights?: Record<Locale, string[]>;
 }
 
 export interface ArticleTocEntry {

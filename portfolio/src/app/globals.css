@@ -257,6 +257,15 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   transform-origin: top;
   box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent);
 }
+/* Remplissage lié au défilement de la frise (CSS, sans JavaScript). Repli : ligne pleine. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .timeline { view-timeline: --frise block; }
+    .timeline-fill { animation: frise-fill linear both; animation-timeline: --frise; animation-range: cover 15% cover 75%; }
+  }
+}
+@keyframes frise-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.timeline-duration { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-warm); }
 .timeline-item { position: relative; }
 .timeline-dot {
   position: absolute;
@@ -1110,22 +1119,14 @@ h1, h2, .display {
   margin-top: clamp(2.5rem, 6vh, 4rem);
 }
 
-/* Parcours : un Mac qui s'ouvre au défilement (grand écran), la frise ailleurs. */
+/* Parcours : un Mac qui s'ouvre au défilement (grand écran), la frise ailleurs. Mêmes conditions que .pin-wide. */
 .journey-mac-only { display: none; }
-@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 700px) {
   .journey-mac-only { display: block; }
   .journey-lite { display: none; }
 }
-.journey-track { position: relative; height: 480svh; }
-.journey-stage {
-  position: sticky;
-  top: 0;
-  display: grid;
-  height: 100svh;
-  place-items: center;
-  overflow: clip;
-  perspective: 1800px;
-}
+.journey-stage { padding-block: 0; perspective: 1800px; }
+.journey-scene { display: grid; height: 100%; place-items: center; }
 .journey-head {
   position: absolute;
   top: clamp(4.5rem, 12svh, 7rem);
@@ -1138,32 +1139,28 @@ h1, h2, .display {
 .journey-head .section-subtitle { margin-inline: auto; }
 
 .mac {
-  --w: min(96vw, 160svh);
+  --w: min(94vw, 150svh);
   position: relative;
   width: var(--w);
   transform-origin: 50% 60%;
 }
+/* Écran noir, comme un vrai écran éteint d'ordinateur ; le liseré clair garde le Mac lisible sur le fond. */
 .mac-screen {
   position: relative;
+  z-index: 1;
   container-type: inline-size;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: 0.9rem;
-  border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
-  background:
-    radial-gradient(90% 70% at 15% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
-    radial-gradient(70% 60% at 100% 100%, color-mix(in srgb, #8b7dff 20%, transparent), transparent 60%),
-    #0b0b0f;
-  box-shadow: 0 40px 120px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(0, 0, 0, 0.5);
+  border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent);
+  background: #000;
 }
-/* Cadre noir du Mac, avec la caméra : disparaît quand l'écran remplit la scène. */
 .mac-bezel {
   position: absolute;
-  inset: -0.9rem -0.9rem -0.9rem;
+  inset: -0.9rem;
   border-radius: 1.5rem;
-  border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
   background: #050507;
-  box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.9);
 }
 .mac-bezel::after {
   content: '';
@@ -1176,7 +1173,6 @@ h1, h2, .display {
   border-radius: 50%;
   background: #1b1b22;
 }
-.mac-screen { z-index: 1; }
 .mac-base {
   position: absolute;
   left: -9%;
@@ -1186,7 +1182,8 @@ h1, h2, .display {
   margin-top: 0.9rem;
   border-radius: 0 0 1.2rem 1.2rem;
   background: linear-gradient(#2a2a31, #101014);
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8);
+  border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  border-top: 0;
 }
 .mac-base::before {
   content: '';
@@ -1199,28 +1196,51 @@ h1, h2, .display {
   border-radius: 0 0 0.5rem 0.5rem;
   background: #0a0a0d;
 }
+/* Ouverture liée au défilement : le Mac se redresse et grandit, le titre s'efface, cadre et socle aussi.
+   Repli (navigateur sans support, ex. Firefox stable en 2026) : Mac déjà ouvert, titre caché derrière. */
+@supports (animation-timeline: view()) {
+  .journey-pin[data-pinned] { view-timeline: --journey block; }
+  .journey-pin[data-pinned] .mac { animation: mac-open linear both; animation-timeline: --journey; animation-range: contain 0% contain calc(var(--open) * 100%); }
+  .journey-pin[data-pinned] .mac-bezel,
+  .journey-pin[data-pinned] .mac-base { animation: fade-out linear both; animation-timeline: --journey; animation-range: contain calc(var(--open) * 30%) contain calc(var(--open) * 100%); }
+  .journey-pin[data-pinned] .journey-head { animation: fade-up-out linear both; animation-timeline: --journey; animation-range: contain 0% contain calc(var(--open) * 55%); }
+}
+@keyframes mac-open {
+  from { transform: translateY(7svh) rotateX(26deg) scale(0.5); }
+  to { transform: none; }
+}
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes fade-up-out { to { opacity: 0; transform: translateY(-3rem); } }
+@supports not (animation-timeline: view()) {
+  .mac-bezel, .mac-base { opacity: 0; }
+}
 
-/* Contenu de l'écran : tailles en cqw, pour que tout garde les mêmes proportions à toute largeur. */
+/* Contenu de l'écran : tailles en cqw, mêmes proportions à toute largeur. */
 .mac-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 3.1cqw;
   padding-inline: 1.4cqw;
-  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  background: #111114;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.9cqw;
   color: var(--tertiary);
 }
-.mac-dots { display: flex; gap: 0.5cqw; }
-.mac-dots i { width: 0.8cqw; height: 0.8cqw; border-radius: 50%; background: color-mix(in srgb, var(--foreground) 22%, transparent); }
-.mac-url { padding: 0.35cqw 2cqw; border-radius: 999px; background: color-mix(in srgb, var(--background) 60%, transparent); }
+/* Feux de fenêtre macOS, décoratifs (barre en aria-hidden, rien de focalisable). */
+.mac-lights { display: flex; gap: 0.6cqw; }
+.mac-lights i { width: 0.95cqw; height: 0.95cqw; border-radius: 50%; }
+.mac-lights i:nth-child(1) { background: #ff5f57; }
+.mac-lights i:nth-child(2) { background: #febc2e; }
+.mac-lights i:nth-child(3) { background: #28c840; }
+.mac-url { padding: 0.35cqw 2cqw; border-radius: 999px; background: #1c1c21; color: var(--secondary); }
+.mac-count { color: var(--secondary); }
 .mac-body {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   height: calc(100% - 3.1cqw);
-  padding: 2.6cqw 3.4cqw 2cqw;
+  padding: 2.6cqw 3.6cqw 2cqw;
 }
 .mac-cards { position: relative; display: grid; min-height: 0; }
 .mac-card {
@@ -1228,58 +1248,76 @@ h1, h2, .display {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-content: center;
-  gap: 3cqw;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(1.4cqw);
-  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), visibility 0s var(--dur-base);
+  gap: 4cqw;
 }
-.mac-card[data-active] { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
-.mac-card-main { display: flex; flex-direction: column; gap: 1.1cqw; min-width: 0; }
-.mac-meta { display: flex; align-items: center; gap: 1cqw; font-size: 1cqw; color: var(--tertiary); }
-.mac-meta .chip { font-size: 0.95cqw; }
+.mac-card-main { display: flex; flex-direction: column; gap: 1.2cqw; min-width: 0; }
+.mac-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2cqw; font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 1.05cqw; letter-spacing: 0.08em; text-transform: uppercase; }
+.mac-type { padding: 0.3cqw 0.9cqw; border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 999px; color: var(--accent); }
+.mac-period { color: var(--accent-warm); }
 .mac-role {
   font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: 4.4cqw;
+  font-size: 5cqw;
   font-weight: 700;
-  line-height: 0.98;
+  line-height: 0.95;
   letter-spacing: -0.05em;
   text-wrap: balance;
 }
-.mac-company { font-size: 1.7cqw; font-weight: 500; color: var(--secondary); }
-.mac-desc { max-width: 52cqw; font-size: 1.3cqw; line-height: 1.55; color: var(--secondary); }
+.mac-company {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 2cqw;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+.mac-desc { max-width: 54cqw; font-size: 1.4cqw; line-height: 1.55; color: var(--secondary); }
 .mac-tags { display: flex; flex-wrap: wrap; gap: 0.5cqw; font-size: 1cqw; }
 .mac-links { display: flex; flex-wrap: wrap; gap: 0.8cqw; }
-.mac-photos { display: grid; gap: 1cqw; width: 22cqw; align-self: center; }
+.mac-aside { display: flex; flex-direction: column; align-items: flex-end; gap: 2cqw; align-self: center; }
+/* Durée de l'expérience en grands chiffres à points : le chiffre clé de l'étape. */
+.mac-duration { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4cqw; font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 1.1cqw; letter-spacing: 0.08em; text-transform: uppercase; color: var(--secondary); }
+.mac-duration b { font-family: var(--font-doto), monospace; font-size: 9cqw; font-weight: 900; line-height: 0.85; letter-spacing: 0; color: var(--accent-warm); }
+.mac-photos { display: grid; gap: 1cqw; width: 22cqw; }
 .mac-photos li { aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1cqw; border: 1px solid var(--border); }
+
+/* Phrases clés d'une description : couleur d'accent, graisse plus forte. */
+.key-phrase { font-weight: 600; color: var(--foreground); background: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent) 38%, transparent) 62%); }
 
 .mac-path { position: relative; margin-top: 1cqw; padding-bottom: 3.6cqw; }
 .mac-path-svg { display: block; width: 100%; height: auto; overflow: visible; }
-.mac-path-rest { stroke: color-mix(in srgb, var(--foreground) 22%, transparent); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.mac-path-done { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 70%, transparent)); }
+.mac-path-rest { stroke: color-mix(in srgb, var(--foreground) 25%, transparent); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.mac-path-done { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+/* Tracé parcouru : un rectangle de découpe mis à l'échelle (transform) jusqu'au repère courant. */
+.mac-walked-rect {
+  transform-box: fill-box;
+  transform-origin: 0 0;
+  transform: scaleX(calc((50 + var(--walked) * 900) / 950));
+  transition: transform var(--dur-slow) var(--ease-in-out);
+}
 .mac-stops { position: absolute; inset: 0 0 3.6cqw; }
-/* Même cadre que le SVG (sans le bas réservé aux libellés) : le marcheur reste sur le tracé. */
-.mac-layer { position: absolute; inset: 0 0 3.6cqw; pointer-events: none; }
 .mac-stop { position: absolute; width: 0; height: 0; }
 .mac-stop-btn { position: absolute; left: -10cqw; top: -0.65cqw; display: flex; width: 20cqw; flex-direction: column; align-items: center; gap: 0.7cqw; cursor: pointer; }
 .mac-stop-dot {
   width: 1.3cqw;
   height: 1.3cqw;
-  border: 2px solid color-mix(in srgb, var(--foreground) 35%, transparent);
+  border: 2px solid color-mix(in srgb, var(--foreground) 40%, transparent);
   border-radius: 50%;
-  background: var(--background);
-  transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-nudge) var(--ease-out);
+  background: #000;
 }
 .mac-stop[data-passed] .mac-stop-dot { border-color: var(--accent); background: var(--accent); }
-.mac-stop[data-current] .mac-stop-dot { transform: scale(1.5); }
+.mac-stop[data-current] .mac-stop-dot { box-shadow: 0 0 0 0.4cqw color-mix(in srgb, var(--accent) 35%, transparent); }
 .mac-stop-label { display: flex; flex-direction: column; align-items: center; margin-top: 1.7cqw; font-size: 0.95cqw; line-height: 1.25; color: var(--tertiary); text-align: center; }
 .mac-stop-label b { font-weight: 600; color: var(--secondary); }
 .mac-stop[data-current] .mac-stop-label b { color: var(--foreground); }
+/* Cadre du chemin (sans la bande des libellés), conteneur de taille pour placer le marcheur en cqw / cqh. */
+.mac-layer { position: absolute; inset: 0 0 3.6cqw; container-type: size; pointer-events: none; }
 .mac-walker {
   position: absolute;
-  z-index: 2;
+  left: 0;
+  top: 0;
   width: 0;
   height: 0;
+  transform: translate(calc(var(--x) * 1cqw), calc(var(--y) * 1cqh));
+  transition: transform var(--dur-slow) var(--ease-in-out);
 }
 .mac-walker-img {
   position: absolute;
@@ -1295,7 +1333,7 @@ h1, h2, .display {
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid var(--foreground);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 45%, transparent), 0 10px 30px -6px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 @keyframes walker-bob { from { translate: 0 0; } to { translate: 0 -0.5cqw; } }
 

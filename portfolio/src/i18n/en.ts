@@ -59,6 +59,7 @@ const en: Translations = {
     title: "Background",
     subtitle: "Education, personal experiences, volunteering, and professional background.",
     present: "Present",
+    duration: { month: "month", months: "months", year: "year", years: "years" },
     types: {
       professional: "Professional",
       personal: "Personal",

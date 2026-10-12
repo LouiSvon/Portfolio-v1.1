@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useSpring } from "motion/react";
-import { pop, scrub } from "@/lib/motion";
+import { motion } from "motion/react";
+import { pop } from "@/lib/motion";
+import { HighlightedText } from "@/components/ui/highlighted-text";
 
 export type TimelineItem = {
   key: string;
@@ -16,19 +16,19 @@ export type TimelineItem = {
   tags: { label: string; tech: boolean }[];
   links: { label: string; url: string }[];
   images: { src: string; alt: string }[];
+  // Phrases clés de la description (sous-chaînes exactes) et durée calculée depuis les dates.
+  highlights: string[];
+  duration?: { amount: string; unit: string }[];
 };
 
-// Frise du parcours : la ligne se remplit en bleu au fil du défilement et chaque point
-// s'allume quand son étape passe au centre de l'écran. « Réduire les animations » : ligne pleine (CSS).
+// Frise du parcours (petit et moyen écran) : la ligne se remplit en bleu au fil du défilement (CSS lié au
+// défilement, sans JavaScript ; repli : ligne pleine) et chaque point s'allume quand son étape passe au
+// centre de l'écran (IntersectionObserver de Motion). « Réduire les animations » : ligne pleine (CSS).
 export function Timeline({ items }: { items: TimelineItem[] }) {
-  const ref = useRef<HTMLOListElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 75%", "end 55%"] });
-  const fill = useSpring(scrollYProgress, scrub);
-
   return (
-    <ol ref={ref} className="timeline">
+    <ol className="timeline">
       <span className="timeline-track" aria-hidden="true" />
-      <motion.span className="timeline-fill" style={{ scaleY: fill }} aria-hidden="true" />
+      <span className="timeline-fill" aria-hidden="true" />
       {items.map((item) => (
         <motion.li
           key={item.key}
@@ -49,6 +49,9 @@ export function Timeline({ items }: { items: TimelineItem[] }) {
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <span className="chip">{item.typeLabel}</span>
               <time className="text-xs text-tertiary">{item.period}</time>
+              {item.duration && (
+                <span className="timeline-duration">{item.duration.map((p) => `${p.amount} ${p.unit}`).join(" ")}</span>
+              )}
             </div>
             <h3 className="panel-title">{item.role}</h3>
             <p className="mb-3 text-sm text-secondary">
@@ -60,7 +63,9 @@ export function Timeline({ items }: { items: TimelineItem[] }) {
                 item.company
               )}
             </p>
-            <p className="text-sm leading-relaxed text-secondary">{item.description}</p>
+            <p className="text-sm leading-relaxed text-secondary">
+              <HighlightedText text={item.description} phrases={item.highlights} />
+            </p>
 
             {item.tags.length > 0 && (
               <ul className="mt-4 flex flex-wrap gap-1.5">

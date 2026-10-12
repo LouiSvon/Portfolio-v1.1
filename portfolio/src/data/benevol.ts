@@ -10,5 +10,6 @@ export const benevol: Benevol[] = [
       fr: "Développement de projets internes et contribution à l'écosystème tech local.",
       en: "Building internal projects and contributing to the local tech ecosystem.",
     },
+    highlights: { fr: ["projets internes", "écosystème tech local"], en: ["internal projects", "local tech ecosystem"] },
   },
 ];

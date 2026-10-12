@@ -29,6 +29,7 @@ export const experiences: Experience[] = [
       fr: ["Développement web", "Organisation", "Prise de parole"],
       en: ["Web development", "Organization", "Public speaking"],
     },
+    highlights: { fr: ["conception et mise en ligne de sites web", "organisation d'événements autour de la crypto"], en: ["designing and launching websites", "organizing crypto events"] },
     type: "personal",
   },
   {
@@ -45,6 +46,7 @@ export const experiences: Experience[] = [
       fr: ["Gestion des stocks", "Relation client"],
       en: ["Inventory management", "Customer relations"],
     },
+    highlights: { fr: ["forte autonomie", "parfois seul responsable"], en: ["strong autonomy", "sometimes the sole person in charge"] },
     type: "professional",
   },
   {
@@ -58,6 +60,7 @@ export const experiences: Experience[] = [
     },
     technologies: ["Blockchain"],
     skills: { fr: ["Cryptomonnaie", "Marketing digital"], en: ["Cryptocurrency", "Digital marketing"] },
+    highlights: { fr: ["Structuration d'une audience", "ligne éditoriale"], en: ["Building an audience", "editorial line"] },
     type: "professional",
   },
   {
@@ -71,6 +74,7 @@ export const experiences: Experience[] = [
     },
     technologies: [],
     skills: { fr: ["Adaptabilité", "Autonomie"], en: ["Adaptability", "Autonomy"] },
+    highlights: { fr: ["un mois au Vietnam", "GR20, Tour du Mont-Blanc, GR58 et GR738"], en: ["one month in Vietnam", "GR20, Tour du Mont-Blanc, GR58 and GR738"] },
     type: "personal",
   },
   {
@@ -84,6 +88,7 @@ export const experiences: Experience[] = [
     },
     technologies: [],
     skills: { fr: ["Anglais", "Satisfaction client"], en: ["English", "Customer satisfaction"] },
+    highlights: { fr: ["Erasmus à Dublin", "équipe multiculturelle"], en: ["Erasmus program in Dublin", "Multicultural teamwork"] },
     type: "professional",
   },
   {
@@ -96,6 +101,7 @@ export const experiences: Experience[] = [
       en: "First marketing internship.",
     },
     technologies: ["Marketing"],
+    highlights: { fr: ["Premier stage"], en: ["First marketing internship"] },
     type: "professional",
   },
 ];
