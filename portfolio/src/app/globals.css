@@ -1052,7 +1052,7 @@ h1, h2, .display {
   -webkit-text-stroke: 1px color-mix(in srgb, var(--foreground) 30%, transparent);
 }
 .panel:hover .proj-cta .arrow { transform: translateX(4px); }
-/* Au clavier, la rangée revient en place : la carte qui a le focus est toujours visible. */
+/* Au clavier, la rangée revient à sa place de départ (sans décalage) pour que la carte qui a le focus soit à l'écran. */
 .blog-rail:has(:focus-visible) { transform: none !important; }
 /* Petits écrans et animations réduites : rangée glissable à la main, accrochage sur chaque carte. */
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {

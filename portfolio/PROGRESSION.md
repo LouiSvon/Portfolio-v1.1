@@ -23,6 +23,7 @@ Règle git : ajouter par chemins explicites (le dépôt a des fichiers sans rapp
 - Parcours : piste épinglée Motion (`useScroll`), pas `animation-timeline`.
 
 ## État (12/10/2026)
-Faits et commités sur feature/refonte-visuelle : 1 à 10. Reste : QA (build, mobile 375, réduction des animations,
-page article), relecture par le sous-agent `relecteur`, rapport final.
+Faits et commités sur feature/refonte-visuelle : 1 à 10. QA faite (typecheck, lint, build, export Netlify, captures
+1440 / 800 / 375, page article). Relecture faite, corrections commitées (marcheur aligné, focus blog, dock dès 1024 px,
+CSS mort, theme-toggle.tsx sorti du suivi). À valider : images de public/scenes après revalidation sur Netlify.
 Dev : `npm run dev -- --webpack` (Turbopack servait un CSS périmé après plusieurs modifications).
