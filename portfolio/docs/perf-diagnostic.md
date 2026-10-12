@@ -92,4 +92,12 @@ est le nom dans le héros).
 Lighthouse (accessibilité, bonnes pratiques, SEO ; la performance est exclue par l'outil) : 100 / 100 / 100 en
 desktop et en mobile, 0 échec (2 échecs d'accessibilité trouvés en cours de route et corrigés).
 
-Fichiers de traces : `/private/tmp/claude-501/perf/` (non versionnés, volumineux).
+Ces mesures « après » datent du commit bd5559f. Les corrections de relecture qui suivent (accroche, recalage
+d'étape, repli du Parcours, marge du blog) n'ajoutent aucun travail par frame : le recalage ne tourne que dans les
+rappels d'IntersectionObserver, le calque coloré anime les mêmes propriétés (opacité). Pas de nouvelle trace.
+
+« Réduire les animations » (Chrome sans interface, média émulé par le protocole DevTools, 1440 x 900) : sans le
+réglage, 6 sections épinglées sur 6 ; avec, 0 épinglée, aucune scène sticky, frise à la place du Mac, 14 mots sur
+14 allumés, un seul h1, texte de l'accroche complet.
+
+Fichiers de traces (465 Mo, non versionnés) : déplacés dans la corbeille, `~/.Trash/perf-traces-20261012-202027`.

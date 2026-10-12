@@ -45,4 +45,4 @@ Relecture faite (4 défauts, 0 bloquant), corrigés : mots clés de l'accroche d
 ::after), étape périmée après un saut (recalage à l'entrée à l'écran), titre du Parcours sur l'écran du Mac en
 repli et cartes superposées avant hydratation, marge du blog épinglé jamais appliquée. Débordement des scènes
 mesuré à 360x600, 768x600, 1024x700, 1440x900 : 0 px partout (témoin positif détecté). Export Netlify fait.
-Reste : push, rapport. Non vérifié : Safari / WebKit, appareils réels, « réduire les animations ».
+Poussé. Reste : rapport. Réduire les animations vérifié (docs/perf-diagnostic.md). Non vérifié : Safari / WebKit, appareils réels.
