@@ -16,10 +16,20 @@ const SIZE = 7; // taille d'un logo au repos
 const RADIUS = 160; // portée du pointeur
 const TINT = "#f3f0ea"; // --foreground ; l'opacité garde l'ensemble très discret
 
-type Star = { x: number; y: number; sprite: number; phase: number; speed: number };
+// Plans de profondeur : les logos proches sont plus grands et dérivent plus vite (parallaxe).
+const LAYERS = [
+  { scale: 0.75, drift: 0.55 },
+  { scale: 1, drift: 1 },
+  { scale: 1.35, drift: 1.7 },
+] as const;
+const DRIFT = 5; // vitesse de dérive du plan moyen, en pixels par seconde
+const MARGIN = 24; // un logo qui sort d'un bord reparaît du bord opposé, hors champ
 
-// Ciel de petits logos d'IA en trame légèrement décalée : ils scintillent, une vague lente les traverse,
-// et ceux proches du pointeur s'éclairent et grossissent un peu. Décoratif. Image fixe si animations réduites.
+type Star = { x: number; y: number; vx: number; vy: number; sprite: number; layer: number; phase: number; speed: number };
+
+// Ciel de petits logos d'IA en trame légèrement décalée : ils dérivent lentement comme des étoiles
+// (trois plans de profondeur), scintillent, une vague lente les traverse, et ceux proches du pointeur
+// s'éclairent et grossissent un peu. Décoratif. Image fixe si animations réduites.
 export function LogoStars() {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -42,7 +52,7 @@ export function LogoStars() {
     // Logo noir (SVG monochrome) recoloré en clair, pré-rendu à sa taille maximale.
     const makeSprite = (img: HTMLImageElement, dpr: number) => {
       const c = document.createElement("canvas");
-      c.width = c.height = Math.ceil(SIZE * 2 * dpr);
+      c.width = c.height = Math.ceil(SIZE * 3 * dpr);
       const g = c.getContext("2d")!;
       g.drawImage(img, 0, 0, c.width, c.height);
       g.globalCompositeOperation = "source-in";
@@ -63,10 +73,17 @@ export function LogoStars() {
       let row = 0;
       for (let y = GAP / 2; y < height; y += GAP, row++) {
         for (let x = (row % 2 ? GAP : GAP / 2); x < width; x += GAP) {
+          const layer = Math.floor(Math.random() * LAYERS.length);
+          // Cap commun vers le haut à gauche, écart individuel : un courant, pas un défilement rigide.
+          const heading = Math.PI * (1.15 + (Math.random() - 0.5) * 0.35);
+          const v = DRIFT * LAYERS[layer].drift * (0.7 + Math.random() * 0.6);
           stars.push({
             x: x + (Math.random() - 0.5) * GAP * 0.5,
             y: y + (Math.random() - 0.5) * GAP * 0.5,
+            vx: Math.cos(heading) * v,
+            vy: Math.sin(heading) * v,
             sprite: Math.floor(Math.random() * sprites.length),
+            layer,
             phase: Math.random() * Math.PI * 2,
             speed: 0.6 + Math.random() * 1.2,
           });
@@ -79,14 +96,19 @@ export function LogoStars() {
       pointer.y += (target.y - pointer.y) * 0.12;
       ctx.clearRect(0, 0, width, height);
       const t = time / 1000;
+      const spanX = width + MARGIN * 2;
+      const spanY = height + MARGIN * 2;
       for (const s of stars) {
+        // Position courante : départ + vitesse x temps, bouclée sur le cadre (fixe si animations réduites).
+        const px = still ? s.x : ((((s.x + MARGIN + s.vx * t) % spanX) + spanX) % spanX) - MARGIN;
+        const py = still ? s.y : ((((s.y + MARGIN + s.vy * t) % spanY) + spanY) % spanY) - MARGIN;
         const twinkle = still ? 0.5 : (Math.sin(t * s.speed + s.phase) + 1) / 2;
-        const wave = still ? 0 : (Math.sin(s.x * 0.01 + s.y * 0.006 - t * 0.8) + 1) / 2;
-        const d = Math.hypot(s.x - pointer.x, s.y - pointer.y);
+        const wave = still ? 0 : (Math.sin(px * 0.01 + py * 0.006 - t * 0.8) + 1) / 2;
+        const d = Math.hypot(px - pointer.x, py - pointer.y);
         const near = d < RADIUS ? (1 - d / RADIUS) ** 2 : 0;
-        const size = SIZE * (1 + near * 0.9);
+        const size = SIZE * LAYERS[s.layer].scale * (1 + near * 0.9);
         ctx.globalAlpha = 0.07 + twinkle * 0.08 + wave * 0.07 + near * 0.6;
-        ctx.drawImage(sprites[s.sprite], s.x - size / 2, s.y - size / 2, size, size);
+        ctx.drawImage(sprites[s.sprite], px - size / 2, py - size / 2, size, size);
       }
       ctx.globalAlpha = 1;
     };
