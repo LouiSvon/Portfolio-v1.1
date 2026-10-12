@@ -1501,91 +1501,80 @@ h1, h2, .display {
   .orbit-ring, .orbit-upright, .orbit-tile, .orbit-core { animation: none; }
 }
 
-/* Formation : la carte de l'école, puis les certifications en cartes de crédentiel. */
+/* Formation : un écran, deux colonnes (école et CV ; domaines et certifications). */
+.edu-stage { padding-block: clamp(4.5rem, 10svh, 6.5rem) clamp(1.5rem, 5svh, 3rem); }
+.edu-grid { display: grid; gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
+@media (min-width: 1024px) { .edu-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+.edu-col { display: flex; flex-direction: column; gap: clamp(1.25rem, 3svh, 2rem); min-width: 0; }
 .study-card {
-  position: relative;
-  display: grid;
-  gap: 2rem;
-  padding: clamp(1.5rem, 4vw, 3rem);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
   border: 1px solid var(--border);
-  border-radius: 1.75rem;
-  background:
-    radial-gradient(80% 120% at 100% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%),
-    var(--surface);
+  border-radius: 1.5rem;
+  background: var(--surface);
 }
-@media (min-width: 768px) { .study-card { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } }
-.study-main { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
 .study-school {
   font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: clamp(2.2rem, 1.2rem + 4vw, 4.2rem);
+  font-size: clamp(2.2rem, 1rem + 3.4vw, 3.6rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.05em;
 }
-/* Année d'entrée en chiffres à points (police Doto), décorative. */
-.study-year {
-  font-family: var(--font-doto), monospace;
-  font-size: clamp(5rem, 14vw, 11rem);
-  font-weight: 900;
-  line-height: 0.8;
-  color: color-mix(in srgb, var(--foreground) 9%, transparent);
-  user-select: none;
-}
-@media (max-width: 767px) { .study-year { display: none; } }
+.study-role { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1rem; font-size: 1.1rem; font-weight: 600; }
+.study-period { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-warm); }
 
-.cred-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr)); }
+/* Domaines de compétence : grands, colorés selon leur secteur. */
+.domain-list { display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem; }
+.domain {
+  padding: 0.45rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 45%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tone) 10%, transparent);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(1rem, 0.8rem + 0.6vw, 1.35rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--tone);
+}
+[data-tone='warm'] { --tone: var(--accent-warm); }
+[data-tone='blue'] { --tone: var(--accent); }
+[data-tone='violet'] { --tone: #a99dff; }
+
+.cred-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
 .cred-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.5rem;
   height: 100%;
-  min-height: 21rem;
-  padding: 1.5rem;
+  padding: 1.1rem 1.2rem;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 1.5rem;
+  border-radius: 1.25rem;
   background:
-    radial-gradient(circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 20%, transparent), transparent 55%),
+    radial-gradient(circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%),
     var(--surface);
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform var(--dur-nudge) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 .cred-card:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
 .cred-card.is-pending { border-style: dashed; }
-/* Reflet qui suit le pointeur. */
-.cred-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(18rem circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--foreground) 9%, transparent), transparent 60%);
-  opacity: 0;
-  transition: opacity var(--dur-nudge) var(--ease-out);
-  pointer-events: none;
-}
-.cred-card:hover::after { opacity: 1; }
 .cred-logo {
   display: grid;
   place-items: center;
-  width: 3.25rem;
-  height: 3.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
   border: 1px solid var(--border);
-  border-radius: 1rem;
-  background: color-mix(in srgb, var(--background) 60%, transparent);
-  font-size: 1.5rem;
+  border-radius: 0.7rem;
+  background: var(--background);
 }
-.cred-logo svg { width: 1.5rem; height: 1.5rem; }
-.cred-body { display: flex; flex-direction: column; gap: 0.5rem; }
-.cred-title {
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: 1.35rem;
-  font-weight: 650;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-}
-.cred-foot { display: flex; flex-direction: column; gap: 0.9rem; margin-top: auto; }
-.cred-link { font-size: 0.875rem; font-weight: 500; color: var(--accent); }
+.cred-logo svg { width: 1.1rem; height: 1.1rem; }
+.cred-sector { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tone); }
+.cred-title { font-family: var(--font-archivo), system-ui, sans-serif; font-size: 1.1rem; font-weight: 650; line-height: 1.15; letter-spacing: -0.03em; }
+.cred-link { margin-top: auto; font-size: 0.85rem; font-weight: 500; color: var(--accent); }
 .cred-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) { .cred-card { transform: none !important; } }
 

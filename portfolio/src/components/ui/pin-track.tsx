@@ -51,7 +51,9 @@ export function PinTrack({
   mode?: PinMode;
   className?: string;
   stageClassName?: string;
-  children: (api: PinApi) => React.ReactNode;
+  // Fonction (composant client) ou contenu direct (composant serveur) : dans ce second cas, les éléments
+  // marqués data-from="k" s'allument dès l'étape k et ceux marqués data-at="k" à l'étape k seulement.
+  children: ((api: PinApi) => React.ReactNode) | React.ReactNode;
 }) {
   // Refs de rappel gardées en état : goTo peut être transmise au rendu sans lire de ref pendant celui-ci.
   const [track, setTrack] = useState<HTMLElement | null>(null);
@@ -116,6 +118,16 @@ export function PinTrack({
     };
   }, [track, count]);
 
+  // Contenu direct : l'allumage des éléments marqués se fait ici, une fois par changement d'étape.
+  useEffect(() => {
+    if (!stage || typeof children === "function") return;
+    stage.querySelectorAll<HTMLElement>("[data-from], [data-at]").forEach((el) => {
+      const from = el.dataset.from;
+      const on = from !== undefined ? Number(from) <= active : Number(el.dataset.at) === active;
+      el.toggleAttribute("data-on", on);
+    });
+  }, [stage, active, children]);
+
   const onFocus = (event: React.FocusEvent) => {
     const owner = (event.target as HTMLElement).closest<HTMLElement>("[data-step]");
     if (!owner || !isPinned) return;
@@ -143,7 +155,7 @@ export function PinTrack({
         <span key={i} className="pin-sensor" data-i={i} style={s} aria-hidden="true" />
       ))}
       <div ref={setStage} className={`pin-stage ${stageClassName}`} onFocus={onFocus}>
-        {children({ active, goTo })}
+        {typeof children === "function" ? children({ active, goTo }) : children}
       </div>
     </section>
   );

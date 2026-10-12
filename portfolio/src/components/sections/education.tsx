@@ -4,7 +4,7 @@ import { profile } from "@/data/profile";
 import { experiences } from "@/data/experience";
 import { certificationsBySector } from "@/data/certifications";
 import { Badge } from "@/components/ui/badge";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { PinTrack } from "@/components/ui/pin-track";
 import { TiltCard } from "@/components/ui/tilt-card";
 
 function GoogleLogo() {
@@ -38,22 +38,31 @@ function NotionLogo() {
 
 const LOGOS = { bitcoin: <BitcoinLogo />, google: <GoogleLogo />, notion: <NotionLogo /> };
 
-// Formation : l'école en grand, puis les certifications comme des cartes de crédentiel qui s'inclinent
-// vers le pointeur. Le CV reste à portée, en haut à droite du titre.
+// Teinte de chaque secteur de certification (couleurs de la palette, contraste vérifié sur le fond).
+const SECTOR_TONES = ["warm", "blue", "violet"] as const;
+
+// Formation, sur un seul écran : à gauche l'école et le CV, à droite les domaines de compétence en grand
+// (tirés des certifications, couleur de leur secteur), puis les certifications. Grand écran : section épinglée,
+// l'école, les domaines puis les certifications s'allument au fil du défilement. Ailleurs : flux simple,
+// chaque bloc apparaît en arrivant à l'écran.
 export function EducationSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
   const studies = experiences.filter((e) => e.type === "education");
-  const certs = certificationsBySector.flatMap((sector) => sector.certifs.map((cert) => ({ sector, cert })));
+  const certs = certificationsBySector.flatMap((sector, s) => sector.certifs.map((cert) => ({ sector, cert, tone: SECTOR_TONES[s % 3] })));
+  // Domaines : compétences des certifications, sans doublon, dans l'ordre d'apparition.
+  const domains: { label: string; tone: (typeof SECTOR_TONES)[number] }[] = [];
+  for (const { cert, tone } of certs) {
+    for (const label of cert.competences) if (!domains.some((d) => d.label === label)) domains.push({ label, tone });
+  }
   const cvHref = `/${profile.cvFile}`;
 
   return (
-    <section id="formation" className="screen" aria-labelledby="formation-titre">
-      <div className="shell">
-        <SectionHeading
-          id="formation-titre"
-          title={t.education.title}
-          action={
-            <div className="flex flex-wrap gap-3">
+    <PinTrack id="formation" labelledBy="formation-titre" steps={3} step={35} tail={25} mode="wide" stageClassName="edu-stage">
+      <div className="shell edu-grid">
+        <div className="edu-col">
+          <div className="fade-in">
+            <h2 id="formation-titre" className="section-title">{t.education.title}</h2>
+            <div className="mt-6 flex flex-wrap gap-3">
               <a href={cvHref} download={profile.cvFile} className="btn-pill">
                 {t.education.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
               </a>
@@ -64,83 +73,73 @@ export function EducationSection({ locale }: { locale: Locale }) {
                 {t.education.linkedin}
               </a>
             </div>
-          }
-        />
-
-        <div className="flex flex-col gap-16">
-          <div>
-            <h3 className="eyebrow mb-4">{t.education.studies}</h3>
-            <div className="space-y-4">
-              {studies.map((exp) => (
-                <article key={exp.startDate} className="fade-in study-card">
-                  <div className="study-main">
-                    <time className="chip self-start">
-                      {formatDate(exp.startDate, locale)} — {exp.endDate ? formatDate(exp.endDate, locale) : t.journey.present}
-                    </time>
-                    <h4 className="study-school">
-                      {exp.companyUrl ? (
-                        <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-8 hover:text-accent hover:underline">
-                          {exp.company[locale]} <span aria-hidden="true" className="text-secondary">&#8599;</span>
-                        </a>
-                      ) : (
-                        exp.company[locale]
-                      )}
-                    </h4>
-                    <p className="text-lg font-medium text-primary">{exp.role[locale]}</p>
-                    <p className="max-w-xl text-sm leading-relaxed text-secondary sm:text-base">{exp.description[locale]}</p>
-                    <ul className="flex flex-wrap gap-1.5">
-                      {exp.technologies.map((tech) => (
-                        <li key={tech}><Badge variant="technology" data-tech={tech}>{tech}</Badge></li>
-                      ))}
-                      {exp.skills?.[locale].map((skill) => (
-                        <li key={skill} className="chip">{skill}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <span className="study-year" aria-hidden="true">{exp.startDate.slice(0, 4)}</span>
-                </article>
-              ))}
-            </div>
           </div>
 
-          <div>
+          {studies.map((exp) => (
+            <article key={exp.startDate} className="study-card step fade-in" data-from={0} data-step={0}>
+              <p className="eyebrow">{t.education.studies}</p>
+              <h3 className="study-school">
+                {exp.companyUrl ? (
+                  <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-8 hover:underline">
+                    {exp.company[locale]} <span aria-hidden="true" className="text-secondary">&#8599;</span>
+                  </a>
+                ) : (
+                  exp.company[locale]
+                )}
+              </h3>
+              <p className="study-role">
+                {exp.role[locale]}
+                <time className="study-period">
+                  {formatDate(exp.startDate, locale)} — {exp.endDate ? formatDate(exp.endDate, locale) : t.journey.present}
+                </time>
+              </p>
+              <p className="text-sm leading-relaxed text-secondary">{exp.description[locale]}</p>
+              <ul className="flex flex-wrap gap-1.5">
+                {exp.technologies.map((tech) => (
+                  <li key={tech}><Badge variant="technology" data-tech={tech}>{tech}</Badge></li>
+                ))}
+                {exp.skills?.[locale].map((skill) => (
+                  <li key={skill} className="chip">{skill}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+
+        <div className="edu-col">
+          <div className="step fade-in" data-from={1} data-step={1}>
+            <h3 className="eyebrow mb-4">{t.education.domains}</h3>
+            <ul className="domain-list">
+              {domains.map((d) => (
+                <li key={d.label} className="domain" data-tone={d.tone}>{d.label}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="step fade-in" data-from={2} data-step={2}>
             <h3 className="eyebrow mb-4">{t.education.certifications}</h3>
             <ul className="cred-grid">
-              {certs.map(({ sector, cert }, i) => {
+              {certs.map(({ sector, cert, tone }) => {
                 const logo = cert.logo ?? sector.logo;
                 const pending = cert.statut === "en_cours";
                 return (
-                  <li key={cert.titre.en} className="fade-in" style={{ "--i": i } as React.CSSProperties}>
+                  <li key={cert.titre.en}>
                     <TiltCard className={`cred-card${pending ? " is-pending" : ""}`}>
-                      <span className="cred-logo" aria-hidden="true">{logo ? LOGOS[logo] : null}</span>
-                      <div className="cred-body">
-                        <span className="eyebrow">{sector.secteur[locale]}</span>
-                        <h4 className="cred-title">{cert.titre[locale]}</h4>
-                        <p className="text-xs text-secondary">
-                          {cert.organisme}
-                          {pending ? ` · ${t.education.inProgress}` : cert.date ? ` · ${cert.date}` : ""}
-                          {cert.expiration && ` · ${t.education.expires} ${cert.expiration}`}
-                        </p>
+                      <div className="flex items-center gap-3">
+                        <span className="cred-logo" aria-hidden="true">{logo ? LOGOS[logo] : null}</span>
+                        <span className="cred-sector" data-tone={tone}>{sector.secteur[locale]}</span>
                       </div>
-                      <div className="cred-foot">
-                        {cert.competences.length > 0 && (
-                          <ul className="flex flex-wrap gap-1.5">
-                            {cert.competences.map((c) => (
-                              <li key={c}><Badge>{c}</Badge></li>
-                            ))}
-                          </ul>
-                        )}
-                        {cert.lien && (
-                          <a
-                            href={cert.lien}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="cred-link after:absolute after:inset-0"
-                          >
-                            {t.education.viewCertificate}
-                          </a>
-                        )}
-                      </div>
+                      <h4 className="cred-title">{cert.titre[locale]}</h4>
+                      <p className="text-xs text-secondary">
+                        {cert.organisme}
+                        {pending ? ` · ${t.education.inProgress}` : cert.date ? ` · ${cert.date}` : ""}
+                        {cert.expiration && ` · ${t.education.expires} ${cert.expiration}`}
+                      </p>
+                      {cert.lien && (
+                        <a href={cert.lien} target="_blank" rel="noopener noreferrer" className="cred-link after:absolute after:inset-0">
+                          {t.education.viewCertificate}
+                        </a>
+                      )}
                     </TiltCard>
                   </li>
                 );
@@ -149,6 +148,6 @@ export function EducationSection({ locale }: { locale: Locale }) {
           </div>
         </div>
       </div>
-    </section>
+    </PinTrack>
   );
 }

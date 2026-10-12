@@ -69,6 +69,7 @@ const en: Translations = {
   education: {
     title: "Education",
     studies: "Studies",
+    domains: "Fields of expertise",
     certifications: "Certifications",
     viewCertificate: "View certificate →",
     inProgress: "In progress",

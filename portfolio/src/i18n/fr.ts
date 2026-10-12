@@ -70,6 +70,7 @@ export interface Translations {
   education: {
     title: string;
     studies: string;
+    domains: string;
     certifications: string;
     viewCertificate: string;
     inProgress: string;
@@ -219,6 +220,7 @@ const fr: Translations = {
   education: {
     title: "Formation",
     studies: "Études",
+    domains: "Domaines de compétence",
     certifications: "Certifications",
     viewCertificate: "Voir le certificat →",
     inProgress: "En cours",
