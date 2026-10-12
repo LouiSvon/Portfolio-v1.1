@@ -1654,13 +1654,11 @@ h1, h2, .display {
   to { opacity: 1; transform: none; }
 }
 
-/* Projets : cartes empilées. Chaque carte s'épingle, la suivante glisse par-dessus et la précédente
-   recule (échelle et opacité pilotées par Motion). Sous 1024 px ou écran bas : simple liste. */
+/* Projets : cartes empilées. Chaque carte s'épingle, la suivante glisse par-dessus, la précédente recule et
+   s'assombrit : animation liée à la timeline de vue de la carte suivante (voir project-stack.tsx).
+   Sous 1024 px, écran bas ou animations réduites : simple liste. */
 .stack { display: flex; flex-direction: column; gap: clamp(2rem, 6vh, 4rem); }
 .stack-card { position: relative; }
-@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
-  .stack-card { position: sticky; top: calc(6rem + var(--i, 0) * 1.25rem); transform-origin: 50% 0; }
-}
 .stack-shade {
   position: absolute;
   inset: 0;
@@ -1670,10 +1668,24 @@ h1, h2, .display {
   opacity: 0;
   pointer-events: none;
 }
-@media (max-width: 1023px), (max-height: 699px), (prefers-reduced-motion: reduce) {
-  .stack-card { transform: none !important; }
-  .stack-shade { display: none; }
+@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+  .stack-card { position: sticky; top: calc(6rem + var(--i, 0) * 1.25rem); transform-origin: 50% 0; }
+  @supports (animation-timeline: view()) {
+    .stack { timeline-scope: var(--scope); }
+    .stack-card { view-timeline-name: var(--self); }
+    .stack-card[data-recede] { animation: card-recede linear both; animation-timeline: var(--next); animation-range: entry 0% entry 100%; }
+    .stack-card[data-recede] > .stack-shade { animation: shade-in linear both; animation-timeline: var(--next); animation-range: entry 0% entry 100%; }
+  }
 }
+@keyframes card-recede { to { transform: scale(var(--reveal-scale)); } }
+@keyframes shade-in { to { opacity: 0.1; } }
+/* Grand numéro du projet : dérive pendant la traversée. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .proj-num { animation: num-drift linear both; animation-timeline: view(); }
+  }
+}
+@keyframes num-drift { from { transform: translateY(80px); } to { transform: translateY(-80px); } }
 
 /* Décors des panneaux de projet : ils laissent passer le clic vers le lien étiré de la carte. */
 .proj-dots, .proj-num, .proj-kind, .proj-glow, .media-slot.is-empty { pointer-events: none; }

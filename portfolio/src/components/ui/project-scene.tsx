@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { MediaSlot } from "@/components/ui/media-slot";
 import { duration, ease, stagger } from "@/lib/motion";
 
@@ -31,17 +30,14 @@ const fadeUp = {
 };
 
 // Une carte de projet. Le titre monte mot à mot, puis l'accroche, les technos et le lien, quand
-// la carte arrive à l'écran ; le grand numéro dérive pendant toute la traversée (transform seulement).
+// la carte arrive à l'écran (IntersectionObserver de Motion) ; le grand numéro dérive pendant la
+// traversée (CSS lié au défilement, transform seulement ; repli : immobile).
 // « Réduire les animations » : le CSS (.showcase-anim, .proj-num) fige tout, contenu visible.
 export function ProjectScene({ scene, index, labels }: { scene: Scene; index: number; labels: SceneLabels }) {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const numberY = useTransform(scrollYProgress, [0, 1], [80, -80]);
   const words = scene.title.split(" ");
 
   return (
     <article
-      ref={ref}
       className={`proj-card showcase-card${index % 2 ? " is-flipped" : ""}`}
       style={{ "--c1": scene.colors[0], "--c2": scene.colors[1] } as React.CSSProperties}
     >
@@ -61,9 +57,9 @@ export function ProjectScene({ scene, index, labels }: { scene: Scene; index: nu
         <span className="proj-dots" aria-hidden="true" />
         {scene.kind && <span className="eyebrow proj-kind">{scene.kind}</span>}
         {scene.featured && <span className="chip proj-featured">{labels.featured}</span>}
-        <motion.span className="proj-num" style={{ y: numberY }} aria-hidden="true">
+        <span className="proj-num" aria-hidden="true">
           {String(index + 1).padStart(2, "0")}
-        </motion.span>
+        </span>
       </div>
 
       <motion.div
