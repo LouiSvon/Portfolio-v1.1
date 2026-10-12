@@ -65,7 +65,7 @@ export function MobileNavigation({
                 isHome={isHome}
                 current={active === item.id}
                 onClick={() => setOpenedOn(null)}
-                className="rounded-2xl px-4 py-3 font-[family-name:var(--font-archivo)] text-2xl font-bold tracking-[-0.03em] text-primary transition-colors duration-150 hover:bg-accent-soft hover:text-accent aria-[current=true]:bg-accent-soft aria-[current=true]:text-accent"
+                className="rounded-2xl px-4 py-3 font-[family-name:var(--font-archivo)] text-2xl font-bold tracking-[-0.03em] text-primary transition-colors duration-(--dur-fast) hover:bg-accent-soft hover:text-accent aria-[current=true]:bg-accent-soft aria-[current=true]:text-accent"
               >
                 {item.label}
               </SectionLink>

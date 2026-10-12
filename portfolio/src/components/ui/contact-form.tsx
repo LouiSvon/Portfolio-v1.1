@@ -62,7 +62,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
         </div>
         <button
           onClick={() => setState("idle")}
-          className="self-start text-xs text-tertiary hover:text-accent transition-colors duration-150"
+          className="self-start text-xs text-tertiary hover:text-accent transition-colors duration-(--dur-fast)"
         >
           ← {t.contact.newMessage}
         </button>

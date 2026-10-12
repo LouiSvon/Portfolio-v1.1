@@ -84,7 +84,7 @@ export default async function ArticlePage({ params }: Props) {
               <ol className="px-5 pb-5 space-y-2">
                 {article.toc.map((entry) => (
                   <li key={entry.id} className={entry.level === 3 ? "ml-4" : ""}>
-                    <a href={`#${entry.id}`} className="text-sm text-secondary hover:text-accent transition-colors duration-150">
+                    <a href={`#${entry.id}`} className="text-sm text-secondary hover:text-accent transition-colors duration-(--dur-fast)">
                       {entry.text[locale]}
                     </a>
                   </li>
@@ -119,7 +119,7 @@ export default async function ArticlePage({ params }: Props) {
               <ol className="space-y-2">
                 {article.toc.map((entry) => (
                   <li key={entry.id} className={entry.level === 3 ? "ml-4" : ""}>
-                    <a href={`#${entry.id}`} className="text-xs text-tertiary hover:text-accent transition-colors duration-150 leading-relaxed block">
+                    <a href={`#${entry.id}`} className="text-xs text-tertiary hover:text-accent transition-colors duration-(--dur-fast) leading-relaxed block">
                       {entry.text[locale]}
                     </a>
                   </li>

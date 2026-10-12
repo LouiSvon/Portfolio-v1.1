@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { FadeObserver } from "@/components/ui/fade-observer";
+import { motionCssVars } from "@/lib/motion";
 import type { Locale } from "@/types";
 import "../globals.css";
 
@@ -86,6 +87,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html
       lang={locale}
       data-scroll-behavior="smooth"
+      style={motionCssVars}
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${archivo.variable} ${doto.variable} h-full antialiased dark`}
     >
