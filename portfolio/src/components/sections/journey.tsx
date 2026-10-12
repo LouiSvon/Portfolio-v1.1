@@ -38,15 +38,13 @@ export function JourneySection({ locale }: { locale: Locale }) {
 
   const volunteering: TimelineItem[] = benevol.map((entry) => ({
     key: `${entry.structure}-${entry.titre.en}`,
-    typeLabel: t.journey.types.volunteering,
     period: entry.periode[locale],
     role: entry.titre[locale],
     company: entry.structure,
     description: entry.description[locale],
-    tags: [{ label: entry.domaine[locale], tech: false }],
     links: [],
     images: [],
-    highlights: entry.highlights?.[locale] ?? [],
+    highlights: (entry.highlights?.[locale] ?? []).slice(0, 2),
   }));
 
   const work: TimelineItem[] = experiences
@@ -54,22 +52,18 @@ export function JourneySection({ locale }: { locale: Locale }) {
     .sort((a, b) => a.startDate.localeCompare(b.startDate))
     .map((exp) => ({
       key: `${exp.company.en}-${exp.startDate}`,
-      typeLabel: t.journey.types[exp.type as keyof typeof t.journey.types],
       period: period(exp.startDate, exp.endDate),
       role: exp.role[locale],
       company: exp.company[locale],
       companyUrl: exp.companyUrl,
       description: exp.description[locale],
-      tags: [
-        ...exp.technologies.map((label) => ({ label, tech: true })),
-        ...(exp.skills?.[locale] ?? []).map((label) => ({ label, tech: false })),
-      ],
       links: (exp.links ?? []).map((link) => ({ label: link.label[locale], url: link.url })),
       images: (exp.images ?? []).map((img) => ({ src: img.src, alt: img.alt[locale] })),
-      highlights: exp.highlights?.[locale] ?? [],
+      highlights: (exp.highlights?.[locale] ?? []).slice(0, 2),
       duration: duration(exp.startDate, exp.endDate),
     }));
 
+  // Une ou deux phrases clés en couleur par expérience, pas plus (hiérarchie lisible).
   const items = [...work, ...volunteering];
   for (const item of items) assertPhrases(item.description, item.highlights, `parcours, ${item.company}`);
   // Un personnage dessiné (public/scenes/parcours-marcheur.png) remplace le portrait s'il existe.

@@ -52,13 +52,9 @@ export function JourneyMac({
   return (
     <PinTrack steps={count} lead={LEAD} step={STEP} tail={TAIL} mode="wide" className="journey-pin" stageClassName="journey-stage">
       {({ active, goTo }) => {
+        // Une seule valeur de progression (--walked, animée en CSS) : marcheur, trait et repères la lisent.
         const t = count > 1 ? active / (count - 1) : 0;
-        const walkerPos = {
-          "--x": (xAt(t) / VB_W) * 100,
-          "--y": (yAt(t) / VB_H) * 100,
-          "--walked": t,
-          "--open": open,
-        } as React.CSSProperties;
+        const walkerPos = { "--walked": t, "--open": open } as React.CSSProperties;
 
         return (
           <div className="journey-scene" style={walkerPos}>
@@ -96,7 +92,7 @@ export function JourneyMac({
 
                     <ol className="mac-stops">
                       {items.map((item, i) => (
-                        <MacStop key={item.key} item={item} index={i} count={count} passed={i <= active} current={i === active} goTo={goTo} />
+                        <MacStop key={item.key} item={item} index={i} count={count} current={i === active} goTo={goTo} />
                       ))}
                     </ol>
 
@@ -123,34 +119,23 @@ const MacCard = memo(function MacCard({ item, index, on }: { item: TimelineItem;
   return (
     <li className="mac-card step" data-step={index} data-on={on || undefined}>
       <div className="mac-card-main">
-        <p className="mac-meta">
-          <span className="mac-type">{item.typeLabel}</span>
-          <time className="mac-period">{item.period}</time>
-        </p>
         <h3 className="mac-role">{item.role}</h3>
-        <p className="mac-company">
+        <p className="mac-sub">
           {item.companyUrl ? (
-            <a href={item.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
+            <a href={item.companyUrl} target="_blank" rel="noopener noreferrer" className="mac-company underline-offset-4 hover:underline">
               {item.company} <span aria-hidden="true">&#8599;</span>
             </a>
           ) : (
-            item.company
+            <span className="mac-company">{item.company}</span>
           )}
+          <time className="mac-period">
+            {item.period}
+            {item.duration && ` · ${item.duration.map((part) => `${part.amount} ${part.unit}`).join(" ")}`}
+          </time>
         </p>
         <p className="mac-desc">
           <HighlightedText text={item.description} phrases={item.highlights} />
         </p>
-        {item.tags.length > 0 && (
-          <ul className="mac-tags">
-            {item.tags.map((tag) =>
-              tag.tech ? (
-                <li key={tag.label} className="badge badge-technology" data-tech={tag.label}>{tag.label}</li>
-              ) : (
-                <li key={tag.label} className="chip">{tag.label}</li>
-              ),
-            )}
-          </ul>
-        )}
         {item.links.length > 0 && (
           <div className="mac-links">
             {item.links.map((link) => (
@@ -161,43 +146,30 @@ const MacCard = memo(function MacCard({ item, index, on }: { item: TimelineItem;
           </div>
         )}
       </div>
-      <div className="mac-aside">
-        {item.duration && (
-          <p className="mac-duration">
-            {item.duration.map((part) => (
-              <span key={part.unit}>
-                <b>{part.amount}</b> {part.unit}
-              </span>
-            ))}
-          </p>
-        )}
-        {item.images.length > 0 && (
-          <ul className="mac-photos">
-            {item.images.slice(0, 2).map((img) => (
-              <li key={img.src}>
-                <Image src={img.src} alt={img.alt} width={320} height={200} className="h-full w-full object-cover" />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {item.images.length > 0 && (
+        <ul className="mac-photos">
+          {item.images.slice(0, 2).map((img) => (
+            <li key={img.src}>
+              <Image src={img.src} alt={img.alt} width={320} height={200} className="h-full w-full object-cover" />
+            </li>
+          ))}
+        </ul>
+      )}
     </li>
   );
 });
 
-// Repère du chemin : clic = aller à l'étape. Mémoïsé pour la même raison.
+// Repère du chemin : clic = aller à l'étape. Il s'allume quand le trait l'atteint (CSS, --walked). Mémoïsé.
 const MacStop = memo(function MacStop({
   item,
   index,
   count,
-  passed,
   current,
   goTo,
 }: {
   item: TimelineItem;
   index: number;
   count: number;
-  passed: boolean;
   current: boolean;
   goTo: (index: number) => void;
 }) {
@@ -205,9 +177,8 @@ const MacStop = memo(function MacStop({
   return (
     <li
       className="mac-stop"
-      data-passed={passed || undefined}
       data-current={current || undefined}
-      style={{ left: `${(xAt(ti) / VB_W) * 100}%`, top: `${(yAt(ti) / VB_H) * 100}%` }}
+      style={{ left: `${(xAt(ti) / VB_W) * 100}%`, top: `${(yAt(ti) / VB_H) * 100}%`, "--ti": ti } as React.CSSProperties}
     >
       <button type="button" onClick={() => goTo(index)} className="mac-stop-btn" aria-current={current ? "step" : undefined}>
         <span className="mac-stop-dot" />

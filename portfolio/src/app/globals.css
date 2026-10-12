@@ -242,31 +242,54 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
   gap: 1.25rem;
   padding-left: 2.25rem;
 }
-.timeline-track,
-.timeline-fill {
+/* Rail : conteneur de taille, pour que le point se place en cqh (hauteur du rail) sans JavaScript. */
+.timeline-rail {
   position: absolute;
   left: 0.55rem;
   top: 0.5rem;
   bottom: 0.5rem;
   width: 2px;
+  container-type: size;
+  pointer-events: none;
+}
+.timeline-track,
+.timeline-fill {
+  position: absolute;
+  inset: 0;
   border-radius: 2px;
 }
 .timeline-track { background: var(--border); }
-.timeline-fill {
-  background: linear-gradient(180deg, var(--accent), #8b7dff);
-  transform-origin: top;
-  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent);
-}
-/* Remplissage lié au défilement de la frise (CSS, sans JavaScript). Repli : ligne pleine. */
+/* Même couleur que la barre de progression du haut (même variable). */
+.timeline-fill { background: var(--accent-violet); transform-origin: top; }
+.timeline-head { display: none; }
+/* Remplissage lié au défilement de la frise (CSS, sans JavaScript). Repli : ligne pleine, sans point.
+   Trait et point lisent la même animation (même timeline, même plage, linéaire) : le point est toujours
+   au bout du trait, sans lissage séparé. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .timeline { view-timeline: --frise block; }
-    .timeline-fill { animation: frise-fill linear both; animation-timeline: --frise; animation-range: cover 15% cover 75%; }
+    .timeline-fill,
+    .timeline-head { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --frise; animation-range: cover 15% cover 75%; }
+    .timeline-fill { animation-name: frise-fill; }
+    .timeline-head {
+      display: block;
+      position: absolute;
+      top: -0.4rem;
+      left: calc(50% - 0.4rem);
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      background: var(--accent-violet);
+      box-shadow: 0 0 0 4px var(--background);
+      animation-name: frise-head;
+    }
   }
 }
 @keyframes frise-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-.timeline-duration { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-warm); }
+@keyframes frise-head { from { transform: translateY(0); } to { transform: translateY(100cqh); } }
 .timeline-item { position: relative; }
+/* Repère fixe de chaque expérience, discret : seul le point de tête porte la couleur. Le rail passe devant. */
+.timeline-rail { z-index: 1; }
 .timeline-dot {
   position: absolute;
   left: -2.1rem;
@@ -291,7 +314,6 @@ a, button, .badge, [class*="border-accent"], [class*="text-accent"] {
 
 @media (prefers-reduced-motion: reduce) {
   .timeline-fill { transform: none !important; }
-  .timeline-dot { transform: none !important; opacity: 1 !important; }
 }
 
 /* Grand chiffre à points (404). */
@@ -1143,7 +1165,10 @@ h1, h2, .display {
   .mac-card:not([data-on]) { opacity: 0; pointer-events: none; }
 }
 .journey-stage { padding-block: 0; perspective: 1800px; }
-.journey-scene { display: grid; height: 100%; place-items: center; }
+/* --walked : progression du chemin (0 à 1), seule valeur animée ; marcheur, trait et repères la lisent,
+   donc avancent ensemble, avec le même easing. Enregistrée pour être interpolée. */
+@property --walked { syntax: '<number>'; inherits: true; initial-value: 0; }
+.journey-scene { display: grid; height: 100%; place-items: center; transition: --walked var(--dur-slow) var(--ease-in-out); }
 .journey-head {
   position: absolute;
   top: clamp(4.5rem, 12svh, 7rem);
@@ -1270,9 +1295,9 @@ h1, h2, .display {
   gap: 4cqw;
 }
 .mac-card-main { display: flex; flex-direction: column; gap: 1.2cqw; min-width: 0; }
-.mac-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2cqw; font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 1.05cqw; letter-spacing: 0.08em; text-transform: uppercase; }
-.mac-type { padding: 0.3cqw 0.9cqw; border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 999px; color: var(--accent); }
-.mac-period { color: var(--accent-warm); }
+/* Niveau secondaire : entreprise et période sur une ligne, sous le poste. */
+.mac-sub { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4cqw 1.6cqw; }
+.mac-period { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 1.05cqw; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tertiary); }
 .mac-role {
   font-family: var(--font-archivo), system-ui, sans-serif;
   font-size: 5cqw;
@@ -1289,22 +1314,17 @@ h1, h2, .display {
   color: var(--foreground);
 }
 .mac-desc { max-width: 54cqw; font-size: 1.4cqw; line-height: 1.55; color: var(--secondary); }
-.mac-tags { display: flex; flex-wrap: wrap; gap: 0.5cqw; font-size: 1cqw; }
 .mac-links { display: flex; flex-wrap: wrap; gap: 0.8cqw; }
-.mac-aside { display: flex; flex-direction: column; align-items: flex-end; gap: 2cqw; align-self: center; }
-/* Durée de l'expérience en grands chiffres à points : le chiffre clé de l'étape. */
-.mac-duration { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4cqw; font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 1.1cqw; letter-spacing: 0.08em; text-transform: uppercase; color: var(--secondary); }
-.mac-duration b { font-family: var(--font-doto), monospace; font-size: 9cqw; font-weight: 900; line-height: 0.85; letter-spacing: 0; color: var(--accent-warm); }
-.mac-photos { display: grid; gap: 1cqw; width: 22cqw; }
+.mac-photos { display: grid; gap: 1cqw; width: 22cqw; align-self: center; }
 .mac-photos li { aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1cqw; border: 1px solid var(--border); }
 
 /* Phrases clés d'une description : couleur d'accent, graisse plus forte. */
-.key-phrase { font-weight: 600; color: var(--foreground); background: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent) 38%, transparent) 62%); }
+.key-phrase { font-weight: 500; color: var(--accent); }
 
 .mac-path { position: relative; margin-top: 1cqw; padding-bottom: 3.6cqw; }
 .mac-path-svg { display: block; width: 100%; height: auto; overflow: visible; }
 .mac-path-rest { stroke: color-mix(in srgb, var(--foreground) 25%, transparent); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.mac-path-done { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.mac-path-done { stroke: var(--accent-violet); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 /* Tracé parcouru : un rectangle de découpe mis à l'échelle (transform) jusqu'au repère courant. */
 .mac-walked-rect {
   transform-box: fill-box;
@@ -1321,8 +1341,17 @@ h1, h2, .display {
   border-radius: 50%;
   background: #000;
 }
-.mac-stop[data-passed] .mac-stop-dot { border-color: var(--accent); background: var(--accent); }
-.mac-stop[data-current] .mac-stop-dot { box-shadow: 0 0 0 0.4cqw color-mix(in srgb, var(--accent) 35%, transparent); }
+/* Repère atteint : s'allume quand le trait (--walked) arrive à sa position (--ti), pas avant. */
+.mac-stop-dot { position: relative; }
+.mac-stop-dot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--accent-violet);
+  opacity: clamp(0, (var(--walked) - var(--ti)) * 60 + 1, 1);
+}
+.mac-stop[data-current] .mac-stop-dot::after { box-shadow: 0 0 0 0.4cqw color-mix(in srgb, var(--accent-violet) 35%, transparent); }
 .mac-stop-label { display: flex; flex-direction: column; align-items: center; margin-top: 1.7cqw; font-size: 0.95cqw; line-height: 1.25; color: var(--tertiary); text-align: center; }
 .mac-stop-label b { font-weight: 600; color: var(--secondary); }
 .mac-stop[data-current] .mac-stop-label b { color: var(--foreground); }
@@ -1334,8 +1363,8 @@ h1, h2, .display {
   top: 0;
   width: 0;
   height: 0;
-  transform: translate(calc(var(--x) * 1cqw), calc(var(--y) * 1cqh));
-  transition: transform var(--dur-slow) var(--ease-in-out);
+  /* x = 50 + 900 t et y = 70 + 34 sin(2,6 pi t + 0,5), dans un cadre de 1000 x 140 (journey-mac.tsx). */
+  transform: translate(calc((5 + 90 * var(--walked)) * 1cqw), calc((70 + 34 * sin(var(--walked) * 8.16814 + 0.5)) / 1.4 * 1cqh));
 }
 .mac-walker-img {
   position: absolute;
