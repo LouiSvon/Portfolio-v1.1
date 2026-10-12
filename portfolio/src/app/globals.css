@@ -1438,10 +1438,12 @@ h1, h2, .display {
 }
 /* Chiffre : police, graisse et taille des titres de section ; chiffres alignés sur la ligne de base. */
 .orbit-core b {
-  font-family: var(--font-doto), monospace;
-  font-size: calc(var(--orbit) * 0.22);
-  font-weight: 900;
-  line-height: 0.8;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: clamp(2rem, 1.2rem + 3.6vw, 3.6rem);
+  font-weight: 700;
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.045em;
   color: var(--accent);
 }
 .orbit-core span {
