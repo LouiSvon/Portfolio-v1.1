@@ -6,16 +6,8 @@ import { articles } from "@/data/articles";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // /cv et /experience redirigent vers /about : ils ne figurent pas ici.
-  const staticRoutes = [
-    "",
-    "/about",
-    "/projects",
-    "/blog",
-    "/contact",
-    "/legal",
-    "/privacy",
-  ];
+  // Une seule page de contenu ; les anciennes pages redirigent vers ses ancres et ne figurent pas ici.
+  const staticRoutes = ["", "/legal", "/privacy"];
 
   const staticEntries = locales.flatMap((locale) =>
     staticRoutes.map((route) => ({

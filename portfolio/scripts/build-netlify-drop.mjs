@@ -57,7 +57,15 @@ function restoreRestRoute(wasDisabled) {
 function prepareDropFolder() {
   removeDirectory(dropDir);
   fs.cpSync(outDir, dropDir, { recursive: true });
-  fs.writeFileSync(path.join(dropDir, "_redirects"), "/ /fr/ 302\n");
+  // Anciennes pages -> ancres de la page unique (même table que next.config.ts).
+  const oldPages = JSON.parse(fs.readFileSync(path.join(projectRoot, "old-pages.json"), "utf8"));
+  const rules = ["/ /fr/ 302"];
+  for (const locale of ["fr", "en"]) {
+    for (const [page, section] of Object.entries(oldPages)) {
+      rules.push(`/${locale}/${page} /${locale}/#${section} 301`, `/${locale}/${page}/ /${locale}/#${section} 301`);
+    }
+  }
+  fs.writeFileSync(path.join(dropDir, "_redirects"), `${rules.join("\n")}\n`);
 }
 
 let proxyWasDisabled = false;
