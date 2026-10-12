@@ -2,6 +2,7 @@ import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { ContactForm } from "@/components/ui/contact-form";
+import { PinTrack } from "@/components/ui/pin-track";
 
 function MailIcon() {
   return (
@@ -28,18 +29,20 @@ function LinkedInIcon() {
   );
 }
 
-// Contact : l'appel final. Le titre grandit en arrivant ; disponibilité, canaux directs et formulaire.
+// Contact : l'appel final. Le titre grandit en arrivant ; disponibilité, canaux directs, puis formulaire.
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
   const isAvailable = profile.available !== false;
 
   return (
-    <section id="contact" className="screen" aria-labelledby="contact-titre">
-      <div className="shell">
-        <h2 id="contact-titre" className="cta-xl scale-in text-primary">{t.contact.title}</h2>
-        <p className="section-subtitle fade-in !mt-0 mb-12">{t.contact.subtitle}</p>
-        <div className="contact-layout">
-          <div className="fade-in">
+    <section id="contact" aria-labelledby="contact-titre">
+      {/* Phase titre épinglée : l'appel, puis la disponibilité et les canaux directs. Le formulaire suit
+          dans le flux normal : épinglé, il serait masqué par le clavier virtuel sur mobile. */}
+      <PinTrack steps={2} step={30} tail={15} mode="all">
+        <div className="shell">
+          <h2 id="contact-titre" className="cta-xl scale-in text-primary">{t.contact.title}</h2>
+          <p className="section-subtitle step !mt-0 mb-10" data-from={0}>{t.contact.subtitle}</p>
+          <div className="step" data-from={1} data-step={1}>
             <p className="availability !mt-0">
               <span className={`availability-dot${isAvailable ? "" : " busy"}`} aria-hidden="true" />
               <span>{isAvailable ? t.contact.availabilityText : t.contact.unavailableText}</span>
@@ -70,10 +73,12 @@ export function ContactSection({ locale }: { locale: Locale }) {
               </a>
             </div>
           </div>
+        </div>
+      </PinTrack>
 
-          <div className="panel fade-in">
-            <ContactForm locale={locale} />
-          </div>
+      <div className="shell pb-[clamp(5rem,12vh,8rem)]">
+        <div className="panel fade-in contact-form-panel">
+          <ContactForm locale={locale} />
         </div>
       </div>
     </section>
