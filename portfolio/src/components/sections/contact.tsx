@@ -2,6 +2,7 @@ import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { ContactForm } from "@/components/ui/contact-form";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 
 function MailIcon() {
   return (
@@ -34,7 +35,8 @@ export function ContactSection({ locale }: { locale: Locale }) {
   const isAvailable = profile.available !== false;
 
   return (
-    <section id="contact" className="screen" aria-labelledby="contact-titre">
+    <section id="contact" className="screen has-backdrop" aria-labelledby="contact-titre">
+      <SectionBackdrop name="contact" motif="sunrise" tone="mix" />
       <div className="shell">
         <h2 id="contact-titre" className="cta-xl scale-in text-primary">{t.contact.title}</h2>
         <p className="section-subtitle fade-in !mt-0 mb-12">{t.contact.subtitle}</p>

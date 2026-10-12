@@ -7,6 +7,7 @@ import { ProjectStack } from "@/components/ui/project-stack";
 import { OtherProjects } from "@/components/ui/other-projects";
 import { toFilterItems } from "@/lib/project-scenes";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 
 // Ce que j'ai construit : les projets phares en cartes empilées, puis le reste des dépôts sur demande.
 // `repos` vient de l'API GitHub : vide si elle ne répond pas, les projets phares restent affichés.
@@ -34,7 +35,8 @@ export function ProjectsSection({ locale, repos }: { locale: Locale; repos: Proj
   const others = repos.filter((r) => !featuredRepos.has(r.name));
 
   return (
-    <section id="projets" className="screen" aria-labelledby="projets-titre">
+    <section id="projets" className="screen has-backdrop" aria-labelledby="projets-titre">
+      <SectionBackdrop name="projets" motif="horizon" tone="violet" />
       <div className="shell">
         <SectionHeading id="projets-titre" title={t.projects.title} />
         <ProjectStack scenes={scenes} labels={labels} />

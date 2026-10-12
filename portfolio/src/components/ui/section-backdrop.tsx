@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { sceneImage } from "@/lib/scenes";
 
-export type Motif = "topo" | "blueprint" | "orbits" | "horizon" | "waves" | "sunrise";
+export type Motif = "topo" | "blueprint" | "orbits" | "horizon" | "waves" | "sunrise" | "constellation";
 export type Tone = "blue" | "violet" | "warm" | "mix";
 
 const W = 1440;
@@ -21,8 +21,30 @@ function contour(cx: number, cy: number, rx: number, ry: number, k: number) {
   return line(pts);
 }
 
-// Les six décors sont des dessins au trait (currentColor), très discrets : chaque section a sa forme.
+// Constellation : points tirés d'une suite fixe (même dessin à chaque build), reliés à leurs voisins proches.
+const STARS = (() => {
+  let seed = 7;
+  const next = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  return Array.from({ length: 34 }, () => [next() * W, next() * H] as [number, number]);
+})();
+const LINKS = STARS.flatMap(([x, y], i) =>
+  STARS.slice(i + 1)
+    .filter(([x2, y2]) => Math.hypot(x - x2, y - y2) < 230)
+    .slice(0, 2)
+    .map(([x2, y2]) => `M${r1(x)} ${r1(y)}L${r1(x2)} ${r1(y2)}`),
+).join("");
+
+// Les sept décors sont des dessins au trait (currentColor), très discrets : chaque section a sa forme.
 const MOTIFS: Record<Motif, React.ReactNode> = {
+  // Constellation : le ciel du héros qui se prolonge.
+  constellation: (
+    <g>
+      <path d={LINKS} />
+      {STARS.map(([x, y], i) => (
+        <circle key={i} cx={r1(x)} cy={r1(y)} r={i % 5 === 0 ? 3.5 : 2} className="backdrop-fill" />
+      ))}
+    </g>
+  ),
   // Relief : courbes de niveau, comme une carte du chemin parcouru.
   topo: (
     <g>
