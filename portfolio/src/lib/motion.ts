@@ -26,9 +26,6 @@ export const distance = {
 
 export const stagger = 0.06; // décalage entre éléments d'un même groupe (s)
 
-// Lissage des effets liés au défilement (Motion) : ressort amorti, sans rebond.
-export const scrub = { stiffness: 120, damping: 30, mass: 0.4 } as const;
-
 // Allumage d'un point de la frise : léger rebond, seule exception voulue (effet validé par le propriétaire).
 export const pop = { type: "spring", stiffness: 300, damping: 18 } as const;
 
