@@ -4,7 +4,7 @@ import { memo, useEffect, useRef } from "react";
 import { PinTrack } from "@/components/ui/pin-track";
 import { SectionHeading } from "@/components/ui/section-heading";
 
-export type OrbitGroup = { title: string; items: { name: string; logo?: string }[] };
+export type OrbitGroup = { title: string; items: { name: string; logo?: string; color?: string }[] };
 
 // Anneaux : les premiers outils sur l'anneau intérieur, le reste sur l'extérieur.
 function rings(items: OrbitGroup["items"]) {
@@ -106,7 +106,11 @@ const OrbitSet = memo(function OrbitSet({ group, shown, countLabel }: { group: O
                 <span className="orbit-upright">
                   <span className="orbit-tile">
                     {item.logo ? (
-                      <span className="orbit-logo" style={{ "--logo": `url(${item.logo})` } as React.CSSProperties} aria-hidden="true" />
+                      <span
+                        className="orbit-logo"
+                        style={{ "--logo": `url(${item.logo})`, "--brand": item.color } as React.CSSProperties}
+                        aria-hidden="true"
+                      />
                     ) : (
                       <span aria-hidden="true">{item.name[0]}</span>
                     )}
