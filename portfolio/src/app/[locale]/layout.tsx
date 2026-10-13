@@ -73,6 +73,7 @@ export async function generateMetadata({
       locale: locale === "fr" ? "fr_FR" : "en_US",
       type: "website",
     },
+    twitter: { card: "summary_large_image" },
   };
 }
 

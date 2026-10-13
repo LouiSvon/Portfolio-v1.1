@@ -39,6 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternateLocale: locale === "fr" ? "en_US" : "fr_FR",
       type: "profile",
     },
+    // Grande image d'aperçu (opengraph-image.tsx) ; X reprend og:image faute de twitter:image.
+    twitter: { card: "summary_large_image", title, description: t.meta.description },
   };
 }
 

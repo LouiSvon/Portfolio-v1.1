@@ -66,6 +66,9 @@ function prepareDropFolder() {
     }
   }
   fs.writeFileSync(path.join(dropDir, "_redirects"), `${rules.join("\n")}\n`);
+  // Image d'aperçu de partage : exportée sans extension, elle doit être servie en PNG pour LinkedIn et les messageries.
+  const headers = ["fr", "en"].map((locale) => `/${locale}/opengraph-image\n  Content-Type: image/png`);
+  fs.writeFileSync(path.join(dropDir, "_headers"), `${headers.join("\n")}\n`);
 }
 
 let proxyWasDisabled = false;
