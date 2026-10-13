@@ -10,6 +10,8 @@ export interface Highlight {
   kind: Record<Locale, string>;
   // Rôle tenu, affiché seulement s'il est prouvé (CV, README, dépôt). Absent : à demander, jamais deviné.
   role?: Record<Locale, string>;
+  // Projet du cursus Epitech : cité dans la fiche du diplôme (Formation).
+  school?: boolean;
   // Couleurs propres au projet (lueur de la carte).
   colors: [string, string];
   stack: string[];
@@ -58,6 +60,7 @@ export const highlights: Highlight[] = [
       en: "Job offers in one place, filterable, with market statistics.",
     },
     kind: { fr: "Web · Projet Epitech", en: "Web · Epitech project" },
+    school: true,
     colors: ["#2ee6a6", "#00b3ff"],
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
     imageAlt: {

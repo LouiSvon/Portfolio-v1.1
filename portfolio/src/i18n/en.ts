@@ -70,6 +70,10 @@ const en: Translations = {
   education: {
     title: "Education",
     studies: "Studies",
+    degree: "Computer science bachelor",
+    school: "Epitech Marseille",
+    year: "Second year",
+    schoolProject: "Curriculum project",
     domains: "Fields of expertise",
     domainList: ["AI", "Blockchain", "Prompt engineering"],
     certifications: "Certifications",
@@ -78,7 +82,6 @@ const en: Translations = {
     expires: "Expires",
     downloadCV: "Download resume (PDF, French)",
     openCV: "Open",
-    linkedin: "LinkedIn →",
   },
   articles: {
     readingTime: "min read",

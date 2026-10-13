@@ -4,7 +4,7 @@ import { profile } from "@/data/profile";
 import { experiences } from "@/data/experience";
 import { certificationsBySector } from "@/data/certifications";
 import { PinTrack } from "@/components/ui/pin-track";
-import { TiltCard } from "@/components/ui/tilt-card";
+import { highlights } from "@/data/highlights";
 
 function GoogleLogo() {
   return (
@@ -37,34 +37,32 @@ function NotionLogo() {
 
 const LOGOS = { bitcoin: <BitcoinLogo />, google: <GoogleLogo />, notion: <NotionLogo /> };
 
-// Teinte de chaque secteur de certification et de chaque domaine (bleu et violet de la palette).
-const SECTOR_TONES = ["violet", "blue", "violet"] as const;
+// Teinte de chaque domaine (bleu et violet de la palette).
 const DOMAIN_TONES = ["blue", "violet", "blue"] as const;
 
-// Formation, sur un seul écran. Grille commune : en haut le titre et le CV, puis les domaines de compétence en
-// grand (IA, Blockchain, Prompt engineering) ; en bas les études et les certifications, deux panneaux de même
-// départ, même hauteur, mêmes marges et mêmes arrondis. Grand écran : section épinglée, les études, les domaines
-// puis les certifications s'allument au fil du défilement. Ailleurs : empilés, dans le flux.
+// Formation, sur un écran. En tête : titre et CV. Dessous, deux colonnes de lecture : à gauche la fiche du diplôme
+// (intitulé, école, période, ce qu'on y apprend, projet de cursus), à droite les certifications en liste, une ligne
+// chacune (titre, organisme, date, lien de vérification), précédées des domaines qu'elles couvrent.
+// Grand écran : section épinglée, le diplôme puis les certifications s'allument au fil du défilement.
+// Ailleurs : empilés, dans le flux.
 export function EducationSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
   const studies = experiences.filter((e) => e.type === "education");
-  const certs = certificationsBySector.flatMap((sector, s) => sector.certifs.map((cert) => ({ sector, cert, tone: SECTOR_TONES[s % 3] })));
+  const certs = certificationsBySector.flatMap((sector) => sector.certifs.map((cert) => ({ sector, cert })));
+  const schoolProject = highlights.find((h) => h.school);
   const cvHref = `/${profile.cvFile}`;
 
   return (
-    <PinTrack id="formation" labelledBy="formation-titre" steps={3} step={35} tail={25} mode="wide" stageClassName="edu-stage">
+    <PinTrack id="formation" labelledBy="formation-titre" steps={2} step={35} tail={25} mode="wide" stageClassName="edu-stage">
       <div className="shell edu-grid">
         <div className="edu-head fade-in">
           <h2 id="formation-titre" className="section-title">{t.education.title}</h2>
-          <div className="edu-cta mt-6 flex flex-wrap gap-3">
+          <div className="edu-cta flex flex-wrap gap-3">
             <a href={cvHref} download={profile.cvDownloadName} className="btn-pill">
               {t.education.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
             </a>
             <a href={cvHref} target="_blank" rel="noopener noreferrer" className="btn-ghost">
               {t.education.openCV} <span className="arrow" aria-hidden="true">&rarr;</span>
-            </a>
-            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost">
-              {t.education.linkedin}
             </a>
           </div>
         </div>
@@ -73,57 +71,70 @@ export function EducationSection({ locale }: { locale: Locale }) {
           <h3 className="eyebrow">{t.education.studies}</h3>
           {studies.map((exp) => (
             <article key={exp.startDate} className="study">
-              <h4 className="study-school">
+              <p className="study-degree">{t.education.degree}</p>
+              <p className="study-meta">
                 {exp.companyUrl ? (
-                  <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-8 hover:underline">
-                    {exp.company[locale]} <span aria-hidden="true" className="text-secondary">&#8599;</span>
+                  <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="study-school">
+                    {t.education.school} <span aria-hidden="true">&#8599;</span>
                   </a>
                 ) : (
-                  exp.company[locale]
+                  <span className="study-school">{t.education.school}</span>
                 )}
-              </h4>
-              <p className="study-role">{exp.role[locale]}</p>
-              <time className="study-period">
+                <span aria-hidden="true">·</span>
+                <span>{t.education.year}</span>
+              </p>
+              <time className="study-period" dateTime={exp.startDate}>
                 {formatDate(exp.startDate, locale)} — {exp.endDate ? formatDate(exp.endDate, locale) : t.journey.present}
               </time>
+              <p className="study-desc">{exp.description[locale]}</p>
+              {schoolProject && (
+                <a
+                  href={`https://github.com/${profile.github}/${schoolProject.repo}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="study-project"
+                >
+                  <span className="eyebrow">{t.education.schoolProject}</span>
+                  <span className="study-project-title">
+                    {schoolProject.title[locale]} <span aria-hidden="true">&#8599;</span>
+                  </span>
+                  <span className="text-sm text-secondary">{schoolProject.stack.join(" · ")}</span>
+                </a>
+              )}
             </article>
           ))}
         </div>
 
-        <div className="edu-domains step fade-in" data-from={1} data-step={1}>
-          <h3 className="eyebrow mb-4">{t.education.domains}</h3>
-          <ul className="domain-list">
-            {t.education.domainList.map((label, i) => (
-              <li key={label} className="domain" data-tone={DOMAIN_TONES[i % DOMAIN_TONES.length]}>{label}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="edu-panel edu-certs step fade-in" data-from={2} data-step={2}>
-          <h3 className="eyebrow">{t.education.certifications}</h3>
-          <ul className="cred-grid">
-            {certs.map(({ sector, cert, tone }) => {
+        <div className="edu-panel edu-certs step fade-in" data-from={1} data-step={1}>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="eyebrow">{t.education.certifications}</h3>
+            <ul className="domain-list" aria-label={t.education.domains}>
+              {t.education.domainList.map((label, i) => (
+                <li key={label} className="domain" data-tone={DOMAIN_TONES[i % DOMAIN_TONES.length]}>{label}</li>
+              ))}
+            </ul>
+          </div>
+          <ul className="cred-list">
+            {certs.map(({ sector, cert }) => {
               const logo = cert.logo ?? sector.logo;
               const pending = cert.statut === "en_cours";
               return (
-                <li key={cert.titre.en}>
-                  <TiltCard className={`cred-card${pending ? " is-pending" : ""}`}>
-                    <div className="flex items-center gap-3">
-                      <span className="cred-logo" aria-hidden="true">{logo ? LOGOS[logo] : null}</span>
-                      <span className="cred-sector" data-tone={tone}>{sector.secteur[locale]}</span>
-                    </div>
+                <li key={cert.titre.en} className="cred-row">
+                  <span className="cred-logo" aria-hidden="true">{logo ? LOGOS[logo] : null}</span>
+                  <div className="min-w-0 flex-1">
                     <h4 className="cred-title">{cert.titre[locale]}</h4>
-                    <p className="text-xs text-secondary">
+                    <p className="text-sm text-secondary">
                       {cert.organisme}
                       {pending ? ` · ${t.education.inProgress}` : cert.date ? ` · ${cert.date}` : ""}
                       {cert.expiration && ` · ${t.education.expires} ${cert.expiration}`}
                     </p>
-                    {cert.lien && (
-                      <a href={cert.lien} target="_blank" rel="noopener noreferrer" className="cred-link after:absolute after:inset-0">
-                        {t.education.viewCertificate}
-                      </a>
-                    )}
-                  </TiltCard>
+                  </div>
+                  {cert.lien && (
+                    <a href={cert.lien} target="_blank" rel="noopener noreferrer" className="cred-link">
+                      {t.education.viewCertificate}
+                      <span className="sr-only"> : {cert.titre[locale]}</span>
+                    </a>
+                  )}
                 </li>
               );
             })}

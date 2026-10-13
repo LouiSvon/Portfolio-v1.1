@@ -72,6 +72,11 @@ export interface Translations {
   education: {
     title: string;
     studies: string;
+    // Fiche du diplôme : intitulé (CV), école, année en cours (bio), projet de cursus.
+    degree: string;
+    school: string;
+    year: string;
+    schoolProject: string;
     domains: string;
     // Domaines mis en avant dans Formation (même ordre et même nombre en FR et en EN).
     domainList: string[];
@@ -81,7 +86,6 @@ export interface Translations {
     expires: string;
     downloadCV: string;
     openCV: string;
-    linkedin: string;
   };
   articles: {
     readingTime: string;
@@ -226,6 +230,10 @@ const fr: Translations = {
   education: {
     title: "Formation",
     studies: "Études",
+    degree: "Bachelor informatique",
+    school: "Epitech Marseille",
+    year: "2e année",
+    schoolProject: "Projet de cursus",
     domains: "Domaines de compétence",
     domainList: ["IA", "Blockchain", "Prompt engineering"],
     certifications: "Certifications",
@@ -234,7 +242,6 @@ const fr: Translations = {
     expires: "Expire",
     downloadCV: "Télécharger le CV (PDF)",
     openCV: "Ouvrir",
-    linkedin: "LinkedIn →",
   },
   articles: {
     readingTime: "min de lecture",
