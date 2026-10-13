@@ -20,10 +20,11 @@ const en: Translations = {
   },
   hero: {
     role: "Computer science student, specializing in AI",
-    available: "Internship from April 2027 · Work-study 2027-2028",
+    what: "I build web applications and AI tools.",
+    available: "3-month internship from April 2027 · Work-study 2027-2028",
     portraitAlt: "Portrait of",
     cta: {
-      cv: "Download my resume (PDF)",
+      cv: "Download my resume (PDF, French)",
       contact: "Get in touch",
     },
   },
@@ -75,7 +76,7 @@ const en: Translations = {
     viewCertificate: "View certificate →",
     inProgress: "In progress",
     expires: "Expires",
-    downloadCV: "Download resume (PDF)",
+    downloadCV: "Download resume (PDF, French)",
     openCV: "Open",
     linkedin: "LinkedIn →",
   },
@@ -128,6 +129,7 @@ const en: Translations = {
     mentionsLegales: "Legal notice",
     privacy: "Privacy policy",
     copyright: "Louis Savon",
+    cv: "Resume (PDF, French)",
   },
   legal: {
     title: "Legal notice",

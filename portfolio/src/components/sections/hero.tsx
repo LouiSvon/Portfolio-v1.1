@@ -22,7 +22,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
       </div>
 
       <div className="hero-content mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,3rem)] text-center">
-        <p className="avail-pill reveal-soft whitespace-nowrap text-xs text-secondary sm:text-sm" style={delay(0.05)}>
+        <p className="avail-pill reveal-soft max-w-full text-xs text-secondary sm:whitespace-nowrap sm:text-sm" style={delay(0.05)}>
           <Image
             src="/portrait.jpg"
             alt={`${t.hero.portraitAlt} ${profile.name}`}
@@ -32,7 +32,15 @@ export function HeroSection({ locale }: { locale: Locale }) {
             className="hidden h-8 w-8 object-cover sm:block"
           />
           <span className="availability-dot" aria-hidden="true" />
-          <span>{t.hero.available}</span>
+          {/* Chaque moitié reste sur une ligne : sur petit écran, la coupure tombe au point médian. */}
+          <span>
+            {t.hero.available.split(" · ").map((part, i) => (
+              <span key={part}>
+                {i > 0 && " · "}
+                <span className="whitespace-nowrap">{part}</span>
+              </span>
+            ))}
+          </span>
         </p>
 
         <h1 id="accueil-titre" className="hero-name mt-8 text-primary">
@@ -43,9 +51,10 @@ export function HeroSection({ locale }: { locale: Locale }) {
           {t.hero.role.slice(0, roleCut)}
           <span className="hero-role-hl">{t.hero.role.slice(roleCut)}</span>
         </p>
+        <p className="reveal-soft mt-3 max-w-xl text-base text-secondary sm:text-lg" style={delay(0.5)}>{t.hero.what}</p>
 
         <div className="reveal-soft mt-10 flex flex-wrap justify-center gap-3" style={delay(0.6)}>
-          <a href={`/${profile.cvFile}`} download={profile.cvFile} className="btn-pill">
+          <a href={`/${profile.cvFile}`} download={profile.cvDownloadName} className="btn-pill">
             {t.hero.cta.cv} <span className="arrow" aria-hidden="true">&darr;</span>
           </a>
           <a href="#contact" className="btn-ghost">

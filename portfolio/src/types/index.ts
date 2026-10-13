@@ -12,6 +12,8 @@ export interface Profile {
   blog?: string;
   available?: boolean;
   cvFile: string;
+  // Nom du fichier enregistré au téléchargement (attribut download), distinct du chemin public.
+  cvDownloadName: string;
 }
 
 export interface Experience {

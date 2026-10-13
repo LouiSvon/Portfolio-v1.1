@@ -19,6 +19,8 @@ export interface Translations {
   };
   hero: {
     role: string;
+    // Ce que je fais, en une phrase : la première vue doit le dire sans défiler.
+    what: string;
     available: string;
     portraitAlt: string;
     cta: {
@@ -130,6 +132,7 @@ export interface Translations {
     mentionsLegales: string;
     privacy: string;
     copyright: string;
+    cv: string;
   };
   legal: {
     title: string;
@@ -173,7 +176,8 @@ const fr: Translations = {
   },
   hero: {
     role: "Étudiant en informatique, spécialité IA",
-    available: "Stage dès avril 2027 · Alternance 2027-2028",
+    what: "Je conçois des applications web et des outils d'IA.",
+    available: "Stage de 3 mois dès avril 2027 · Alternance 2027-2028",
     portraitAlt: "Portrait de",
     cta: {
       cv: "Télécharger mon CV (PDF)",
@@ -281,6 +285,7 @@ const fr: Translations = {
     mentionsLegales: "Mentions légales",
     privacy: "Politique de confidentialité",
     copyright: "Louis Savon",
+    cv: "CV (PDF)",
   },
   legal: {
     title: "Mentions légales",

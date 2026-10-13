@@ -7,6 +7,7 @@ import type { Locale } from "@/types";
 import type { NavItem } from "@/lib/sections";
 import { LanguageSwitch } from "@/components/ui/language-switch";
 import { SectionLink, useActiveSection, useIsHome } from "@/components/ui/section-nav";
+import { externalProps, socialLinks } from "@/components/ui/social-links";
 
 type MobileNavigationProps = {
   closeLabel: string;
@@ -82,8 +83,15 @@ export function MobileNavigation({
                 {item.label}
               </SectionLink>
             ))}
-            <div className="mt-2 border-t border-border px-3 pt-3">
+            <div className="mt-2 flex items-center justify-between gap-2 border-t border-border px-3 pt-3">
               <LanguageSwitch locale={locale} />
+              <div className="flex items-center gap-1">
+                {socialLinks.map(({ href, label, Icon, external }) => (
+                  <a key={label} href={href} {...(external ? externalProps : {})} aria-label={label} title={label} className="dock-icon">
+                    <Icon />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

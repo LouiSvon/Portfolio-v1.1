@@ -3,6 +3,7 @@ import { getTranslations } from "@/lib/i18n";
 import { profile } from "@/data/profile";
 import { ContactForm } from "@/components/ui/contact-form";
 import { PinTrack } from "@/components/ui/pin-track";
+import { DocIcon } from "@/components/ui/social-links";
 
 function MailIcon() {
   return (
@@ -29,7 +30,7 @@ function LinkedInIcon() {
   );
 }
 
-// Contact : l'appel final. Le titre grandit en arrivant ; disponibilité, canaux directs, puis formulaire.
+// Contact : l'appel final. Le titre grandit en arrivant ; disponibilité, canaux directs et CV, puis formulaire.
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
   const isAvailable = profile.available !== false;
@@ -70,6 +71,10 @@ export function ContactSection({ locale }: { locale: Locale }) {
               >
                 <LinkedInIcon />
                 LinkedIn
+              </a>
+              <a href={`/${profile.cvFile}`} download={profile.cvDownloadName} className="contact-link">
+                <DocIcon />
+                {t.education.downloadCV}
               </a>
             </div>
           </div>

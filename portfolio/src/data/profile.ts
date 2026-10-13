@@ -21,4 +21,5 @@ export const profile: Profile = {
   blog: "",
   available: true,
   cvFile: "Louis_Savon.pdf",
+  cvDownloadName: "Louis_Savon_CV.pdf",
 };

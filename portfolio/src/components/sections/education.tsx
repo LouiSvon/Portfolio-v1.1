@@ -57,7 +57,7 @@ export function EducationSection({ locale }: { locale: Locale }) {
         <div className="edu-head fade-in">
           <h2 id="formation-titre" className="section-title">{t.education.title}</h2>
           <div className="edu-cta mt-6 flex flex-wrap gap-3">
-            <a href={cvHref} download={profile.cvFile} className="btn-pill">
+            <a href={cvHref} download={profile.cvDownloadName} className="btn-pill">
               {t.education.downloadCV} <span className="arrow" aria-hidden="true">&darr;</span>
             </a>
             <a href={cvHref} target="_blank" rel="noopener noreferrer" className="btn-ghost">

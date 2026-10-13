@@ -447,7 +447,8 @@ h1, h2, .display {
 }
 .avail-pill img { border-radius: 999px; }
 /* Portrait masqué sur petit écran : la pastille garde une marge égale. */
-@media (max-width: 639px) { .avail-pill { padding-left: 1rem; } }
+/* Petit écran : la disponibilité peut passer sur deux lignes plutôt que déborder. */
+@media (max-width: 639px) { .avail-pill { padding-left: 1rem; border-radius: 1.25rem; text-align: left; } }
 
 /* ── Héros : centré, grille de points vivante ──────────── */
 .hero-screen {
@@ -750,6 +751,17 @@ h1, h2, .display {
   box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 .dock-sep { width: 1px; height: 1.1rem; margin-inline: 0.35rem; background: color-mix(in srgb, var(--foreground) 14%, transparent); }
+.dock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  color: var(--secondary);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.dock-icon:hover { color: var(--accent); }
 .lang-switch {
   display: inline-flex;
   gap: 0.15rem;
