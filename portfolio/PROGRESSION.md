@@ -46,3 +46,13 @@ Relecture faite (4 défauts, 0 bloquant), corrigés : mots clés de l'accroche d
 repli et cartes superposées avant hydratation, marge du blog épinglé jamais appliquée. Débordement des scènes
 mesuré à 360x600, 768x600, 1024x700, 1440x900 : 0 px partout (témoin positif détecté). Export Netlify fait.
 Poussé. Reste : rapport. Réduire les animations vérifié (docs/perf-diagnostic.md). Non vérifié : Safari / WebKit, appareils réels.
+
+## Chantier 3 : vitrine recruteur, points 10 à 15 (branche feature/vitrine-recruteur, 13/10/2026)
+But : un recruteur comprend en dix secondes qui, quoi, quoi chercher ; projets, CV, certifications vérifiables ; contact en un clic.
+- [x] Contact en un clic dans la navigation, CV rappelé en fin de page (c2e2f64)
+- [x] Première vue : phrase métier, durée du stage ; mesuré 1440x900, 375x667, 360x640, 0 px de débordement
+- [x] Projets : rôle prouvé, stack conforme aux README (a62c328)
+- [x] Noms GDG et certificats, confidentialité (e3b6b0e)
+- [x] Image d'aperçu par langue, export Netlify en PNG (20e4a09)
+- [x] Rapport : docs/rapport-vitrine-recruteur.md (questions Q1 à Q12, incohérences CV, légal)
+Reste : réponses de Louis (Q1 à Q12), CV Canva à refaire (FR et EN), fusion dans main (site en ligne = ancienne version).
