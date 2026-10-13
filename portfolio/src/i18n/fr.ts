@@ -175,7 +175,7 @@ const fr: Translations = {
     close: "Fermer",
   },
   hero: {
-    role: "Étudiant en informatique, spécialité IA",
+    role: "Étudiant en informatique, futur consultant IA",
     what: "Je conçois des applications web et des outils d'IA.",
     available: "Stage de 3 mois en conseil IA dès avril 2027 · Alternance 2027-2028",
     portraitAlt: "Portrait de",

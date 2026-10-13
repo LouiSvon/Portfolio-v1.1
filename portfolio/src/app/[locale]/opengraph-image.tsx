@@ -49,16 +49,20 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
+              gap: 6,
               alignSelf: "flex-start",
               marginTop: 40,
-              padding: "12px 26px",
+              padding: "14px 26px",
               border: "2px solid #2a2a33",
-              borderRadius: 999,
+              borderRadius: 24,
               fontSize: 24,
-              whiteSpace: "nowrap",
             }}
           >
-            {t.hero.available}
+            {/* Stage puis alternance, une ligne chacun : sur une seule ligne, le texte anglais déborde. */}
+            {t.hero.available.split(" · ").map((part) => (
+              <div key={part} style={{ display: "flex" }}>{part}</div>
+            ))}
           </div>
         </div>
       </div>

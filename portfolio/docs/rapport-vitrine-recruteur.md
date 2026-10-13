@@ -28,7 +28,7 @@ Première vue mesurée sur le build de production local (`next start`), sans dé
 
 | Fenêtre | Qui | Ce que je fais | Ce que je cherche | CV visible | Contact visible | Débordement |
 |---|---|---|---|---|---|---|
-| 1440x900 (FR) | Louis Savon, Étudiant en informatique, spécialité IA | Je conçois des applications web et des outils d'IA. | Stage de 3 mois dès avril 2027 · Alternance 2027-2028 | oui | oui | 0 px |
+| 1440x900 (FR) | Louis Savon, Étudiant en informatique, futur consultant IA | Je conçois des applications web et des outils d'IA. | Stage de 3 mois dès avril 2027 · Alternance 2027-2028 | oui | oui | 0 px |
 | 375x667 (EN) | idem | I build web applications and AI tools. | 3-month internship from April 2027 · Work-study 2027-2028 | oui | oui | 0 px |
 | 360x640 (FR) | idem | idem | pastille sur deux lignes, coupée au point médian | oui | oui | 0 px |
 
@@ -36,7 +36,7 @@ Preuve : sonde `getBoundingClientRect` sur `.hero-screen a[download]` et `a[href
 
 **Reste ouvert (Q2)** : le site dit « stage » sans dire **de quoi**. Un recruteur ne sait pas si vous visez du développement web, de l'IA, de la data ou autre chose. L'ancien rapport évoquait aussi le conseil. Je n'ai rien ajouté : l'information n'est nulle part dans le site ni le CV.
 
-**Supposé** : « spécialité IA » n'apparaît ni dans le CV (« Bachelor informatique ») ni dans la description Epitech du site (« web, systèmes, données et IA »). Si ce n'est pas l'intitulé officiel, un recruteur qui vérifie peut y voir une exagération (Q3).
+**Résolu le 13/10/2026** : le rôle devient « Étudiant en informatique, futur consultant IA » (« spécialité IA » n'était étayé ni par le CV ni par la description Epitech). La partie après la virgule ressort en bleu, insécable.
 
 ## 11. Projets et réalisations
 
@@ -147,7 +147,7 @@ Ce qui suit n'est pas un avis juridique. Sources officielles en fin de rapport.
 
 ## 15. Partage et première impression hors site
 
-- **Aperçu de lien** (vérifié sur le build) : `og:image` 1200x630 par langue, `og:image:alt`, `twitter:card = summary_large_image`, titre « Louis Savon — Étudiant en informatique, spécialité IA », description en français sur `/fr`, en anglais sur `/en`. L'image est générée depuis le portrait du site : **aucune image à fournir**. Si vous préférez une photo plus récente ou un fond différent, déposer un portrait carré d'au moins 600 px à la place de `public/portrait.jpg`.
+- **Aperçu de lien** (vérifié sur le build) : `og:image` 1200x630 par langue, `og:image:alt`, `twitter:card = summary_large_image`, titre « Louis Savon — Étudiant en informatique, futur consultant IA », description en français sur `/fr`, en anglais sur `/en`. L'image est générée depuis le portrait du site : **aucune image à fournir**. Si vous préférez une photo plus récente ou un fond différent, déposer un portrait carré d'au moins 600 px à la place de `public/portrait.jpg`.
 - **À tester après déploiement** : l'inspecteur de publication LinkedIn (Post Inspector) met en cache l'ancien aperçu ; le relancer une fois en ligne.
 - **Titre de page** : contient votre nom et votre profil (vérifié).
 - **Trouvable sur votre nom** : non vérifiable d'ici. Une recherche web sur « Louis Savon » Epitech ne renvoie rien, mais ce moteur n'est pas Google. Le `sitemap.xml`, `robots.txt`, le `canonical`, les `hreflang` et les données structurées `Person` (avec GitHub et LinkedIn en `sameAs`) sont en place. Recommandé : déclarer le site dans Google Search Console et y soumettre le sitemap ; ajouter le lien du site sur GitHub (champ « Website ») et LinkedIn (« Coordonnées » et section « Sélection »).
@@ -156,7 +156,7 @@ Ce qui suit n'est pas un avis juridique. Sources officielles en fin de rapport.
 
 - **Q1. Mise en ligne** : fusionner `feature/vitrine-recruteur` dans `main` pour déployer ? a) oui, j'ouvre la PR ; b) pas encore.
 - **Q2. Poste visé** : **répondu le 13/10/2026** : stage pour devenir consultant IA. Intégré : « Stage de 3 mois en conseil IA dès avril 2027 » (pastille, contact, description, image d'aperçu, FR et EN).
-- **Q3. « Spécialité IA »** : a) c'est l'intitulé officiel de votre parcours ; b) non, on écrit « Étudiant en informatique » et on garde l'IA dans la phrase métier.
+- **Q3. Rôle** : **répondu le 13/10/2026** : « futur consultant IA ».
 - **Q4. Freelance** : a) 2022 seulement (le site a raison) ; b) de 2022 à 2026 (le CV a raison, le site est à corriger) ; c) autre.
 - **Q5. Voyage** : a) environ 13 mois (le site) ; b) 2 ans (le CV).
 - **Q6. pass-gdg** : a) bénévolat ; b) stage. Et : seul ou en équipe ? La carte est-elle utilisée par l'association ?

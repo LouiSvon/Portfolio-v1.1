@@ -19,7 +19,7 @@ const en: Translations = {
     close: "Close",
   },
   hero: {
-    role: "Computer science student, specializing in AI",
+    role: "Computer science student, future AI consultant",
     what: "I build web applications and AI tools.",
     available: "3-month AI consulting internship from April 2027 · Work-study 2027-2028",
     portraitAlt: "Portrait of",

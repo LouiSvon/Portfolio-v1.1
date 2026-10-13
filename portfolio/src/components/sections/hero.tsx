@@ -11,8 +11,10 @@ const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as React.CSSProper
 // affiché en premier (LCP), rendu côté serveur. Au défilement, le fond dérive et le texte s'efface (CSS).
 export function HeroSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
-  // Le dernier mot du rôle (« IA », « AI ») ressort en bleu.
-  const roleCut = t.hero.role.lastIndexOf(" ") + 1;
+  // La partie après la virgule (« futur consultant IA », « future AI consultant ») ressort en bleu ;
+  // sans virgule, le dernier mot.
+  const comma = t.hero.role.indexOf(", ");
+  const roleCut = comma >= 0 ? comma + 2 : t.hero.role.lastIndexOf(" ") + 1;
 
   return (
     <section id="accueil" className="hero-screen" aria-labelledby="accueil-titre">
@@ -49,7 +51,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
 
         <p className="reveal-soft mt-6 max-w-xl text-lg text-secondary sm:text-2xl" style={delay(0.45)}>
           {t.hero.role.slice(0, roleCut)}
-          <span className="hero-role-hl">{t.hero.role.slice(roleCut)}</span>
+          <span className="hero-role-hl whitespace-nowrap">{t.hero.role.slice(roleCut)}</span>
         </p>
         <p className="reveal-soft mt-3 max-w-xl text-base text-secondary sm:text-lg" style={delay(0.5)}>{t.hero.what}</p>
 
