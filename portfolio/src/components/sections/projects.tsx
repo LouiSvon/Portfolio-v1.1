@@ -22,6 +22,7 @@ export function ProjectsSection({ locale, repos }: { locale: Locale; repos: Proj
       title: h.title[locale],
       tagline: h.tagline[locale],
       kind: h.kind[locale],
+      role: h.role?.[locale],
       chips: h.stack,
       href: repo?.url ?? `https://github.com/${profile.github}/${h.repo}`,
       colors: h.colors,

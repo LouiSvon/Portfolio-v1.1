@@ -10,6 +10,7 @@ export type Scene = {
   title: string;
   tagline?: string;
   kind?: string;
+  role?: string;
   chips: string[];
   href: string;
   colors: [string, string];
@@ -85,6 +86,11 @@ export function ProjectScene({ scene, index, labels }: { scene: Scene; index: nu
         {scene.tagline && (
           <motion.p className="proj-tagline showcase-anim" variants={fadeUp}>
             {scene.tagline}
+          </motion.p>
+        )}
+        {scene.role && (
+          <motion.p className="proj-role showcase-anim" variants={fadeUp}>
+            {scene.role}
           </motion.p>
         )}
         {scene.chips.length > 0 && (

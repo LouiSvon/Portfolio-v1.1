@@ -622,6 +622,7 @@ h1, h2, .display {
   color: var(--foreground);
 }
 .proj-tagline { max-width: 30rem; color: var(--secondary); }
+.proj-role { font-size: 0.85rem; color: var(--secondary); }
 .proj-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; padding-top: 0.5rem; }
 .proj-chip {
   padding: 0.3rem 0.7rem;

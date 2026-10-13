@@ -8,6 +8,8 @@ export interface Highlight {
   // Version courte du résumé, affichée sur l'accueil.
   tagline: Record<Locale, string>;
   kind: Record<Locale, string>;
+  // Rôle tenu, affiché seulement s'il est prouvé (CV, README, dépôt). Absent : à demander, jamais deviné.
+  role?: Record<Locale, string>;
   // Couleurs propres au projet (lueur de la carte).
   colors: [string, string];
   stack: string[];
@@ -28,12 +30,14 @@ export const highlights: Highlight[] = [
       en: "A digital membership card for the association, verifiable through a signed QR code, with a dashboard to manage members and event check-ins.",
     },
     tagline: {
-      fr: "Carte de membre numérique, vérifiable par QR code signé.",
-      en: "Digital membership card, verifiable through a signed QR code.",
+      fr: "Gérer les adhérents de l'association et vérifier une carte de membre par QR code signé.",
+      en: "Manage the association's members and verify a membership card through a signed QR code.",
     },
     kind: { fr: "Web · Association", en: "Web · Association" },
+    // CV : « Bénévole, Google Developer Group (GDG) Marseille : développement d'une carte membre numérique ».
+    role: { fr: "Développeur bénévole au GDG Marseille", en: "Volunteer developer at GDG Marseille" },
     colors: ["#4f8cff", "#9b6bff"],
-    stack: ["Next.js", "TypeScript", "Supabase", "Vitest"],
+    stack: ["Next.js", "TypeScript", "SQLite", "Vitest"],
     imageAlt: {
       fr: "Capture d'écran de la carte de membre GDG Marseille",
       en: "Screenshot of the GDG Marseille membership card",
@@ -72,10 +76,11 @@ export const highlights: Highlight[] = [
       en: "A macOS app that shows an AI subscription's usage in the menu bar, with an animated T-Rex whose state follows usage.",
     },
     tagline: {
-      fr: "L'usage d'un abonnement d'IA dans la barre de menu macOS, avec un T-Rex animé.",
-      en: "An AI subscription's usage in the macOS menu bar, with an animated T-Rex.",
+      fr: "L'usage d'un abonnement d'IA dans la barre de menu macOS, sans ouvrir le navigateur.",
+      en: "An AI subscription's usage in the macOS menu bar, without opening a browser.",
     },
     kind: { fr: "App macOS", en: "macOS app" },
+    role: { fr: "Projet personnel : conception et développement", en: "Personal project: design and development" },
     colors: ["var(--accent-violet)", "#ff3d7f"],
     stack: ["Swift", "SwiftUI", "AppKit"],
     imageAlt: {
