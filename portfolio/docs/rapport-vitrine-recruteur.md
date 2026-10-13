@@ -155,7 +155,7 @@ Ce qui suit n'est pas un avis juridique. Sources officielles en fin de rapport.
 ## À fournir ou à décider
 
 - **Q1. Mise en ligne** : fusionner `feature/vitrine-recruteur` dans `main` pour déployer ? a) oui, j'ouvre la PR ; b) pas encore.
-- **Q2. Poste visé** : a) développement web ; b) IA ou data ; c) autre (préciser). La réponse va dans la pastille ou le rôle.
+- **Q2. Poste visé** : **répondu le 13/10/2026** : stage pour devenir consultant IA. Intégré : « Stage de 3 mois en conseil IA dès avril 2027 » (pastille, contact, description, image d'aperçu, FR et EN).
 - **Q3. « Spécialité IA »** : a) c'est l'intitulé officiel de votre parcours ; b) non, on écrit « Étudiant en informatique » et on garde l'IA dans la phrase métier.
 - **Q4. Freelance** : a) 2022 seulement (le site a raison) ; b) de 2022 à 2026 (le CV a raison, le site est à corriger) ; c) autre.
 - **Q5. Voyage** : a) environ 13 mois (le site) ; b) 2 ans (le CV).

@@ -3,7 +3,7 @@ import type { Translations } from "./fr";
 const en: Translations = {
   meta: {
     description:
-      "Second-year computer science student at Epitech Marseille. I build web applications and AI tools. I am looking for a 3-month internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
+      "Second-year computer science student at Epitech Marseille. I build web applications and AI tools. I am looking for a 3-month AI consulting internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
   },
   nav: {
     home: "Home",
@@ -21,7 +21,7 @@ const en: Translations = {
   hero: {
     role: "Computer science student, specializing in AI",
     what: "I build web applications and AI tools.",
-    available: "3-month internship from April 2027 · Work-study 2027-2028",
+    available: "3-month AI consulting internship from April 2027 · Work-study 2027-2028",
     portraitAlt: "Portrait of",
     cta: {
       cv: "Download my resume (PDF, French)",
@@ -31,7 +31,7 @@ const en: Translations = {
   brief: {
     introLead: "I turn ideas into web apps and AI tools that people actually use.",
     introKeywords: ["web apps", "AI tools"],
-    introText: "Student at Epitech Marseille, looking for a 3-month internship starting April 2027, then a work-study contract for 2027-2028.",
+    introText: "Student at Epitech Marseille, looking for a 3-month AI consulting internship starting April 2027, then a work-study contract for 2027-2028.",
   },
   skills: {
     title: "Skills",
@@ -99,7 +99,7 @@ const en: Translations = {
   contact: {
     title: "An internship to offer?",
     subtitle: "An internship or work-study offer, a question: write to me.",
-    availabilityText: "I am looking for a 3-month internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
+    availabilityText: "I am looking for a 3-month AI consulting internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
     unavailableText: "Currently unavailable, I'll reply within 48h",
     formName: "First name",
     formEmail: "Email",
