@@ -43,9 +43,8 @@ export default async function PrivacyPage({ params }: Props) {
             <h2 id="donnees">Données collectées</h2>
             <p>
               Ce site collecte uniquement les données que vous saisissez dans le
-              <strong> formulaire de contact</strong> : prénom, email, sujet,
-              message et, si vous la donnez, une note du site. Elles servent
-              uniquement à répondre à votre demande.
+              <strong> formulaire de contact</strong> : prénom, email, sujet
+              et message. Elles servent uniquement à répondre à votre demande.
             </p>
 
             <h2 id="destinataires">Destinataires</h2>
@@ -123,9 +122,8 @@ export default async function PrivacyPage({ params }: Props) {
             <h2 id="donnees">Data collected</h2>
             <p>
               This site only collects the data you enter in the
-              <strong> contact form</strong>: first name, email, subject,
-              message and, if you give it, a rating of the site. It is used only
-              to answer your request.
+              <strong> contact form</strong>: first name, email, subject
+              and message. It is used only to answer your request.
             </p>
 
             <h2 id="destinataires">Recipients</h2>

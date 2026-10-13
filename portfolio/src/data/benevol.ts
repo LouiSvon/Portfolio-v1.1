@@ -3,7 +3,7 @@ import type { Benevol } from "@/types";
 export const benevol: Benevol[] = [
   {
     titre: { fr: "Développeur web", en: "Web Developer" },
-    structure: "Google Developers Group",
+    structure: "GDG Marseille",
     periode: { fr: "Avr. 2026 — Aujourd'hui", en: "Apr. 2026 — Present" },
     domaine: { fr: "Sciences et technologie", en: "Science and technology" },
     description: {

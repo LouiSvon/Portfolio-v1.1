@@ -1,5 +1,5 @@
 // Date de dernière mise à jour commune aux mentions légales et à la politique de confidentialité.
-export const LEGAL_LAST_UPDATED = "2026-10-09";
+export const LEGAL_LAST_UPDATED = "2026-10-13";
 
 // Hébergeur, d'après https://www.netlify.com/privacy/ (version du 10 avril 2026).
 export const HOST = {
