@@ -12,15 +12,25 @@ export interface Profile {
   blog?: string;
   available?: boolean;
   cvFile: string;
+  // Nom du fichier enregistré au téléchargement (attribut download), distinct du chemin public.
+  cvDownloadName: string;
 }
 
 export interface Experience {
-  company: string;
+  company: Record<Locale, string>;
   role: Record<Locale, string>;
   startDate: string;
   endDate: string | null;
   description: Record<Locale, string>;
   technologies: string[];
+  // Compétences non techniques, traduites (emplois hors informatique).
+  skills?: Record<Locale, string[]>;
+  // Site de la structure, liens à l'appui (chaîne, article…) et photos (dans public/).
+  companyUrl?: string;
+  links?: { label: Record<Locale, string>; url: string }[];
+  images?: { src: string; alt: Record<Locale, string> }[];
+  // Phrases clés mises en valeur : sous-chaînes exactes de la description (vérifiées au build).
+  highlights?: Record<Locale, string[]>;
   type: "professional" | "personal" | "volunteering" | "education";
 }
 
@@ -94,8 +104,10 @@ export interface Benevol {
   titre: Record<Locale, string>;
   structure: string;
   periode: Record<Locale, string>;
-  domaine: string;
+  domaine: Record<Locale, string>;
   description: Record<Locale, string>;
+  // Phrases clés mises en valeur : sous-chaînes exactes de la description (vérifiées au build).
+  highlights?: Record<Locale, string[]>;
 }
 
 export interface ArticleTocEntry {

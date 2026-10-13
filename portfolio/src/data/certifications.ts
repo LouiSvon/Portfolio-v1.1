@@ -6,7 +6,7 @@ export const certificationsBySector: CertificationSecteur[] = [
     logo: "bitcoin",
     certifs: [
       {
-        titre: { fr: "Bitcoin Wallet Architecture", en: "Bitcoin Wallet Architecture" },
+        titre: { fr: "Architecture du portefeuille Bitcoin", en: "Bitcoin Wallet Architecture" },
         organisme: "Plan B Network",
         date: "Mars 2026",
         lien: "https://planb.academy/fr/exam-certificates/37221242-063c-4bf3-aee7-492d64df3619",
@@ -14,7 +14,7 @@ export const certificationsBySector: CertificationSecteur[] = [
         statut: "obtenu",
       },
       {
-        titre: { fr: "Update Your Online Security", en: "Update Your Online Security" },
+        titre: { fr: "Sécurité informatique & gestion des données", en: "Update Your Online Security" },
         organisme: "Plan B Network",
         date: "Mars 2026",
         lien: "https://planb.academy/fr/exam-certificates/5777c4b7-6ff9-487b-a5d5-2a5467340fde",

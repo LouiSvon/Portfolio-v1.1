@@ -3,39 +3,52 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+// Apparitions au défilement, une seule fois par élément : tout .fade-in reçoit .visible en entrant
+// dans l'écran (le CSS joue le fondu, aux durées du module de mouvement).
+// Les éléments montés plus tard (liste dépliée, chargement à la demande) sont suivis aussi.
+// Sans IntersectionObserver ou avec « réduire les animations » : tout est affiché d'emblée (CSS).
 export function FadeObserver() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const elements = document.querySelectorAll<HTMLElement>(".fade-in");
-
-    // Reset state so elements entering the viewport re-animate on navigation
-    elements.forEach((el) => el.classList.remove("visible"));
+    if (!("IntersectionObserver" in window)) {
+      document.querySelectorAll<HTMLElement>(".fade-in").forEach((el) => el.classList.add("visible"));
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
     );
 
-    elements.forEach((el) => observer.observe(el));
+    const watch = (root: ParentNode) => {
+      root.querySelectorAll<HTMLElement>(".fade-in:not(.visible)").forEach((el) => observer.observe(el));
+    };
 
-    // Safeguard: force-show any element still invisible after 800ms
-    const safeguard = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>(".fade-in:not(.visible)").forEach((el) => {
-        el.classList.add("visible");
-      });
-    }, 800);
+    // Rejoue les apparitions après une navigation.
+    document.querySelectorAll(".fade-in.visible").forEach((el) => el.classList.remove("visible"));
+    watch(document);
+
+    const mutations = new MutationObserver((records) => {
+      for (const record of records) {
+        record.addedNodes.forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          if (node.matches(".fade-in:not(.visible)")) observer.observe(node);
+          watch(node);
+        });
+      }
+    });
+    mutations.observe(document.body, { childList: true, subtree: true });
 
     return () => {
+      mutations.disconnect();
       observer.disconnect();
-      clearTimeout(safeguard);
     };
   }, [pathname]);
 

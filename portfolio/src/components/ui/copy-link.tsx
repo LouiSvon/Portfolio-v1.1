@@ -21,7 +21,7 @@ export function CopyLink({
   return (
     <button
       onClick={handleCopy}
-      className="text-xs text-secondary hover:text-accent transition-colors duration-150"
+      className="text-xs text-secondary hover:text-accent transition-colors duration-(--dur-fast)"
     >
       {copied ? copiedLabel : label}
     </button>

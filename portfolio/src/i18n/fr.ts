@@ -1,137 +1,118 @@
+// Textes du site, rangés comme la page unique : une entrée par section, dans l'ordre du récit.
+// en.ts suit ce type : les deux langues ont donc toujours les mêmes clés.
 export interface Translations {
+  meta: {
+    description: string;
+  };
   nav: {
     home: string;
-    projects: string;
+    sections: string;
+    skills: string;
     blog: string;
-    about: string;
+    projects: string;
+    journey: string;
+    education: string;
     contact: string;
-    cv: string;
     skip: string;
     menu: string;
     close: string;
   };
   hero: {
-    greeting: string;
     role: string;
-    tagline: string;
-    cta: {
-      projects: string;
-      resources: string;
-      about: string;
-      contact: string;
-      cv: string;
-    };
-  };
-  manifeste: {
-    text: string;
-  };
-  home: {
+    // Ce que je fais, en une phrase : la première vue doit le dire sans défiler.
+    what: string;
     available: string;
-    inBriefTitle: string;
-    facts: {
-      school: { title: string; text: string };
-      gdg: { title: string; text: string };
-      certifications: { title: string; text: string };
-      international: { title: string; text: string };
-    };
-    featuredTitle: string;
-    viewAll: string;
-    viewCode: string;
     portraitAlt: string;
+    cta: {
+      cv: string;
+      contact: string;
+    };
+  };
+  brief: {
+    introLead: string;
+    // Groupes de mots de introLead mis en couleur à l'allumage (sous-chaînes exactes, vérifiées au build).
+    introKeywords: string[];
+    introText: string;
+  };
+  skills: {
+    title: string;
+    count: string;
   };
   projects: {
     title: string;
-    subtitle: string;
+    viewCode: string;
+    demo: string;
     featured: string;
-    allProjects: string;
-    viewOnGithub: string;
-    viewDemo: string;
-    stars: string;
-    forks: string;
-    updatedOn: string;
+    showOthers: string;
+    hideOthers: string;
     noProjects: string;
-    errorLoading: string;
-    filterAll: string;
-    filterFeatured: string;
-    sortRecent: string;
-    sortAZ: string;
-    sortType: string;
     counter: string;
-    counterFiltered: string;
+    filters: string;
+    settings: string;
+    sortBy: string;
+    sortRecent: string;
+    sortOldest: string;
+    sortAZ: string;
+    filter: string;
+    filterFeatured: string;
     resetFilters: string;
+  };
+  journey: {
+    title: string;
+    subtitle: string;
+    present: string;
+    // Durée d'une expérience, calculée depuis ses dates.
+    duration: { month: string; months: string; year: string; years: string };
+    types: {
+      professional: string;
+      personal: string;
+      volunteering: string;
+    };
+  };
+  education: {
+    title: string;
+    studies: string;
+    // Fiche du diplôme : intitulé (CV), école, année en cours (bio), projet de cursus.
+    degree: string;
+    school: string;
+    year: string;
+    schoolProject: string;
+    domains: string;
+    // Domaines mis en avant dans Formation (même ordre et même nombre en FR et en EN).
+    domainList: string[];
+    certifications: string;
+    viewCertificate: string;
+    inProgress: string;
+    expires: string;
+    downloadCV: string;
+    openCV: string;
+  };
+  articles: {
+    readingTime: string;
+    noArticles: string;
+    backToArticles: string;
+    tableOfContents: string;
+    share: string;
+    shareLink: string;
+    linkCopied: string;
+    publishedOn: string;
+    comingSoon: string;
   };
   blog: {
     title: string;
     subtitle: string;
-    readingTime: string;
-    noArticles: string;
-    noResults: string;
-    backToBlog: string;
-    tableOfContents: string;
-    shareLink: string;
-    linkCopied: string;
-    filterAll: string;
-    tags: string;
-    publishedOn: string;
-    searchPlaceholder: string;
-  };
-  about: {
-    title: string;
-    subtitle: string;
-    tagline: string;
-    anchorCV: string;
-    anchorCompetences: string;
-    anchorParcours: string;
-    anchorCertifications: string;
-    anchorEtudes: string;
-    anchorBenevol: string;
-    anchorIntro: string;
-    skillsTitle: string;
-    skillsFrontend: string;
-    skillsBackend: string;
-    skillsTools: string;
-    downloadCV: string;
-    openCV: string;
-    noCV: string;
-    viewLinkedin: string;
-    viewCertificate: string;
-    inProgress: string;
-    expires: string;
-    fetching: string;
-  };
-  experience: {
-    title: string;
-    subtitle: string;
-    professional: string;
-    personal: string;
-    education: string;
-    present: string;
-    technologies: string;
-  };
-  cv: {
-    title: string;
-    subtitle: string;
-    download: string;
-    open: string;
-    noFile: string;
-    viewLinkedin: string;
+    read: string;
   };
   contact: {
     title: string;
     subtitle: string;
-    intro: string;
-    email: string;
-    availability: string;
     availabilityText: string;
-    channels: string;
-    or: string;
+    unavailableText: string;
     formName: string;
     formEmail: string;
     formSubject: string;
     formMessage: string;
     formMessageHint: string;
-    formSource: string;
-    ratingLabel: string;
     subjectOptions: {
       placeholder: string;
       internship: string;
@@ -142,23 +123,20 @@ export interface Translations {
     };
     submit: string;
     submitting: string;
-    successTitle: string;
     successMessage: string;
+    newMessage: string;
     errorMessage: string;
     formNotice: string;
     privacyLink: string;
   };
   footer: {
-    builtWith: string;
     navigationTitle: string;
-    legalTitle: string;
     aboutTitle: string;
     aboutText: string;
     mentionsLegales: string;
     privacy: string;
     copyright: string;
-    madeWithCare: string;
-    accentLabel: string;
+    cv: string;
   };
   legal: {
     title: string;
@@ -168,6 +146,14 @@ export interface Translations {
     title: string;
     lastUpdated: string;
   };
+  notFound: {
+    title: string;
+    back: string;
+  };
+  error: {
+    title: string;
+    retry: string;
+  };
   language: {
     switch: string;
     label: string;
@@ -175,140 +161,114 @@ export interface Translations {
 }
 
 const fr: Translations = {
+  meta: {
+    description:
+      "Étudiant en 2e année de bachelor informatique à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois en conseil IA à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+  },
   nav: {
     home: "Accueil",
-    projects: "Projets",
+    sections: "Sections de la page",
+    skills: "Compétences",
     blog: "Blog",
-    about: "À propos",
+    projects: "Projets",
+    journey: "Parcours",
+    education: "Formation",
     contact: "Contact",
-    cv: "CV",
     skip: "Aller au contenu",
     menu: "Menu",
     close: "Fermer",
   },
   hero: {
-    greeting: "Louis Savon",
-    role: "Étudiant en informatique, full-stack et IA",
-    tagline:
-      "2e année de bachelor à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    role: "Étudiant en informatique, futur consultant IA",
+    what: "Je conçois des applications web et des outils d'IA.",
+    available: "Stage de 3 mois en conseil IA dès avril 2027 · Alternance 2027-2028",
+    portraitAlt: "Portrait de",
     cta: {
-      projects: "Voir les projets",
-      resources: "Lire le blog",
-      about: "Mon parcours",
-      contact: "Me contacter",
       cv: "Télécharger mon CV (PDF)",
+      contact: "Me contacter",
     },
   },
-  manifeste: {
-    text: "Ce site rassemble ce que je construis et ce que j'apprends.",
+  brief: {
+    introLead: "Je transforme des idées en applications web et en outils d'IA qui servent vraiment.",
+    introKeywords: ["applications web", "outils d'IA"],
+    introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois en conseil IA à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
   },
-  home: {
-    available: "Disponible : stage dès avril 2027, alternance 2027-2028",
-    inBriefTitle: "En bref",
-    facts: {
-      school: { title: "Epitech Marseille", text: "2e année de bachelor informatique" },
-      gdg: { title: "GDG Marseille", text: "Développeur web bénévole depuis avril 2026" },
-      certifications: { title: "certifications", text: "Vérifiables en ligne" },
-      international: { title: "International", text: "Erasmus à Dublin, équipe multiculturelle" },
-    },
-    featuredTitle: "Projets phares",
-    viewAll: "Tous les projets",
-    viewCode: "Voir le code",
-    portraitAlt: "Portrait",
+  skills: {
+    title: "Compétences",
+    count: "outils",
   },
   projects: {
-    title: "Projets",
-    subtitle: "Sélection de projets récents et contributions open-source.",
+    title: "Projets phares",
+    viewCode: "Voir le code",
+    demo: "Démo",
     featured: "Mis en avant",
-    allProjects: "Tous les projets",
-    viewOnGithub: "Voir sur GitHub",
-    viewDemo: "Voir la démo",
-    stars: "stars",
-    forks: "forks",
-    updatedOn: "Mis à jour le",
+    showOthers: "Voir tous les projets",
+    hideOthers: "Réduire la liste",
     noProjects: "Les projets arrivent bientôt.",
-    errorLoading: "Impossible de charger les projets.",
-    filterAll: "Tous",
-    filterFeatured: "Mis en avant",
-    sortRecent: "Plus récent",
-    sortAZ: "A–Z",
-    sortType: "Par type",
     counter: "projet",
-    counterFiltered: "affiché",
+    filters: "Filtres et tri",
+    settings: "Réglages des projets",
+    sortBy: "Trier par",
+    sortRecent: "Plus récent",
+    sortOldest: "Plus ancien",
+    sortAZ: "A → Z",
+    filter: "Filtrer",
+    filterFeatured: "Mis en avant",
     resetFilters: "Réinitialiser",
+  },
+  journey: {
+    title: "Parcours",
+    subtitle: "Études, expériences personnelles, bénévolat et parcours professionnel.",
+    present: "Aujourd'hui",
+    duration: { month: "mois", months: "mois", year: "an", years: "ans" },
+    types: {
+      professional: "Professionnel",
+      personal: "Personnel",
+      volunteering: "Bénévolat",
+    },
+  },
+  education: {
+    title: "Formation",
+    studies: "Études",
+    degree: "Bachelor informatique",
+    school: "Epitech Marseille",
+    year: "2e année",
+    schoolProject: "Projet de cursus",
+    domains: "Domaines de compétence",
+    domainList: ["IA", "Blockchain", "Prompt engineering"],
+    certifications: "Certifications",
+    viewCertificate: "Voir le certificat →",
+    inProgress: "En cours",
+    expires: "Expire",
+    downloadCV: "Télécharger le CV (PDF)",
+    openCV: "Ouvrir",
+  },
+  articles: {
+    readingTime: "min de lecture",
+    noArticles: "Aucun article pour l'instant.",
+    backToArticles: "Retour aux articles",
+    tableOfContents: "Sommaire",
+    share: "Partager :",
+    shareLink: "Copier le lien",
+    linkCopied: "Lien copié !",
+    publishedOn: "Publié le",
+    comingSoon: "Contenu bientôt disponible.",
   },
   blog: {
     title: "Blog",
-    subtitle: "Articles sur le développement web et l'IA.",
-    readingTime: "min de lecture",
-    noArticles: "Aucun article pour l'instant.",
-    noResults: "Aucun résultat pour cette recherche.",
-    backToBlog: "← Retour au blog",
-    tableOfContents: "Sommaire",
-    shareLink: "Copier le lien",
-    linkCopied: "Lien copié !",
-    filterAll: "Tous",
-    tags: "Tags",
-    publishedOn: "Publié le",
-    searchPlaceholder: "Rechercher…",
-  },
-  about: {
-    title: "À propos",
-    subtitle: "Étudiant en informatique à Epitech Marseille.",
-    tagline: "Étudiant en informatique, Epitech Marseille. Recherche un stage puis une alternance.",
-    anchorCV: "CV",
-    anchorCompetences: "Compétences",
-    anchorParcours: "Parcours",
-    anchorCertifications: "Certifications",
-    anchorEtudes: "Études",
-    anchorBenevol: "Bénévolat",
-    anchorIntro: "Intro",
-    skillsTitle: "Compétences",
-    skillsFrontend: "Frontend",
-    skillsBackend: "Backend",
-    skillsTools: "Outils",
-    downloadCV: "Télécharger le CV (PDF)",
-    openCV: "Ouvrir",
-    noCV: "Le CV sera disponible prochainement. Consultez mon LinkedIn en attendant.",
-    viewLinkedin: "LinkedIn →",
-    viewCertificate: "Voir le diplôme →",
-    inProgress: "En cours",
-    expires: "Expire",
-    fetching: "Chargement des langages GitHub…",
-  },
-  experience: {
-    title: "Parcours",
-    subtitle: "Études, expériences personnelles, bénévolat et parcours professionnel.",
-    professional: "Expériences professionnelles",
-    personal: "Expériences personnelles / bénévolat",
-    education: "Études",
-    present: "Aujourd'hui",
-    technologies: "Technologies",
-  },
-  cv: {
-    title: "Curriculum Vitae",
-    subtitle: "Mon parcours en détail.",
-    download: "Télécharger le CV (PDF)",
-    open: "Ouvrir le CV",
-    noFile: "Le fichier CV sera bientôt disponible.",
-    viewLinkedin: "Voir mon profil LinkedIn",
+    subtitle: "Ce que j'apprends sur les LLM, écrit pour être compris.",
+    read: "Lire",
   },
   contact: {
-    title: "Contact",
+    title: "Un stage à proposer ?",
     subtitle: "Une offre de stage ou d'alternance, une question : écrivez-moi.",
-    intro: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
-    email: "Envoyer un email",
-    availability: "Disponibilité",
-    availabilityText: "Je cherche un stage de 3 mois à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
-    channels: "Me retrouver",
-    or: "ou",
+    availabilityText: "Je cherche un stage de 3 mois en conseil IA à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    unavailableText: "Indisponible pour le moment, réponse sous 48h",
     formName: "Prénom",
     formEmail: "Email",
     formSubject: "Sujet",
     formMessage: "Message",
     formMessageHint: "50 caractères minimum",
-    formSource: "Comment avez-vous trouvé ce site ? (optionnel)",
-    ratingLabel: "Avez-vous aimé le site ?",
     subjectOptions: {
       placeholder: "Choisissez un sujet",
       internship: "Offre de stage ou d'alternance",
@@ -319,23 +279,20 @@ const fr: Translations = {
     },
     submit: "Envoyer le message",
     submitting: "Envoi en cours…",
-    successTitle: "Message envoyé !",
     successMessage: "Merci pour votre message. Je vous répondrai rapidement.",
+    newMessage: "Nouveau message",
     errorMessage: "Une erreur est survenue. Réessayez ou contactez-moi par email.",
     formNotice: "Vos informations servent uniquement à répondre à votre demande. Le message transite par Formspree. Vous pouvez demander l'accès ou la suppression de vos données par email.",
     privacyLink: "Politique de confidentialité",
   },
   footer: {
-    builtWith: "Construit avec Next.js et TypeScript.",
     navigationTitle: "Navigation",
-    legalTitle: "Légal",
     aboutTitle: "À propos",
     aboutText: "Étudiant en informatique à Epitech Marseille. Applications web et outils d'IA.",
     mentionsLegales: "Mentions légales",
     privacy: "Politique de confidentialité",
     copyright: "Louis Savon",
-    madeWithCare: "Fait avec soin",
-    accentLabel: "Couleur d'accent",
+    cv: "CV (PDF)",
   },
   legal: {
     title: "Mentions légales",
@@ -344,6 +301,14 @@ const fr: Translations = {
   privacy: {
     title: "Politique de confidentialité",
     lastUpdated: "Dernière mise à jour",
+  },
+  notFound: {
+    title: "Page introuvable",
+    back: "Retour à l'accueil",
+  },
+  error: {
+    title: "Une erreur est survenue",
+    retry: "Réessayer",
   },
   language: {
     switch: "English",

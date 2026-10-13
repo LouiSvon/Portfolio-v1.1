@@ -5,7 +5,19 @@ export interface Highlight {
   repo: string;
   title: Record<Locale, string>;
   summary: Record<Locale, string>;
+  // Version courte du résumé, affichée sur l'accueil.
+  tagline: Record<Locale, string>;
+  kind: Record<Locale, string>;
+  // Rôle tenu, affiché seulement s'il est prouvé (CV, README, dépôt). Absent : à demander, jamais deviné.
+  role?: Record<Locale, string>;
+  // Projet du cursus Epitech : cité dans la fiche du diplôme (Formation).
+  school?: boolean;
+  // Couleurs propres au projet (lueur de la carte).
+  colors: [string, string];
   stack: string[];
+  // Capture d'écran à déposer dans public/projets/ (voir media) ; texte alternatif prévu d'avance.
+  image?: string;
+  imageAlt: Record<Locale, string>;
 }
 
 export const highlights: Highlight[] = [
@@ -19,7 +31,19 @@ export const highlights: Highlight[] = [
       fr: "Une carte de membre numérique pour l'association, vérifiable par QR code signé, avec un tableau de bord pour gérer les membres et les présences aux événements.",
       en: "A digital membership card for the association, verifiable through a signed QR code, with a dashboard to manage members and event check-ins.",
     },
-    stack: ["Next.js", "TypeScript", "Supabase", "Vitest"],
+    tagline: {
+      fr: "Gérer les adhérents de l'association et vérifier une carte de membre par QR code signé.",
+      en: "Manage the association's members and verify a membership card through a signed QR code.",
+    },
+    kind: { fr: "Web · Association", en: "Web · Association" },
+    // CV : « Bénévole, Google Developer Group (GDG) Marseille : développement d'une carte membre numérique ».
+    role: { fr: "Développeur bénévole au GDG Marseille", en: "Volunteer developer at GDG Marseille" },
+    colors: ["#4f8cff", "#9b6bff"],
+    stack: ["Next.js", "TypeScript", "SQLite", "Vitest"],
+    imageAlt: {
+      fr: "Capture d'écran de la carte de membre GDG Marseille",
+      en: "Screenshot of the GDG Marseille membership card",
+    },
   },
   {
     repo: "jobaggregator",
@@ -31,7 +55,18 @@ export const highlights: Highlight[] = [
       fr: "Une plateforme qui rassemble des offres d'emploi, les rend cherchables avec des filtres, et propose un tableau de bord avec statistiques du marché et recommandations. Projet du cursus Epitech.",
       en: "A platform that gathers job offers, makes them searchable with filters, and offers a dashboard with market statistics and recommendations. Epitech curriculum project.",
     },
+    tagline: {
+      fr: "Les offres d'emploi réunies, filtrables, avec statistiques du marché.",
+      en: "Job offers in one place, filterable, with market statistics.",
+    },
+    kind: { fr: "Web · Projet Epitech", en: "Web · Epitech project" },
+    school: true,
+    colors: ["#2ee6a6", "#00b3ff"],
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
+    imageAlt: {
+      fr: "Capture d'écran de l'agrégateur d'offres d'emploi",
+      en: "Screenshot of the job offer aggregator",
+    },
   },
   {
     repo: "TokenTrex",
@@ -43,6 +78,17 @@ export const highlights: Highlight[] = [
       fr: "Une application macOS qui affiche dans la barre de menu la consommation d'un abonnement d'IA, avec un T-Rex animé qui change d'état selon l'usage.",
       en: "A macOS app that shows an AI subscription's usage in the menu bar, with an animated T-Rex whose state follows usage.",
     },
+    tagline: {
+      fr: "L'usage d'un abonnement d'IA dans la barre de menu macOS, sans ouvrir le navigateur.",
+      en: "An AI subscription's usage in the macOS menu bar, without opening a browser.",
+    },
+    kind: { fr: "App macOS", en: "macOS app" },
+    role: { fr: "Projet personnel : conception et développement", en: "Personal project: design and development" },
+    colors: ["var(--accent-violet)", "#ff3d7f"],
     stack: ["Swift", "SwiftUI", "AppKit"],
+    imageAlt: {
+      fr: "Capture d'écran de TokenTrex dans la barre de menu macOS",
+      en: "Screenshot of TokenTrex in the macOS menu bar",
+    },
   },
 ];

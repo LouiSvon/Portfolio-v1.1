@@ -4,6 +4,8 @@ import { usePathname, useRouter } from "next/navigation";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
 
+// Bascule FR / EN : un seul bouton, la langue courante est en clair, l'autre en retrait. Le nom accessible
+// reprend le texte visible (FR EN) puis précise l'action.
 export function LanguageSwitch({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -13,16 +15,18 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
     const newLocale = locale === "fr" ? "en" : "fr";
     const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
     document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
-    router.push(newPath);
+    router.push(newPath + window.location.hash);
   }
 
   return (
     <button
+      type="button"
       onClick={switchLocale}
-      aria-label={`${t.language.switch} (${t.language.label})`}
-      className="text-sm text-secondary hover:text-accent transition-colors duration-150 cursor-pointer"
+      className="lang-switch cursor-pointer"
     >
-      {t.language.switch}
+      <span data-on={locale === "fr" || undefined}>FR</span>
+      <span data-on={locale === "en" || undefined}>EN</span>
+      <span className="sr-only">{t.language.label} : {t.language.switch}</span>
     </button>
   );
 }

@@ -1,52 +1,41 @@
-import Link from "next/link";
 import type { Locale } from "@/types";
 import { getTranslations } from "@/lib/i18n";
+import { navItems } from "@/lib/sections";
+import { HeaderShell } from "@/components/layout/header-shell";
 import { LanguageSwitch } from "@/components/ui/language-switch";
 import { MobileNavigation } from "@/components/ui/mobile-navigation";
+import { SectionNav } from "@/components/ui/section-nav";
+import { externalProps, socialLinks } from "@/components/ui/social-links";
 
+// Un seul « dock » en verre, centré : les sections (la courante est éclairée par une pastille qui glisse),
+// puis la langue et les canaux de contact directs (email, GitHub, LinkedIn), à un clic de partout. Pas de logo : le nom ouvre la page. Sur une page intérieure, un lien d'accueil apparaît en tête.
 export function Header({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
-
-  const links = [
-    { href: `/${locale}`, label: t.nav.home },
-    { href: `/${locale}/projects`, label: t.nav.projects },
-    { href: `/${locale}/blog`, label: t.nav.blog },
-    { href: `/${locale}/about`, label: t.nav.about },
-    { href: `/${locale}/about#cv`, label: t.nav.cv },
-    { href: `/${locale}/contact`, label: t.nav.contact },
-  ];
+  const items = navItems(t);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
-      <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-[clamp(1rem,4vw,3rem)]">
-        <Link
-          href={`/${locale}`}
-          className="text-sm font-medium text-primary transition-colors duration-150 hover:text-accent sm:hidden"
-        >
-          LS
-        </Link>
-
-        <div className="hidden items-center gap-6 sm:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-secondary hover:text-accent transition-colors duration-150"
-            >
-              {link.label}
-            </Link>
+    <HeaderShell>
+      <nav aria-label={t.nav.sections} className="mx-auto flex h-16 max-w-6xl items-center justify-center px-[clamp(1rem,4vw,3rem)]">
+        <div className="dock hidden lg:flex">
+          <SectionNav items={items} locale={locale} homeLabel={t.nav.home} />
+          <span className="dock-sep" aria-hidden="true" />
+          <LanguageSwitch locale={locale} />
+          <span className="dock-sep" aria-hidden="true" />
+          {socialLinks.map(({ href, label, Icon, external }) => (
+            <a key={label} href={href} {...(external ? externalProps : {})} aria-label={label} title={label} className="dock-icon">
+              <Icon />
+            </a>
           ))}
         </div>
-        <div className="hidden sm:block">
-          <LanguageSwitch locale={locale} />
-        </div>
+
         <MobileNavigation
           closeLabel={t.nav.close}
-          links={links}
+          homeLabel={t.nav.home}
+          items={items}
           locale={locale}
           menuLabel={t.nav.menu}
         />
       </nav>
-    </header>
+    </HeaderShell>
   );
 }

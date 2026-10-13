@@ -2,100 +2,20 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import type { Project, Locale } from "@/types";
-import { getTranslations, formatFullDate } from "@/lib/i18n";
-import { Badge } from "@/components/ui/badge";
+import { getTranslations } from "@/lib/i18n";
+import { ProjectScene, type Scene } from "@/components/ui/project-scene";
 
 type SortKey = "recent" | "oldest" | "az";
 
-function ProjectGridCard({
-  project,
-  locale,
-}: {
-  project: Project;
-  locale: Locale;
-}) {
-  const t = getTranslations(locale);
-  const description = project.customDescription?.[locale] ?? project.description;
-  const visibleTopics = project.topics.slice(0, 3);
-  const extraTopics = project.topics.length - 3;
-
-  return (
-    <article className="card group flex flex-col rounded border border-border p-5 hover:border-accent transition-colors duration-150">
-      <div className="flex items-start justify-between gap-2 mb-3">
-        <h2 className="text-sm font-medium text-primary leading-snug">
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-accent transition-colors duration-150"
-          >
-            {project.name}
-          </a>
-        </h2>
-        {project.featured && (
-          <Badge variant="featured" className="shrink-0">
-            {t.projects.featured}
-          </Badge>
-        )}
-      </div>
-
-      {description && (
-        <p className="text-xs text-secondary leading-relaxed line-clamp-2 mb-3 flex-1">
-          {description}
-        </p>
-      )}
-
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3 text-xs text-tertiary">
-        {project.language && (
-          <span className="flex items-center gap-1.5">
-            <span className="language-dot" data-language={project.language} aria-hidden />
-            {project.language}
-          </span>
-        )}
-        {project.stars > 0 && <span>★ {project.stars}</span>}
-      </div>
-
-      {project.topics.length > 0 && (
-        <ul className="flex flex-wrap gap-1 mb-4">
-          {visibleTopics.map((topic) => (
-            <li key={topic}><span className="tag">{topic}</span></li>
-          ))}
-          {extraTopics > 0 && <li><span className="tag">+{extraTopics}</span></li>}
-        </ul>
-      )}
-
-      <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
-        <span className="text-xs text-tertiary">{formatFullDate(project.updatedAt, locale)}</span>
-        <div className="flex gap-3">
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-secondary hover:text-accent transition-colors duration-150"
-          >
-            GitHub &rarr;
-          </a>
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-secondary hover:text-accent-warm transition-colors duration-150"
-            >
-              Demo &rarr;
-            </a>
-          )}
-        </div>
-      </div>
-    </article>
-  );
-}
+// Ce que la liste reçoit : la scène déjà mise en forme côté serveur (langue de la page),
+// plus les seuls champs qui servent au filtre et au tri. Rien d'autre ne transite vers le navigateur.
+export type FilterItem = Pick<Project, "name" | "language" | "featured" | "updatedAt"> & { scene: Scene };
 
 export function ProjectFilter({
-  projects,
+  items: projects,
   locale,
 }: {
-  projects: Project[];
+  items: FilterItem[];
   locale: Locale;
 }) {
   const t = getTranslations(locale);
@@ -135,7 +55,8 @@ export function ProjectFilter({
   function toggleFilter(value: string) {
     setSelected((prev) => {
       const next = new Set(prev);
-      next.has(value) ? next.delete(value) : next.add(value);
+      if (next.has(value)) next.delete(value);
+      else next.add(value);
       return next;
     });
   }
@@ -151,17 +72,18 @@ export function ProjectFilter({
       });
     }
     return [...result].sort((a, b) => {
+      // Tri par défaut : le projet mis en avant reste en tête.
+      if (sort === "recent" && a.featured !== b.featured) return a.featured ? -1 : 1;
       if (sort === "az") return a.name.localeCompare(b.name);
       if (sort === "oldest") return new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
       return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
     });
   }, [projects, selected, sort]);
 
+  const labels = { viewCode: t.projects.viewCode, featured: t.projects.featured, demo: t.projects.demo };
   const isFiltered = selected.size > 0 || sort !== "recent";
   const shown = filtered.length;
   const total = projects.length;
-
-  const isFr = locale === "fr";
 
   return (
     <div>
@@ -178,8 +100,8 @@ export function ProjectFilter({
             ref={btnRef}
             onClick={() => setPanelOpen((v) => !v)}
             aria-expanded={panelOpen}
-            aria-label={isFr ? "Filtres et tri" : "Filters and sort"}
-            className="relative flex items-center justify-center w-9 h-9 rounded border border-border text-secondary hover:border-accent hover:text-accent transition-colors duration-150"
+            aria-label={t.projects.filters}
+            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-border text-secondary transition-colors duration-(--dur-fast) hover:border-accent hover:text-accent"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <circle cx="3" cy="8" r="1.5" fill="currentColor"/>
@@ -199,13 +121,13 @@ export function ProjectFilter({
             <div
               ref={panelRef}
               role="dialog"
-              aria-label={isFr ? "Réglages des projets" : "Project settings"}
+              aria-label={t.projects.settings}
               className="settings-panel"
             >
               {/* Sort */}
               <div className="mb-5">
-                <p className="text-[10px] font-medium text-tertiary uppercase tracking-wider mb-2">
-                  {isFr ? "Trier par" : "Sort by"}
+                <p className="eyebrow mb-3">
+                  {t.projects.sortBy}
                 </p>
                 <div className="space-y-1.5">
                   {(["recent", "oldest", "az"] as SortKey[]).map((key) => (
@@ -219,9 +141,7 @@ export function ProjectFilter({
                         className="accent-[var(--accent)]"
                       />
                       <span className="text-sm text-secondary">
-                        {key === "recent" ? (isFr ? "Plus récent" : "Most recent") :
-                         key === "oldest" ? (isFr ? "Plus ancien" : "Oldest first") :
-                         "A → Z"}
+                        {key === "recent" ? t.projects.sortRecent : key === "oldest" ? t.projects.sortOldest : t.projects.sortAZ}
                       </span>
                     </label>
                   ))}
@@ -230,8 +150,8 @@ export function ProjectFilter({
 
               {/* Filter: featured */}
               <div className="mb-4">
-                <p className="text-[10px] font-medium text-tertiary uppercase tracking-wider mb-2">
-                  {isFr ? "Filtrer" : "Filter"}
+                <p className="eyebrow mb-3">
+                  {t.projects.filter}
                 </p>
                 <label className="flex items-center gap-2 cursor-pointer mb-2">
                   <input
@@ -250,7 +170,7 @@ export function ProjectFilter({
                       <button
                         key={lang}
                         onClick={() => toggleFilter(lang)}
-                        className={`text-xs px-2.5 py-1 rounded border transition-colors duration-150 ${
+                        className={`chip transition-colors duration-(--dur-fast) ${
                           selected.has(lang)
                             ? "border-accent text-accent bg-accent-soft"
                             : "border-border text-secondary hover:border-accent hover:text-accent"
@@ -267,7 +187,7 @@ export function ProjectFilter({
               {isFiltered && (
                 <button
                   onClick={() => { setSelected(new Set()); setSort("recent"); }}
-                  className="w-full text-xs text-tertiary border border-border rounded py-1.5 hover:text-accent hover:border-accent transition-colors duration-150"
+                  className="btn-ghost w-full justify-center !h-10"
                 >
                   {t.projects.resetFilters}
                 </button>
@@ -279,9 +199,11 @@ export function ProjectFilter({
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((project) => (
-            <ProjectGridCard key={project.name} project={project} locale={locale} />
+        <div className="showcase flex flex-col gap-[clamp(4rem,10vh,8rem)]">
+          {filtered.map((project, i) => (
+            <div key={project.name} className="fade-in">
+              <ProjectScene scene={project.scene} index={i} labels={labels} />
+            </div>
           ))}
         </div>
       ) : (
