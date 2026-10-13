@@ -45,10 +45,10 @@ Liens vérifiés le 13/10/2026 (README lu sur GitHub pour chacun).
 | Projet | Problème (site) | Rôle | Stack | Résultat concret | Lien |
 |---|---|---|---|---|---|
 | Carte de membre GDG Marseille (`pass-gdg`) | Gérer les adhérents et vérifier une carte par QR code signé | Développeur bénévole au GDG Marseille (source : CV) | Next.js, TypeScript, SQLite, Vitest (README) | **absent** : pas d'utilisateurs ni de mise en ligne indiqués ; le README ne donne qu'une adresse locale | code : oui ; démo : non |
-| Agrégateur d'offres d'emploi (`jobaggregator`) | Offres réunies, filtrables, statistiques du marché | **absent** : projet Epitech B-YEP-200, équipe et rôle non indiqués | Next.js, TypeScript, PostgreSQL, Docker | **absent** | code : oui ; démo : non |
+| Agrégateur d'offres d'emploi (`jobaggregator`) | Offres réunies, filtrables, statistiques du marché | **absent** : projet Epitech B-YEP-200 en équipe (4 contributeurs GitHub, vérifié), votre rôle n'est indiqué nulle part | Next.js, TypeScript, PostgreSQL, Docker | **absent** | code : oui ; démo : non |
 | TokenTrex | Voir l'usage d'un abonnement d'IA sans ouvrir le navigateur (README) | Projet personnel : conception et développement | Swift, SwiftUI, AppKit | **absent** ; 0 étoile | code : oui ; démo : non |
 
-Ordre conservé : la carte GDG d'abord (seul projet avec un usage réel annoncé, pour une association), puis le projet d'école, puis l'outil personnel. C'est un jugement, pas une mesure.
+Ordre conservé : la carte GDG d'abord (seul projet destiné à une association réelle), puis le projet d'école, puis l'outil personnel. C'est un jugement, pas une mesure.
 
 Problèmes relevés, non corrigés faute d'information :
 - **TokenTrex** : le README dit de télécharger `TokenTrex.dmg` depuis la page Releases, qui est vide (« no releases », vérifié). Un recruteur qui clique tombe sur une promesse non tenue. Publier une release ou retirer la phrase du README.
@@ -70,7 +70,7 @@ Fichier : `public/Louis_Savon.pdf`. Mesures (vérifié, `pdfinfo`, `pdffonts`, `
 | Liens cliquables | **absents** | aucune annotation `/URI` ; email, LinkedIn et GitHub sont du texte simple |
 | Version anglaise | **absente** | le site est bilingue ; en attendant, le bouton EN dit « (PDF, French) » |
 | Téléchargement mobile | supposé correct | lien direct même origine avec `download` ; non testé sur un vrai téléphone |
-| Données personnelles | correct | ni adresse ni téléphone dans le PDF (`pdftotext` : seule coordonnée, l'email) |
+| Données personnelles | correct | ni adresse ni téléphone dans le PDF (`pdftotext` : coordonnées affichées, email, LinkedIn et GitHub) |
 
 Visibilité du bouton : en première vue (vérifié, section 10) et en fin de page (Contact et pied de page, ajoutés).
 
@@ -106,7 +106,7 @@ Aucune certification sans preuve. La certification LVMH « En cours » citée da
 
 ### Dates
 
-Cohérentes entre elles sur le site (vérifié) : bac jusqu'en 2023 (CV), voyage d'août 2023 à septembre 2024 avec la mission CryptoRizon de décembre 2023 à février 2024 « pendant mon voyage », Picard de septembre 2024 à juin 2025, Epitech depuis septembre 2025. Le seul conflit est le freelance (Q4).
+Cohérentes entre elles sur le site (vérifié) : voyage d'août 2023 à septembre 2024 avec la mission CryptoRizon de décembre 2023 à février 2024 « pendant mon voyage », Picard de septembre 2024 à juin 2025, Epitech depuis septembre 2025. Conflits avec le CV : freelance (Q4), durée du voyage (Q5), année d'études (CV à mettre à jour).
 
 ### Compétences : risque de crédibilité
 
@@ -126,7 +126,7 @@ Le site affiche 32 outils. Les suivants n'apparaissent **ni dans le CV ni dans l
 
 ## 14. Contact et données personnelles
 
-**Contact en un clic (vérifié)** : email, GitHub et LinkedIn dans la navigation (dock dès 1024 px, mesuré 774 px de large à 1024 px ; menu mobile), dans la section Contact et dans le pied de page.
+**Contact en un clic (vérifié)** : email, GitHub et LinkedIn dans le dock de navigation dès 1024 px (774 px de large mesurés à 1024 px), dans la section Contact et dans le pied de page. **Écart** : sous 1024 px, la navigation est un bouton « Menu » ; les trois liens y sont, mais il faut deux appuis (Menu, puis l'icône). Je n'ai pas ajouté d'icônes à côté du bouton Menu pour ne pas encombrer l'en-tête mobile ; c'est possible si vous le souhaitez (Q13).
 
 **Données exposées** : nom, email Epitech, ville (« Marseille, France »), portrait. Pas d'adresse postale ni de téléphone, sur le site comme dans le CV. Rien d'inutile à retirer.
 
@@ -166,6 +166,7 @@ Ce qui suit n'est pas un avis juridique. Sources officielles en fin de rapport.
 - **Q10. Formspree** : `NEXT_PUBLIC_FORMSPREE_ID` est-il défini dans Netlify ? a) oui ; b) non, à ajouter.
 - **Q11. Statistiques** : a) aucune ; b) outil exempté de consentement (je vérifie la configuration avant d'installer).
 - **Q12. Base légale du formulaire** : a) intérêt légitime à répondre aux messages ; b) consentement.
+- **Q13. Contact sur mobile** : a) laisser deux appuis (Menu puis icône) ; b) afficher l'icône email à côté du bouton Menu.
 
 À fournir : CV mis à jour (FR puis EN, design renommé, liens cliquables, photo compressée), rôle dans jobaggregator, captures des projets, une release TokenTrex ou la correction de son README, les preuves listées en section 13.
 

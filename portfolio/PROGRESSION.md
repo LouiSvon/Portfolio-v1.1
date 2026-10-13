@@ -54,5 +54,5 @@ But : un recruteur comprend en dix secondes qui, quoi, quoi chercher ; projets, 
 - [x] Projets : rôle prouvé, stack conforme aux README (a62c328)
 - [x] Noms GDG et certificats, confidentialité (e3b6b0e)
 - [x] Image d'aperçu par langue, export Netlify en PNG (20e4a09)
-- [x] Rapport : docs/rapport-vitrine-recruteur.md (questions Q1 à Q12, incohérences CV, légal)
-Reste : réponses de Louis (Q1 à Q12), CV Canva à refaire (FR et EN), fusion dans main (site en ligne = ancienne version).
+- [x] Rapport : docs/rapport-vitrine-recruteur.md (questions Q1 à Q13, incohérences CV, légal)
+Reste : réponses de Louis (Q1 à Q13), CV Canva à refaire (FR et EN), fusion dans main (site en ligne = ancienne version).
