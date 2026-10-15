@@ -1,15 +1,9 @@
 import { ProjectsConfig } from "@/types";
 
 export const projectsConfig: ProjectsConfig = {
-  featured: ["TokenTrex"],
+  featured: [],
   hidden: [],
   overrides: {
-    "TokenTrex": {
-      description: {
-        fr: "Widget macOS qui affiche ma consommation de tokens Claude en temps réel dans la barre de menu, avec un T-Rex animé en pixel art.",
-        en: "macOS menu bar widget that tracks Claude token usage in real time, with an animated pixel art T-Rex.",
-      },
-    },
     "Halo-widget": {
       description: {
         fr: "Widget macOS minimaliste dans l'encoche : titre Spotify en cours et appareils Bluetooth, façon Dynamic Island.",
