@@ -47,6 +47,7 @@ const DOMAIN_TONES = ["blue", "violet", "blue"] as const;
 // Ailleurs : empilés, dans le flux.
 export function EducationSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
+  const text = (value: string | Record<Locale, string>) => (typeof value === "string" ? value : value[locale]);
   const studies = experiences.filter((e) => e.type === "education");
   const certs = certificationsBySector.flatMap((sector) => sector.certifs.map((cert) => ({ sector, cert })));
   const schoolProject = highlights.find((h) => h.school);
@@ -125,8 +126,8 @@ export function EducationSection({ locale }: { locale: Locale }) {
                     <h4 className="cred-title">{cert.titre[locale]}</h4>
                     <p className="text-sm text-secondary">
                       {cert.organisme}
-                      {pending ? ` · ${t.education.inProgress}` : cert.date ? ` · ${cert.date}` : ""}
-                      {cert.expiration && ` · ${t.education.expires} ${cert.expiration}`}
+                      {pending ? ` · ${t.education.inProgress}` : cert.date ? ` · ${text(cert.date)}` : ""}
+                      {cert.expiration && ` · ${t.education.expires} ${text(cert.expiration)}`}
                     </p>
                   </div>
                   {cert.lien && (
