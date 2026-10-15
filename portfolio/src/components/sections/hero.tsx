@@ -11,7 +11,7 @@ const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as React.CSSProper
 // affiché en premier (LCP), rendu côté serveur. Au défilement, le fond dérive et le texte s'efface (CSS).
 export function HeroSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
-  // La partie après la virgule (« futur consultant IA », « future AI consultant ») ressort en bleu ;
+  // La partie après la virgule (« en recherche de stage en conseil IA », « looking for an AI consulting internship ») ressort en bleu ;
   // sans virgule, le dernier mot.
   const comma = t.hero.role.indexOf(", ");
   const roleCut = comma >= 0 ? comma + 2 : t.hero.role.lastIndexOf(" ") + 1;
@@ -34,12 +34,12 @@ export function HeroSection({ locale }: { locale: Locale }) {
             className="hidden h-8 w-8 object-cover sm:block"
           />
           <span className="availability-dot" aria-hidden="true" />
-          {/* Chaque moitié reste sur une ligne : sur petit écran, la coupure tombe au point médian. */}
+          {/* Grand écran : chaque moitié reste sur une ligne. Petit écran : une moitié trop longue peut se couper. */}
           <span>
             {t.hero.available.split(" · ").map((part, i) => (
               <span key={part}>
                 {i > 0 && " · "}
-                <span className="whitespace-nowrap">{part}</span>
+                <span className="sm:whitespace-nowrap">{part}</span>
               </span>
             ))}
           </span>
@@ -64,7 +64,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
           </a>
         </div>
 
-        <p className="reveal-soft mt-8 text-sm text-tertiary" style={delay(0.75)}>{profile.location}</p>
+        <p className="reveal-soft mt-8 text-sm text-tertiary" style={delay(0.75)}>{profile.location[locale]}</p>
       </div>
     </section>
   );

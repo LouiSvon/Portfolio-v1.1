@@ -3,7 +3,7 @@ import type { Translations } from "./fr";
 const en: Translations = {
   meta: {
     description:
-      "Second-year computer science student at Epitech Marseille. I build web applications and AI tools. I am looking for a 3-month AI consulting internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
+      "Second-year computer science student at Epitech Marseille. I build web applications and AI tools. I am looking for a 3 to 4 month AI consulting internship starting April 2027, then a work-study placement starting in the 2028 academic year.",
   },
   nav: {
     home: "Home",
@@ -19,9 +19,9 @@ const en: Translations = {
     close: "Close",
   },
   hero: {
-    role: "Computer science student, future AI consultant",
+    role: "Computer science student, looking for an AI consulting internship",
     what: "I build web applications and AI tools.",
-    available: "3-month AI consulting internship from April 2027 · Work-study 2027-2028",
+    available: "3 to 4 month internship starting April 2027 · Work-study placement starting in the 2028 academic year",
     portraitAlt: "Portrait of",
     cta: {
       cv: "Download my resume (PDF, French)",
@@ -31,7 +31,7 @@ const en: Translations = {
   brief: {
     introLead: "I turn ideas into web apps and AI tools that people actually use.",
     introKeywords: ["web apps", "AI tools"],
-    introText: "Student at Epitech Marseille, looking for a 3-month AI consulting internship starting April 2027, then a work-study contract for 2027-2028.",
+    introText: "Student at Epitech Marseille, looking for a 3 to 4 month AI consulting internship starting April 2027, then a work-study placement starting in the 2028 academic year.",
   },
   skills: {
     title: "Skills",
@@ -79,7 +79,7 @@ const en: Translations = {
     certifications: "Certifications",
     viewCertificate: "View certificate →",
     inProgress: "In progress",
-    expires: "Expires",
+    expires: "Valid until",
     downloadCV: "Download resume (PDF, French)",
     openCV: "Open",
   },
@@ -102,7 +102,7 @@ const en: Translations = {
   contact: {
     title: "An internship to offer?",
     subtitle: "An internship or work-study offer, a question: write to me.",
-    availabilityText: "I am looking for a 3-month AI consulting internship starting April 2027, then a work-study contract for the 2027-2028 academic year.",
+    availabilityText: "3 to 4 month internship starting April 2027. Work-study placement starting in the 2028 academic year. Based in Marseille, open to relocating within France.",
     unavailableText: "Currently unavailable, I'll reply within 48h",
     formName: "First name",
     formEmail: "Email",

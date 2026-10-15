@@ -22,6 +22,52 @@ export interface Highlight {
 
 export const highlights: Highlight[] = [
   {
+    repo: "cvrie",
+    title: {
+      fr: "CVRIE, IA médicale",
+      en: "CVRIE, medical AI",
+    },
+    summary: {
+      fr: "Un projet d'IA en équipe de deux : classification de cellules sanguines (BloodMNIST, F1 macro 0,850 sur le jeu de test) et regroupement non supervisé de 1011 témoignages de patients. Une hypothèse, « les niveaux de gris suffisent », testée puis réfutée.",
+      en: "A two-person AI project: blood cell classification (BloodMNIST, macro F1 0.850 on the test set) and unsupervised grouping of 1,011 patient testimonials. One hypothesis, \"grayscale is enough\", tested then refuted.",
+    },
+    tagline: {
+      fr: "Classer des cellules sanguines et regrouper des témoignages de patients avec scikit-learn.",
+      en: "Classify blood cells and group patient testimonials with scikit-learn.",
+    },
+    kind: { fr: "IA · Projet Epitech", en: "AI · Epitech project" },
+    school: true,
+    colors: ["#ff5d73", "#9b6bff"],
+    stack: ["Python", "scikit-learn", "pandas", "Jupyter"],
+    imageAlt: {
+      fr: "Aperçu du projet CVRIE : classification de cellules sanguines",
+      en: "Preview of the CVRIE project: blood cell classification",
+    },
+  },
+  {
+    repo: "nextbuy",
+    title: {
+      fr: "NEXTBUY, comportement client",
+      en: "NEXTBUY, customer behavior",
+    },
+    summary: {
+      fr: "Un projet de data science en équipe de deux : nettoyage de données e-commerce, analyse exploratoire, segmentation de clients par clustering et modèles pour prédire la taille du panier.",
+      en: "A two-person data science project: cleaning e-commerce data, exploratory analysis, customer segmentation by clustering, and models to predict basket size.",
+    },
+    tagline: {
+      fr: "Des données e-commerce brutes à la segmentation de clients et à la prédiction du panier.",
+      en: "From raw e-commerce data to customer segmentation and basket size prediction.",
+    },
+    kind: { fr: "Data · Projet Epitech", en: "Data · Epitech project" },
+    school: true,
+    colors: ["#2ee6a6", "#00b3ff"],
+    stack: ["Python", "scikit-learn", "pandas", "Jupyter"],
+    imageAlt: {
+      fr: "Aperçu du projet NEXTBUY : analyse de données e-commerce",
+      en: "Preview of the NEXTBUY project: e-commerce data analysis",
+    },
+  },
+  {
     repo: "pass-gdg",
     title: {
       fr: "Carte de membre GDG Marseille",
@@ -39,56 +85,33 @@ export const highlights: Highlight[] = [
     // CV : « Bénévole, Google Developer Group (GDG) Marseille : développement d'une carte membre numérique ».
     role: { fr: "Développeur bénévole au GDG Marseille", en: "Volunteer developer at GDG Marseille" },
     colors: ["#4f8cff", "#9b6bff"],
-    stack: ["Next.js", "TypeScript", "SQLite", "Vitest"],
+    stack: ["Next.js", "TypeScript", "SQLite", "Supabase", "Vitest"],
     imageAlt: {
       fr: "Capture d'écran de la carte de membre GDG Marseille",
       en: "Screenshot of the GDG Marseille membership card",
     },
   },
   {
-    repo: "jobaggregator",
+    repo: "claude-code-mods",
     title: {
-      fr: "Agrégateur d'offres d'emploi",
-      en: "Job offer aggregator",
+      fr: "Mods pour Claude Code",
+      en: "Mods for Claude Code",
     },
     summary: {
-      fr: "Une plateforme qui rassemble des offres d'emploi, les rend cherchables avec des filtres, et propose un tableau de bord avec statistiques du marché et recommandations. Projet du cursus Epitech.",
-      en: "A platform that gathers job offers, makes them searchable with filters, and offers a dashboard with market statistics and recommendations. Epitech curriculum project.",
+      fr: "Deux mods pour l'application Claude Code : une barre des tâches qui montre ce que font les agents, et une ligne d'état. Le travail des agents devient lisible d'un coup d'oeil.",
+      en: "Two mods for the Claude Code app: a task bar showing what agents are doing, and a status line. Agent work becomes readable at a glance.",
     },
     tagline: {
-      fr: "Les offres d'emploi réunies, filtrables, avec statistiques du marché.",
-      en: "Job offers in one place, filterable, with market statistics.",
+      fr: "Voir d'un coup d'oeil ce que font les agents de Claude Code.",
+      en: "See at a glance what Claude Code agents are doing.",
     },
-    kind: { fr: "Web · Projet Epitech", en: "Web · Epitech project" },
-    school: true,
-    colors: ["#2ee6a6", "#00b3ff"],
-    stack: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
-    imageAlt: {
-      fr: "Capture d'écran de l'agrégateur d'offres d'emploi",
-      en: "Screenshot of the job offer aggregator",
-    },
-  },
-  {
-    repo: "TokenTrex",
-    title: {
-      fr: "TokenTrex",
-      en: "TokenTrex",
-    },
-    summary: {
-      fr: "Une application macOS qui affiche dans la barre de menu la consommation d'un abonnement d'IA, avec un T-Rex animé qui change d'état selon l'usage.",
-      en: "A macOS app that shows an AI subscription's usage in the menu bar, with an animated T-Rex whose state follows usage.",
-    },
-    tagline: {
-      fr: "L'usage d'un abonnement d'IA dans la barre de menu macOS, sans ouvrir le navigateur.",
-      en: "An AI subscription's usage in the macOS menu bar, without opening a browser.",
-    },
-    kind: { fr: "App macOS", en: "macOS app" },
-    role: { fr: "Projet personnel : conception et développement", en: "Personal project: design and development" },
+    kind: { fr: "Outil développeur", en: "Developer tool" },
+    role: { fr: "Auteur", en: "Author" },
     colors: ["var(--accent-violet)", "#ff3d7f"],
-    stack: ["Swift", "SwiftUI", "AppKit"],
+    stack: ["TypeScript"],
     imageAlt: {
-      fr: "Capture d'écran de TokenTrex dans la barre de menu macOS",
-      en: "Screenshot of TokenTrex in the macOS menu bar",
+      fr: "Aperçu de la barre des tâches des agents Claude Code",
+      en: "Preview of the Claude Code agents task bar",
     },
   },
 ];

@@ -52,7 +52,7 @@ export function JourneySection({ locale }: { locale: Locale }) {
     .sort((a, b) => a.startDate.localeCompare(b.startDate))
     .map((exp) => ({
       key: `${exp.company.en}-${exp.startDate}`,
-      period: period(exp.startDate, exp.endDate),
+      period: exp.period?.[locale] ?? period(exp.startDate, exp.endDate),
       role: exp.role[locale],
       company: exp.company[locale],
       companyUrl: exp.companyUrl,
@@ -60,7 +60,7 @@ export function JourneySection({ locale }: { locale: Locale }) {
       links: (exp.links ?? []).map((link) => ({ label: link.label[locale], url: link.url })),
       images: (exp.images ?? []).map((img) => ({ src: img.src, alt: img.alt[locale] })),
       highlights: (exp.highlights?.[locale] ?? []).slice(0, 2),
-      duration: duration(exp.startDate, exp.endDate),
+      duration: exp.period ? undefined : duration(exp.startDate, exp.endDate),
     }));
 
   // Une ou deux phrases clés en couleur par expérience, pas plus (hiérarchie lisible).

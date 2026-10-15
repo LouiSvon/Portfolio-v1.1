@@ -163,7 +163,7 @@ export interface Translations {
 const fr: Translations = {
   meta: {
     description:
-      "Étudiant en 2e année de bachelor informatique à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 mois en conseil IA à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+      "Étudiant en 2e année de bachelor informatique à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 à 4 mois en conseil IA à partir d'avril 2027, puis une alternance à partir de la rentrée 2028.",
   },
   nav: {
     home: "Accueil",
@@ -179,9 +179,9 @@ const fr: Translations = {
     close: "Fermer",
   },
   hero: {
-    role: "Étudiant en informatique, futur consultant IA",
+    role: "Étudiant en informatique, en recherche de stage en conseil IA",
     what: "Je conçois des applications web et des outils d'IA.",
-    available: "Stage de 3 mois en conseil IA dès avril 2027 · Alternance 2027-2028",
+    available: "Stage de 3 à 4 mois à partir d'avril 2027 · Alternance à partir de la rentrée 2028",
     portraitAlt: "Portrait de",
     cta: {
       cv: "Télécharger mon CV (PDF)",
@@ -191,7 +191,7 @@ const fr: Translations = {
   brief: {
     introLead: "Je transforme des idées en applications web et en outils d'IA qui servent vraiment.",
     introKeywords: ["applications web", "outils d'IA"],
-    introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 mois en conseil IA à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 à 4 mois en conseil IA à partir d'avril 2027, puis une alternance à partir de la rentrée 2028.",
   },
   skills: {
     title: "Compétences",
@@ -239,7 +239,7 @@ const fr: Translations = {
     certifications: "Certifications",
     viewCertificate: "Voir le certificat →",
     inProgress: "En cours",
-    expires: "Expire",
+    expires: "Valable jusqu'au",
     downloadCV: "Télécharger le CV (PDF)",
     openCV: "Ouvrir",
   },
@@ -262,7 +262,7 @@ const fr: Translations = {
   contact: {
     title: "Un stage à proposer ?",
     subtitle: "Une offre de stage ou d'alternance, une question : écrivez-moi.",
-    availabilityText: "Je cherche un stage de 3 mois en conseil IA à partir d'avril 2027, puis une alternance sur l'année 2027-2028.",
+    availabilityText: "Stage de 3 à 4 mois à partir d'avril 2027. Alternance à partir de la rentrée 2028. Basé à Marseille, mobile en France.",
     unavailableText: "Indisponible pour le moment, réponse sous 48h",
     formName: "Prénom",
     formEmail: "Email",

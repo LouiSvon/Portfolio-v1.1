@@ -5,7 +5,7 @@ export interface Profile {
   title: Record<Locale, string>;
   tagline: Record<Locale, string>;
   bio: Record<Locale, string>;
-  location: string;
+  location: Record<Locale, string>;
   email: string;
   github: string;
   linkedin: string;
@@ -21,6 +21,8 @@ export interface Experience {
   role: Record<Locale, string>;
   startDate: string;
   endDate: string | null;
+  // Période affichée telle quelle, à la place de la période et de la durée calculées depuis les dates.
+  period?: Record<Locale, string>;
   description: Record<Locale, string>;
   technologies: string[];
   // Compétences non techniques, traduites (emplois hors informatique).
@@ -86,8 +88,9 @@ export interface Social {
 export interface Certification {
   titre: Record<Locale, string>;
   organisme: string;
-  date: string | null;
-  expiration?: string;
+  // Une chaîne commune aux deux langues, ou une par langue.
+  date: string | Record<Locale, string> | null;
+  expiration?: string | Record<Locale, string>;
   lien: string | null;
   competences: string[];
   statut: "obtenu" | "en_cours";
