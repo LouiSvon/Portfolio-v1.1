@@ -52,4 +52,20 @@ export const certificationsBySector: CertificationSecteur[] = [
       },
     ],
   },
+  {
+    secteur: { fr: "Données personnelles & RGPD", en: "Data Protection & GDPR" },
+    certifs: [
+      {
+        titre: {
+          fr: "RGPD : 6 modules de formation (scores de 83 à 100 %)",
+          en: "GDPR: 6 training modules (scores from 83 to 100%)",
+        },
+        organisme: "CNIL",
+        date: { fr: "19/10/2026", en: "19 October 2026" },
+        lien: "/certifications/cnil-rgpd.pdf",
+        competences: ["RGPD", "Protection des données", "Conformité"],
+        statut: "obtenu",
+      },
+    ],
+  },
 ];
