@@ -235,7 +235,7 @@ const fr: Translations = {
     year: "2e année",
     schoolProject: "Projet de cursus",
     domains: "Domaines de compétence",
-    domainList: ["IA", "Blockchain", "Prompt engineering"],
+    domainList: ["RGPD", "IA", "Blockchain", "Prompt engineering"],
     certifications: "Certifications",
     viewCertificate: "Voir le certificat →",
     inProgress: "En cours",
