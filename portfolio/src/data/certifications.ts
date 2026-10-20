@@ -2,6 +2,36 @@ import type { CertificationSecteur } from "@/types";
 
 export const certificationsBySector: CertificationSecteur[] = [
   {
+    secteur: { fr: "Données personnelles & RGPD", en: "Data Protection & GDPR" },
+    certifs: [
+      {
+        titre: {
+          fr: "RGPD : 6 modules de formation (scores de 83 à 100 %)",
+          en: "GDPR: 6 training modules (scores from 83 to 100%)",
+        },
+        organisme: "CNIL",
+        date: { fr: "19/10/2026", en: "19 October 2026" },
+        lien: "/certifications/cnil-rgpd.pdf",
+        competences: ["RGPD", "Protection des données", "Conformité"],
+        statut: "obtenu",
+      },
+    ],
+  },
+  {
+    secteur: { fr: "Intelligence artificielle", en: "Artificial Intelligence" },
+    certifs: [
+      {
+        titre: { fr: "Google Prompting Essentials", en: "Google Prompting Essentials" },
+        organisme: "Google / Coursera",
+        date: { fr: "Mars 2026", en: "March 2026" },
+        lien: "https://www.coursera.org/account/accomplishments/specialization/certificate/GWDZRQ7LQT10",
+        competences: ["IA", "Prompt Engineering"],
+        statut: "obtenu",
+        logo: "google",
+      },
+    ],
+  },
+  {
     secteur: { fr: "Crypto & Blockchain", en: "Crypto & Blockchain" },
     logo: "bitcoin",
     certifs: [
@@ -24,20 +54,6 @@ export const certificationsBySector: CertificationSecteur[] = [
     ],
   },
   {
-    secteur: { fr: "Intelligence artificielle", en: "Artificial Intelligence" },
-    certifs: [
-      {
-        titre: { fr: "Google Prompting Essentials", en: "Google Prompting Essentials" },
-        organisme: "Google / Coursera",
-        date: { fr: "Mars 2026", en: "March 2026" },
-        lien: "https://www.coursera.org/account/accomplishments/specialization/certificate/GWDZRQ7LQT10",
-        competences: ["IA", "Prompt Engineering"],
-        statut: "obtenu",
-        logo: "google",
-      },
-    ],
-  },
-  {
     secteur: { fr: "Outils & Productivité", en: "Tools & Productivity" },
     logo: "notion",
     certifs: [
@@ -48,22 +64,6 @@ export const certificationsBySector: CertificationSecteur[] = [
         expiration: { fr: "14/04/2028", en: "14 April 2028" },
         lien: "https://verify.skilljar.com/c/ego5gaa7iz2h",
         competences: ["Notion", "Workflows"],
-        statut: "obtenu",
-      },
-    ],
-  },
-  {
-    secteur: { fr: "Données personnelles & RGPD", en: "Data Protection & GDPR" },
-    certifs: [
-      {
-        titre: {
-          fr: "RGPD : 6 modules de formation (scores de 83 à 100 %)",
-          en: "GDPR: 6 training modules (scores from 83 to 100%)",
-        },
-        organisme: "CNIL",
-        date: { fr: "19/10/2026", en: "19 October 2026" },
-        lien: "/certifications/cnil-rgpd.pdf",
-        competences: ["RGPD", "Protection des données", "Conformité"],
         statut: "obtenu",
       },
     ],
