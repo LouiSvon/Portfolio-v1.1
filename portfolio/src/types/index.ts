@@ -94,12 +94,12 @@ export interface Certification {
   lien: string | null;
   competences: string[];
   statut: "obtenu" | "en_cours";
-  logo?: "bitcoin" | "google" | "notion";
+  logo?: "bitcoin" | "google" | "notion" | "shield";
 }
 
 export interface CertificationSecteur {
   secteur: Record<Locale, string>;
-  logo?: "bitcoin" | "google" | "notion";
+  logo?: "bitcoin" | "google" | "notion" | "shield";
   certifs: Certification[];
 }
 

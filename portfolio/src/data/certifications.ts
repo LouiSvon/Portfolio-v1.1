@@ -3,6 +3,7 @@ import type { CertificationSecteur } from "@/types";
 export const certificationsBySector: CertificationSecteur[] = [
   {
     secteur: { fr: "Données personnelles & RGPD", en: "Data Protection & GDPR" },
+    logo: "shield",
     certifs: [
       {
         titre: {

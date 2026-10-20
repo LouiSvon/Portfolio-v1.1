@@ -75,7 +75,7 @@ const en: Translations = {
     year: "Second year",
     schoolProject: "Curriculum project",
     domains: "Fields of expertise",
-    domainList: ["AI", "Blockchain", "Prompt engineering"],
+    domainList: ["GDPR", "AI", "Blockchain", "Prompt engineering"],
     certifications: "Certifications",
     viewCertificate: "View certificate →",
     inProgress: "In progress",

@@ -35,7 +35,16 @@ function NotionLogo() {
   );
 }
 
-const LOGOS = { bitcoin: <BitcoinLogo />, google: <GoogleLogo />, notion: <NotionLogo /> };
+function ShieldLogo() {
+  return (
+    <svg viewBox="0 0 20 20" width="1.1em" height="1.1em" fill="none" aria-hidden style={{ verticalAlign: "middle", opacity: 0.85 }}>
+      <path d="M10 3l6 2.2v4.6c0 3.4-2.5 5.9-6 7.2-3.5-1.3-6-3.8-6-7.2V5.2L10 3z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+      <path d="M7.4 10l2 2 3.4-3.6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+const LOGOS = { bitcoin: <BitcoinLogo />, google: <GoogleLogo />, notion: <NotionLogo />, shield: <ShieldLogo /> };
 
 // Teinte de chaque domaine (bleu et violet de la palette).
 const DOMAIN_TONES = ["blue", "violet", "blue"] as const;
