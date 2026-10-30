@@ -3,7 +3,7 @@ import type { Translations } from "./fr";
 const en: Translations = {
   meta: {
     description:
-      "Second-year computer science student at Epitech Marseille. I build web applications and AI tools. I am looking for a 3 to 4 month AI consulting internship starting April 2027, then a work-study placement starting in the 2028 academic year.",
+      "Second-year computer science student at Epitech Marseille and Lead Ambassador of GDG Marseille. I build web applications and AI tools. I am looking for a 3 to 5 month AI consulting internship starting April 2027, then a work-study placement from September 2027 to 2028 and a work-study Master's.",
   },
   nav: {
     home: "Home",
@@ -21,7 +21,7 @@ const en: Translations = {
   hero: {
     role: "Computer science student, looking for an AI consulting internship",
     what: "I build web applications and AI tools.",
-    available: "3 to 4 month internship starting April 2027 · Work-study placement starting in the 2028 academic year",
+    available: "3 to 5 month internship starting April 2027 · Work-study placement from September 2027 to 2028, then a work-study Master's",
     portraitAlt: "Portrait of",
     cta: {
       cv: "Download my resume (PDF, French)",
@@ -31,7 +31,7 @@ const en: Translations = {
   brief: {
     introLead: "I turn ideas into web apps and AI tools that people actually use.",
     introKeywords: ["web apps", "AI tools"],
-    introText: "Student at Epitech Marseille, looking for a 3 to 4 month AI consulting internship starting April 2027, then a work-study placement starting in the 2028 academic year.",
+    introText: "Student at Epitech Marseille, looking for a 3 to 5 month AI consulting internship starting April 2027, then a work-study placement from September 2027 to 2028 and a work-study Master's.",
   },
   skills: {
     title: "Skills",
@@ -102,7 +102,7 @@ const en: Translations = {
   contact: {
     title: "An internship to offer?",
     subtitle: "An internship or work-study offer, a question: write to me.",
-    availabilityText: "3 to 4 month internship starting April 2027. Work-study placement starting in the 2028 academic year. Based in Marseille, open to relocating within France.",
+    availabilityText: "3 to 5 month internship starting April 2027. Work-study placement from September 2027 to 2028, then a work-study Master's. Based in Marseille.",
     unavailableText: "Currently unavailable, I'll reply within 48h",
     formName: "First name",
     formEmail: "Email",

@@ -163,7 +163,7 @@ export interface Translations {
 const fr: Translations = {
   meta: {
     description:
-      "Étudiant en 2e année de bachelor informatique à Epitech Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 à 4 mois en conseil IA à partir d'avril 2027, puis une alternance à partir de la rentrée 2028.",
+      "Étudiant en 2e année de bachelor informatique à Epitech Marseille et Lead Ambassador du GDG Marseille. Je conçois des applications web et des outils d'IA. Je cherche un stage de 3 à 5 mois en conseil IA à partir d'avril 2027, puis une alternance de septembre 2027 à 2028 et un Master en alternance.",
   },
   nav: {
     home: "Accueil",
@@ -181,7 +181,7 @@ const fr: Translations = {
   hero: {
     role: "Étudiant en informatique, en recherche de stage en conseil IA",
     what: "Je conçois des applications web et des outils d'IA.",
-    available: "Stage de 3 à 4 mois à partir d'avril 2027 · Alternance à partir de la rentrée 2028",
+    available: "Stage de 3 à 5 mois à partir d'avril 2027 · Alternance de septembre 2027 à 2028, puis Master en alternance",
     portraitAlt: "Portrait de",
     cta: {
       cv: "Télécharger mon CV (PDF)",
@@ -191,7 +191,7 @@ const fr: Translations = {
   brief: {
     introLead: "Je transforme des idées en applications web et en outils d'IA qui servent vraiment.",
     introKeywords: ["applications web", "outils d'IA"],
-    introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 à 4 mois en conseil IA à partir d'avril 2027, puis une alternance à partir de la rentrée 2028.",
+    introText: "Étudiant à Epitech Marseille, je cherche un stage de 3 à 5 mois en conseil IA à partir d'avril 2027, puis une alternance de septembre 2027 à 2028 et un Master en alternance.",
   },
   skills: {
     title: "Compétences",
@@ -262,7 +262,7 @@ const fr: Translations = {
   contact: {
     title: "Un stage à proposer ?",
     subtitle: "Une offre de stage ou d'alternance, une question : écrivez-moi.",
-    availabilityText: "Stage de 3 à 4 mois à partir d'avril 2027. Alternance à partir de la rentrée 2028. Basé à Marseille, mobile en France.",
+    availabilityText: "Stage de 3 à 5 mois à partir d'avril 2027. Alternance de septembre 2027 à 2028, puis Master en alternance. Basé à Marseille.",
     unavailableText: "Indisponible pour le moment, réponse sous 48h",
     formName: "Prénom",
     formEmail: "Email",

@@ -16,7 +16,7 @@ export function ProjectsSection({ locale, repos }: { locale: Locale; repos: Proj
   const featuredRepos = new Set(highlights.map((h) => h.repo));
 
   const scenes: Scene[] = highlights.map((h) => {
-    const repo = repos.find((r) => r.name === h.repo);
+    const repo = h.private ? undefined : repos.find((r) => r.name === h.repo);
     return {
       key: h.repo,
       title: h.title[locale],
@@ -24,7 +24,7 @@ export function ProjectsSection({ locale, repos }: { locale: Locale; repos: Proj
       kind: h.kind[locale],
       role: h.role?.[locale],
       chips: h.stack,
-      href: repo?.url ?? `https://github.com/${profile.github}/${h.repo}`,
+      href: h.private ? undefined : (repo?.url ?? `https://github.com/${profile.github}/${h.repo}`),
       colors: h.colors,
       stars: repo?.stars,
       updated: repo ? formatFullDate(repo.updatedAt, locale) : undefined,
