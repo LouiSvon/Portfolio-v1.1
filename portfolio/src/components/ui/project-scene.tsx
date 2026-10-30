@@ -12,7 +12,8 @@ export type Scene = {
   kind?: string;
   role?: string;
   chips: string[];
-  href: string;
+  // Absent : projet sans dépôt public, la carte n'est pas cliquable.
+  href?: string;
   colors: [string, string];
   featured?: boolean;
   stars?: number;
@@ -72,7 +73,8 @@ export function ProjectScene({ scene, index, labels }: { scene: Scene; index: nu
       >
         <h3 className="proj-title showcase-title">
           {/* Lien étiré : toute la carte mène au dépôt. */}
-          <a href={scene.href} target="_blank" rel="noopener noreferrer" className="after:absolute after:inset-0">
+          {scene.href ? (
+            <a href={scene.href} target="_blank" rel="noopener noreferrer" className="after:absolute after:inset-0">
             {words.map((word, w) => (
               <span key={w} className="inline-block overflow-hidden pb-[0.08em] align-top">
                 <motion.span className="showcase-anim inline-block" variants={rise}>
@@ -81,7 +83,19 @@ export function ProjectScene({ scene, index, labels }: { scene: Scene; index: nu
                 </motion.span>
               </span>
             ))}
-          </a>
+            </a>
+          ) : (
+            <span>
+            {words.map((word, w) => (
+              <span key={w} className="inline-block overflow-hidden pb-[0.08em] align-top">
+                <motion.span className="showcase-anim inline-block" variants={rise}>
+                  {word}
+                  {w < words.length - 1 ? " " : ""}
+                </motion.span>
+              </span>
+            ))}
+            </span>
+          )}
         </h3>
         {scene.tagline && (
           <motion.p className="proj-tagline showcase-anim" variants={fadeUp}>
@@ -103,9 +117,13 @@ export function ProjectScene({ scene, index, labels }: { scene: Scene; index: nu
           </ul>
         )}
         <motion.div className="showcase-anim flex flex-wrap items-center justify-between gap-3" variants={fadeUp}>
-          <span className="proj-cta">
-            {labels.viewCode} <span className="arrow" aria-hidden="true">&rarr;</span>
-          </span>
+          {scene.href ? (
+            <span className="proj-cta">
+              {labels.viewCode} <span className="arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          ) : (
+            <span />
+          )}
           <span className="flex items-center gap-3 text-xs text-tertiary">
             {scene.stars ? <span>★ {scene.stars}</span> : null}
             {scene.updated && <span>{scene.updated}</span>}

@@ -10,6 +10,8 @@ export interface Highlight {
   kind: Record<Locale, string>;
   // Rôle tenu, affiché seulement s'il est prouvé (CV, README, dépôt). Absent : à demander, jamais deviné.
   role?: Record<Locale, string>;
+  // Dépôt privé : carte sans lien.
+  private?: boolean;
   // Projet du cursus Epitech : cité dans la fiche du diplôme (Formation).
   school?: boolean;
   // Couleurs propres au projet (lueur de la carte).
@@ -42,6 +44,52 @@ export const highlights: Highlight[] = [
     imageAlt: {
       fr: "Aperçu du projet CVRIE : classification de cellules sanguines",
       en: "Preview of the CVRIE project: blood cell classification",
+    },
+  },
+  {
+    repo: "persona",
+    private: true,
+    title: {
+      fr: "Newsletter personnalisée pilotée par un agent IA",
+      en: "Personalized newsletter driven by an AI agent",
+    },
+    summary: {
+      fr: "Une newsletter personnalisée sans interface : on parle à un agent IA conversationnel, qui apprend ses préférences. L'IA collecte, trie et résume les articles, puis envoie la newsletter par email au créneau choisi. Projet en équipe de deux, côté IA et côté cybersécurité.",
+      en: "A personalized newsletter with no interface: you talk to a conversational AI agent that learns your preferences. The AI collects, sorts and summarizes articles, then emails the newsletter at the chosen time. Two-person project, AI side and cybersecurity side.",
+    },
+    tagline: {
+      fr: "Un agent IA qui apprend vos préférences et envoie la newsletter au créneau choisi.",
+      en: "An AI agent that learns your preferences and sends the newsletter at the chosen time.",
+    },
+    kind: { fr: "IA · Projet Epitech", en: "AI · Epitech project" },
+    colors: ["#ffb454", "#ff5d73"],
+    stack: ["N8N", "Docker"],
+    imageAlt: {
+      fr: "Aperçu du projet de newsletter personnalisée",
+      en: "Preview of the personalized newsletter project",
+    },
+  },
+  {
+    repo: "starttrek",
+    private: true,
+    title: {
+      fr: "Atterrissage autonome d'un module lunaire",
+      en: "Autonomous lunar module landing",
+    },
+    summary: {
+      fr: "Un module lunaire apprend à se poser seul (Lunar Lander) avec deux algorithmes d'apprentissage par renforcement, DQN et PPO. Sur 100 atterrissages jamais vus à l'entraînement, PPO en réussit en moyenne 99,7 et DQN 89 (seuil de réussite : 200 points). Projet en équipe de deux.",
+      en: "A lunar module learns to land on its own (Lunar Lander) with two reinforcement learning algorithms, DQN and PPO. On 100 landings never seen during training, PPO succeeds on 99.7 on average and DQN on 89 (success threshold: 200 points). Two-person project.",
+    },
+    tagline: {
+      fr: "Comparer deux algorithmes d'apprentissage par renforcement sur un atterrissage lunaire.",
+      en: "Comparing two reinforcement learning algorithms on a lunar landing.",
+    },
+    kind: { fr: "IA · Projet Epitech", en: "AI · Epitech project" },
+    colors: ["#2ee6a6", "#4f8cff"],
+    stack: ["Python", "PyTorch"],
+    imageAlt: {
+      fr: "Aperçu du projet d'atterrissage lunaire",
+      en: "Preview of the lunar landing project",
     },
   },
   {
