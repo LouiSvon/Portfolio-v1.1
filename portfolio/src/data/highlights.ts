@@ -24,6 +24,29 @@ export interface Highlight {
 
 export const highlights: Highlight[] = [
   {
+    repo: "p1-cadrage-ia-metropole-azur",
+    title: {
+      fr: "Cadrage d'un assistant IA documentaire",
+      en: "Scoping a document AI assistant",
+    },
+    summary: {
+      fr: "Un dossier de conseil sur un client fictif (une collectivité) : quatre options comparées, classement au regard du règlement européen sur l'IA, 14 risques analysés (OWASP LLM Top 10, NIST AI 600-1), business case en fourchettes avec sensibilité. Exercice : toutes les hypothèses sont déclarées dans un registre.",
+      en: "A consulting dossier for a fictional client (a local authority): four options compared, classification under the EU AI Act, 14 risks analyzed (OWASP LLM Top 10, NIST AI 600-1), a business case in ranges with sensitivity. Exercise: every assumption is declared in a register.",
+    },
+    tagline: {
+      fr: "Cadrer un cas d'usage IA : options, risques, AI Act et business case chiffré.",
+      en: "Scoping an AI use case: options, risks, AI Act and a costed business case.",
+    },
+    kind: { fr: "Conseil IA · Exercice", en: "AI consulting · Exercise" },
+    role: { fr: "Auteur", en: "Author" },
+    colors: ["#4f8cff", "#2ee6a6"],
+    stack: ["Markdown", "Python"],
+    imageAlt: {
+      fr: "Aperçu du dossier de cadrage d'un assistant IA documentaire",
+      en: "Preview of the document AI assistant scoping dossier",
+    },
+  },
+  {
     repo: "cvrie",
     title: {
       fr: "CVRIE, IA médicale",
