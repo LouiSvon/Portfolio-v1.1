@@ -22,15 +22,15 @@ export const experiences: Experience[] = [
     endDate: "2024-12",
     period: { fr: "2022 à 2024", en: "2022 to 2024" },
     description: {
-      fr: "Environ 50 interventions sur le bitcoin et la crypto devant 20 à 50 personnes. Accompagnement de débutants. Club d'investissement de 30 membres animé pendant 6 mois.",
-      en: "About 50 talks on bitcoin and crypto to audiences of 20 to 50 people. Coaching of beginners. Investment club of 30 members, run for 6 months.",
+      fr: "Environ 50 interventions sur le bitcoin et la crypto (sécurité des fonds, arnaques, risques des investissements de type marketing de réseau) devant 20 à 50 personnes. Organisation de 20 événements d'environ 50 personnes. Accompagnement individuel de plus de 30 débutants. Club d'investissement de 30 membres animé pendant 6 mois.",
+      en: "About 50 talks on bitcoin and crypto (fund security, scams, risks of multi-level-marketing style investments) to audiences of 20 to 50 people. Organization of 20 events of about 50 people. One-to-one coaching of more than 30 beginners. Investment club of 30 members, run for 6 months.",
     },
     technologies: [],
     skills: {
       fr: ["Organisation", "Prise de parole"],
       en: ["Organization", "Public speaking"],
     },
-    highlights: { fr: ["Environ 50 interventions sur le bitcoin et la crypto", "Club d'investissement de 30 membres"], en: ["About 50 talks on bitcoin and crypto", "Investment club of 30 members"] },
+    highlights: { fr: ["Environ 50 interventions sur le bitcoin et la crypto", "20 événements d'environ 50 personnes", "Club d'investissement de 30 membres"], en: ["About 50 talks on bitcoin and crypto", "20 events of about 50 people", "Investment club of 30 members"] },
     type: "personal",
   },
   {
@@ -39,20 +39,20 @@ export const experiences: Experience[] = [
     startDate: "2024-09",
     endDate: "2025-06",
     description: {
-      fr: "Gestion d'un magasin avec forte autonomie dans un environnement isolé, parfois seul responsable. Responsabilité directe, gestion opérationnelle d'un point de vente, relation client dans un cadre exigeant.",
-      en: "Store management with strong autonomy in an isolated environment, sometimes the sole person in charge. Direct responsibility, operational management of a retail point of sale, customer relations in a demanding context.",
+      fr: "Seul employé du magasin aux côtés du gérant, 5 jours par semaine : forte autonomie, relation client sous pression, livraisons, stocks et commandes, ouverture et fermeture du magasin.",
+      en: "Only employee of the store alongside the manager, 5 days a week: strong autonomy, customer relations under pressure, deliveries, stock and orders, opening and closing the store.",
     },
     technologies: [],
     skills: {
       fr: ["Gestion des stocks", "Relation client"],
       en: ["Inventory management", "Customer relations"],
     },
-    highlights: { fr: ["forte autonomie", "parfois seul responsable"], en: ["strong autonomy", "sometimes the sole person in charge"] },
+    highlights: { fr: ["Seul employé du magasin", "5 jours par semaine"], en: ["Only employee of the store", "5 days a week"] },
     type: "professional",
   },
   {
     company: { fr: "CryptoRizon", en: "CryptoRizon" },
-    role: { fr: "Responsable marketing (à distance)", en: "Marketing Manager (remote)" },
+    role: { fr: "Marketing à distance (bénévole)", en: "Remote marketing (volunteer)" },
     startDate: "2023-12",
     endDate: "2024-02",
     description: {
