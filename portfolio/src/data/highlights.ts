@@ -116,6 +116,29 @@ export const highlights: Highlight[] = [
     },
   },
   {
+    repo: "veille-mica",
+    title: {
+      fr: "veille-mica, RAG sur MiCA",
+      en: "veille-mica, MiCA RAG",
+    },
+    summary: {
+      fr: "Un assistant de recherche local qui répond en français sur la réglementation européenne des crypto-actifs (MiCA et textes liés). Chaque réponse cite le passage officiel exact ; si le corpus ne permet pas de répondre, il refuse. Évalué sur un jeu de questions, 100 % local avec Ollama. Développé avec l'aide de Claude.",
+      en: "A local search assistant that answers in French on EU crypto-asset regulation (MiCA and related texts). Each answer quotes the exact official passage; if the corpus cannot answer, it declines. Evaluated on a question set, fully local with Ollama. Built with the help of Claude.",
+    },
+    tagline: {
+      fr: "Répondre sur MiCA en citant le texte officiel, ou refuser quand le corpus ne suffit pas.",
+      en: "Answer on MiCA by quoting the official text, or decline when the corpus is not enough.",
+    },
+    kind: { fr: "IA · Projet personnel", en: "AI · Personal project" },
+    role: { fr: "Auteur", en: "Author" },
+    colors: ["#f5a524", "#2ee6a6"],
+    stack: ["Python", "FastAPI", "Ollama", "Next.js", "TypeScript"],
+    imageAlt: {
+      fr: "Aperçu de veille-mica : réponse avec citation du texte officiel",
+      en: "Preview of veille-mica: answer with a quote of the official text",
+    },
+  },
+  {
     repo: "pass-gdg",
     title: {
       fr: "Carte de membre GDG Marseille",
