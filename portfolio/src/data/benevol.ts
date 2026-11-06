@@ -4,7 +4,7 @@ export const benevol: Benevol[] = [
   {
     titre: { fr: "Développeur web", en: "Web Developer" },
     structure: "GDG Marseille",
-    periode: { fr: "Avr. 2026 — Aujourd'hui", en: "Apr. 2026 — Present" },
+    periode: { fr: "Avr. 2026 — Sept. 2026", en: "Apr. 2026 — Sept. 2026" },
     domaine: { fr: "Sciences et technologie", en: "Science and technology" },
     description: {
       fr: "Développement de projets internes et contribution à l'écosystème tech local.",
