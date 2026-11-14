@@ -24,6 +24,29 @@ export interface Highlight {
 
 export const highlights: Highlight[] = [
   {
+    repo: "laps",
+    title: {
+      fr: "LAPS, plus de temps pour traverser",
+      en: "LAPS, more time to cross",
+    },
+    summary: {
+      fr: "Projet du hackathon Pépite Provence 36h Chrono, en équipe de 4. Un boîtier posé sur le feu piéton prolonge le vert à la demande pour les personnes qui marchent lentement (seniors, personnes à mobilité réduite, groupes scolaires). Prototype : page de présentation avec simulateur de traversée, tableau de bord pour la collectivité, maquette 3D. Les données d'usage du tableau de bord sont simulées.",
+      en: "Project from the Pépite Provence 36h Chrono hackathon, in a team of 4. A box fitted on the pedestrian light extends the green on demand for people who walk slowly (seniors, people with reduced mobility, school groups). Prototype: presentation page with a crossing simulator, dashboard for the local authority, 3D model. The dashboard usage data is simulated.",
+    },
+    tagline: {
+      fr: "Prolonger le vert piéton à la demande, pour que chacun traverse à son rythme.",
+      en: "Extend the pedestrian green on demand so everyone crosses at their own pace.",
+    },
+    kind: { fr: "Hackathon · Projet d'équipe", en: "Hackathon · Team project" },
+    role: { fr: "Développement", en: "Development" },
+    colors: ["#ffb454", "#4f8cff"],
+    stack: ["HTML", "CSS", "JavaScript", "three.js"],
+    imageAlt: {
+      fr: "Aperçu du site LAPS : prolonger le vert piéton à la demande",
+      en: "Preview of the LAPS site: extending the pedestrian green on demand",
+    },
+  },
+  {
     repo: "p1-cadrage-ia-metropole-azur",
     title: {
       fr: "Cadrage d'un assistant IA documentaire",

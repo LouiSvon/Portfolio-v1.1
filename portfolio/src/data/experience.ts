@@ -2,6 +2,25 @@ import { Experience } from "@/types";
 
 export const experiences: Experience[] = [
   {
+    company: { fr: "PÉPITE Provence", en: "PÉPITE Provence" },
+    role: { fr: "Participant, hackathon 36h Chrono", en: "Participant, 36h Chrono hackathon" },
+    startDate: "2026-11",
+    endDate: "2026-11",
+    period: { fr: "Novembre 2026", en: "November 2026" },
+    description: {
+      fr: "36 heures pour imaginer, construire et pitcher un projet d'entreprise, en équipe pluridisciplinaire de 4. Projet LAPS : un boîtier qui prolonge le vert piéton à la demande pour les personnes qui marchent lentement, avec Salon-de-Provence pour ville pilote visée. J'ai assuré le développement : page de présentation avec simulateur de traversée, tableau de bord de la ville, maquette 3D du boîtier.",
+      en: "36 hours to imagine, build and pitch a business project, in a multidisciplinary team of 4. LAPS project: a box that extends the pedestrian green light on demand for people who walk slowly, with Salon-de-Provence as the intended pilot city. I handled the development: presentation page with a crossing simulator, city dashboard, 3D model of the box.",
+    },
+    technologies: ["HTML", "JavaScript", "three.js"],
+    skills: { fr: ["Travail en équipe", "Pitch"], en: ["Teamwork", "Pitching"] },
+    links: [
+      { label: { fr: "Code du projet LAPS", en: "LAPS source code" }, url: "https://github.com/LouiSvon/laps" },
+      { label: { fr: "Site du projet", en: "Project site" }, url: "https://laps-hackathon.netlify.app/" },
+    ],
+    highlights: { fr: ["Projet LAPS", "J'ai assuré le développement"], en: ["LAPS project", "I handled the development"] },
+    type: "personal",
+  },
+  {
     company: { fr: "Epitech", en: "Epitech" },
     companyUrl: "https://www.epitech.eu",
     role: { fr: "Étudiant", en: "Student" },
